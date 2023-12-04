@@ -3,20 +3,27 @@ import React from "react";
 import { Disclosure } from "@headlessui/react";
 import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
 
-const navigation = [
-	{ name: "See a Demon", href: "#", current: false },
-	{ name: "Document", href: "#", current: false },
-	{ name: "About us", href: "#", current: false },
-	{ name: "Login", href: "/login", current: false },
-];
+function Header({ bg = true, selected = undefined }) {
+	const navigation = [
+		{ name: "See a Demon", href: "#" },
+		{ name: "Document", href: "/document" },
+		{ name: "About us", href: "#" },
+		{ name: "Login", href: "/login" },
+	];
 
-function classNames(...classes) {
-	return classes.filter(Boolean).join(" ");
-}
+	function classNames(...classes) {
+		return classes.filter(Boolean).join(" ");
+	}
 
-function Header() {
 	return (
-		<Disclosure as="nav" className="bg-primary-transparent">
+		<Disclosure
+			as="nav"
+			className={
+				!bg
+					? "bg-primary-transparent z-10 relative"
+					: "bg-white shadow-md z-10 relative"
+			}
+		>
 			{({ open }) => (
 				<>
 					<div className="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
@@ -42,16 +49,19 @@ function Header() {
 								</Disclosure.Button>
 							</div>
 							<div className="flex flex-1 items-center justify-center sm:items-stretch sm:justify-start">
-								<div className="flex flex-shrink-0 items-center">
+								<a
+									href="/home"
+									className="flex flex-shrink-0 items-center"
+								>
 									<img
 										className="h-8 w-auto"
-										src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=500"
+										src="assets/icon-dark.png"
 										alt="API Forge"
 									/>
 									<div className="text-lg font-bold ml-4">
 										API Forge
 									</div>
-								</div>
+								</a>
 							</div>
 							<div className="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
 								<div className="hidden sm:ml-6 sm:block">
@@ -61,16 +71,16 @@ function Header() {
 												key={item.name}
 												href={item.href}
 												className={classNames(
-													item.current
-														? "bg-gray-100"
+													selected === index
+														? "bg-gray-200"
 														: index ===
 														  navigation.length - 1
 														? "bg-gray-900 text-white hover:bg-gray-700"
-														: "hover:bg-gray-300",
+														: "hover:bg-gray-200",
 													"rounded-md px-3 py-2 text-sm font-medium"
 												)}
 												aria-current={
-													item.current
+													selected === index
 														? "page"
 														: undefined
 												}

@@ -13,6 +13,7 @@ import BottomHome from "./pages/home/BottomHome";
 import Login from "./pages/home/login/Login";
 import RegisterStep1 from "./pages/home/register/RegisterStep1";
 import RegisterStep2 from "./pages/home/register/RegisterStep2";
+import Document from "./pages/home/document/Document";
 
 const router = createBrowserRouter([
 	{
@@ -20,7 +21,7 @@ const router = createBrowserRouter([
 		element: (
 			<div>
 				<div className="main-background">
-					<Header />
+					<Header bg={false} />
 					<Home />
 				</div>
 				<BottomHome />
@@ -33,11 +34,20 @@ const router = createBrowserRouter([
 		element: (
 			<div>
 				<div className="main-background">
-					<Header />
+					<Header bg={false} />
 					<Home />
 				</div>
 				<BottomHome />
 				<Footer />
+			</div>
+		),
+	},
+	{
+		path: "/document",
+		element: (
+			<div>
+				<Header selected={1} />
+				<Document />
 			</div>
 		),
 	},

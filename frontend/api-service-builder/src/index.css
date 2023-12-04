@@ -2,6 +2,12 @@
 @tailwind components;
 @tailwind utilities;
 
+* {
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+}
+
 body {
 	margin: 0;
 	font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto",
@@ -17,7 +23,11 @@ code {
 }
 
 .main-background {
-	background-image: url("../public/assets/images/home-background.png");
-	background-repeat: repeat;
-	background-size: contain;
+	background: linear-gradient(
+			180deg,
+			rgba(255, 255, 255, 0) 68.75%,
+			#fff 100%
+		),
+		url(../public/assets/images/home-background.png) lightgray 50% / contain
+			repeat !important;
 }

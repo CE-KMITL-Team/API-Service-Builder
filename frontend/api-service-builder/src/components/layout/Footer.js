@@ -33,7 +33,7 @@ function Footer() {
 							className="flex items-center"
 						>
 							<img
-								src="https://flowbite.com/docs/images/logo.svg"
+								src="assets/icon-white.png"
 								className="h-8 me-3"
 								alt="FlowBite Logo"
 							/>

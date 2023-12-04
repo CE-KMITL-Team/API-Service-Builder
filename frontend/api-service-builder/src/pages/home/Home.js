@@ -1,5 +1,4 @@
 import React, { useEffect, useRef } from "react";
-import "./Home.css";
 
 function Home() {
 	const searchRef = useRef(null);

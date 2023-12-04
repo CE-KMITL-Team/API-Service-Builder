@@ -12,8 +12,8 @@ function RegisterStep1() {
 			</div>
 			<div className="right flex-1 flex flex-col items-center justify-center px-10">
 				<img
-					className="h-12 w-auto mb-3"
-					src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=500"
+					className="mb-4 h-auto w-16"
+					src="/assets/icon-dark.png"
 					alt="API Forge"
 				/>
 				<div className="title text-3xl font-bold text-center">
@@ -23,7 +23,7 @@ function RegisterStep1() {
 					Enter your email below to create your workspace.
 				</div>
 
-				<div className="group w-full mt-8 max-w-lg">
+				<div className="group w-full mt-10 max-w-lg">
 					<label
 						for="email"
 						className="block mb-2 text-md font-medium text-gray-900 text-left"
