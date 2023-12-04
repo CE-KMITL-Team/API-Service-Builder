@@ -14,8 +14,11 @@ import Login from "./pages/home/login/Login";
 import RegisterStep1 from "./pages/home/register/RegisterStep1";
 import RegisterStep2 from "./pages/home/register/RegisterStep2";
 import Document from "./pages/home/document/Document";
+import Workspace from "./pages/workspace/Workspace";
+import ProjectMenu from "./pages/workspace/menu/ProjectMenu";
 
 const router = createBrowserRouter([
+	//Home
 	{
 		path: "/",
 		element: (
@@ -51,6 +54,7 @@ const router = createBrowserRouter([
 			</div>
 		),
 	},
+	//Login & Register
 	{
 		path: "/login",
 		element: <Login />,
@@ -66,6 +70,16 @@ const router = createBrowserRouter([
 	{
 		path: "/register/2",
 		element: <RegisterStep2 />,
+	},
+	//Workspace
+	{
+		path: "/workspace",
+		element: (
+			<div className="flex">
+				<ProjectMenu />
+				<Workspace />
+			</div>
+		),
 	},
 	{
 		path: "*",
