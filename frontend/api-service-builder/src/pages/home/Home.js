@@ -1,7 +1,24 @@
-import React from "react";
+import React, { useEffect, useRef } from "react";
 import "./Home.css";
 
 function Home() {
+	const searchRef = useRef(null);
+
+	useEffect(() => {
+		const handleKeyDown = (event) => {
+			if ((event.ctrlKey || event.metaKey) && event.key === "k") {
+				event.preventDefault();
+				searchRef.current.focus();
+			}
+		};
+
+		window.addEventListener("keydown", handleKeyDown);
+
+		return () => {
+			window.removeEventListener("keydown", handleKeyDown);
+		};
+	}, []);
+
 	return (
 		<div className="home text-center mt-14 mx-auto max-w-7xl px-2 sm:px-6 lg:px-8 pb-96 mb-24">
 			<div className="title px-10">
@@ -47,6 +64,7 @@ function Home() {
 								id="price"
 								className="h-full block w-full rounded-md border-0 py-1.5 pl-12 pr-20 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 sm:text-sm sm:leading-6"
 								placeholder="Quick search..."
+								ref={searchRef}
 							/>
 							<div className="absolute inset-y-0 right-0 flex items-center text-gray-500">
 								<p className="pr-4">

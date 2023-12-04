@@ -7,7 +7,7 @@ const navigation = [
 	{ name: "See a Demon", href: "#", current: false },
 	{ name: "Document", href: "#", current: false },
 	{ name: "About us", href: "#", current: false },
-	{ name: "Login", href: "#", current: false },
+	{ name: "Login", href: "/login", current: false },
 ];
 
 function classNames(...classes) {
@@ -63,11 +63,10 @@ function Header() {
 												className={classNames(
 													item.current
 														? "bg-gray-100"
-														: "hover:bg-gray-100",
-													index ===
-														navigation.length - 1
+														: index ===
+														  navigation.length - 1
 														? "bg-gray-900 text-white hover:bg-gray-700"
-														: "",
+														: "hover:bg-gray-300",
 													"rounded-md px-3 py-2 text-sm font-medium"
 												)}
 												aria-current={

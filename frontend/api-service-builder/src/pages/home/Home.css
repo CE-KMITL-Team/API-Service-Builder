@@ -1,0 +1,9 @@
+.main-background {
+	background: linear-gradient(
+			180deg,
+			rgba(255, 255, 255, 0) 68.75%,
+			#fff 100%
+		),
+		url(../../../public/assets/images/home-background.png) lightgray 50% /
+			contain repeat !important;
+}

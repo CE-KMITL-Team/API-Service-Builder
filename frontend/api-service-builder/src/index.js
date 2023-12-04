@@ -5,11 +5,14 @@ import reportWebVitals from "./reportWebVitals";
 
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 
-import Header from "./components/navbar/Header";
+import Header from "./components/layout/Header";
 import Home from "./pages/home/Home";
-import Footer from "./components/navbar/Footer";
+import Footer from "./components/layout/Footer";
 import NotFound404 from "./pages/NotFound404";
 import BottomHome from "./pages/home/BottomHome";
+import Login from "./pages/home/login/Login";
+import RegisterStep1 from "./pages/home/register/RegisterStep1";
+import RegisterStep2 from "./pages/home/register/RegisterStep2";
 
 const router = createBrowserRouter([
 	{
@@ -37,6 +40,22 @@ const router = createBrowserRouter([
 				<Footer />
 			</div>
 		),
+	},
+	{
+		path: "/login",
+		element: <Login />,
+	},
+	{
+		path: "/register",
+		element: <RegisterStep1 />,
+	},
+	{
+		path: "/register/1",
+		element: <RegisterStep1 />,
+	},
+	{
+		path: "/register/2",
+		element: <RegisterStep2 />,
 	},
 	{
 		path: "*",
