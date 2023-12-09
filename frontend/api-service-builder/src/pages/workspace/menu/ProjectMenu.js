@@ -1,6 +1,5 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { icon } from "@fortawesome/fontawesome-svg-core/import.macro";
-import Dropdown from "../../../components/Dropdown";
 
 import React from "react";
 
@@ -24,14 +23,14 @@ function ProjectMenu() {
 	// ];
 
 	return (
-		<div className="h-screen bg-dark text-white pt-6 pl-10 pr-10 w-68 relative">
+		<div className="h-screen bg-dark text-white pt-6 pl-10 pr-10 w-72 relative">
 			<div className="title flex items-center justify-center">
 				<img
-					className="h-8 w-auto"
-					src="assets/icon-white.png"
+					className="h-6 w-auto"
+					src="/assets/icon-white.png"
 					alt="API Forge"
 				/>
-				<div className="text-lg font-bold ml-4">API Forge</div>
+				<div className="text-md font-bold ml-4">API Forge</div>
 			</div>
 			<div className="menu mt-8 flex flex-col gap-y-2">
 				<div className="items flex text-primary-700 items-center gap-x-2 relative">

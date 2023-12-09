@@ -16,6 +16,10 @@ import RegisterStep2 from "./pages/home/register/RegisterStep2";
 import Document from "./pages/home/document/Document";
 import Workspace from "./pages/workspace/Workspace";
 import ProjectMenu from "./pages/workspace/menu/ProjectMenu";
+import WorkSpaceMenu from "./pages/workspace/menu/WorkSpaceMenu";
+import MyAPI from "./pages/workspace/myapi/MyAPI";
+import ModelView from "./pages/workspace/model/ModelView";
+import ModelMenu from "./pages/workspace/model/ModelMenu";
 
 const router = createBrowserRouter([
 	//Home
@@ -78,6 +82,25 @@ const router = createBrowserRouter([
 			<div className="flex">
 				<ProjectMenu />
 				<Workspace />
+			</div>
+		),
+	},
+	{
+		path: "/workspace/:project/myapi",
+		element: (
+			<div className="flex">
+				<WorkSpaceMenu />
+				<MyAPI />
+			</div>
+		),
+	},
+	{
+		path: "/workspace/:project/models/:model",
+		element: (
+			<div className="flex">
+				<WorkSpaceMenu />
+				<ModelMenu />
+				<ModelView />
 			</div>
 		),
 	},

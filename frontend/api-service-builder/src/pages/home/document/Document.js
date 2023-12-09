@@ -141,7 +141,7 @@ function Document() {
 		<div className="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
 			<div className="flex justify-center items-center h-[calc(100vh-64px)] max-h-[calc(100vh-64px)] bg-white">
 				<div className="mainmenu w-1/5 p-5 pl-0 h-full">
-					<div className="relative rounded-md shadow-sm shadow-md bg-white mb-5">
+					<div className="relative rounded-md shadow-md bg-white mb-5">
 						<div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
 							<span className="text-gray-500 sm:text-sm">
 								<svg

@@ -14,7 +14,7 @@ function Login() {
 				<div className="container max-w-lg w-full flex flex-col justify-center items-center">
 					<img
 						className="mb-4 h-auto w-16"
-						src="assets/icon-dark.png"
+						src="/assets/icon-dark.png"
 						alt="API Forge"
 					/>
 					<div className="title text-3xl font-bold text-center">

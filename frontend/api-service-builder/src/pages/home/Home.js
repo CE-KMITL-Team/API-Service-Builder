@@ -38,7 +38,7 @@ function Home() {
 						Get Started
 					</button>
 					<div className="ml-12">
-						<div className="relative rounded-md shadow-sm h-full shadow-md">
+						<div className="relative rounded-md h-full shadow-md">
 							<div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3 h-full">
 								<span className="text-gray-500 sm:text-sm">
 									<svg

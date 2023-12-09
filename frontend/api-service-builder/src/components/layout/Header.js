@@ -55,7 +55,7 @@ function Header({ bg = true, selected = undefined }) {
 								>
 									<img
 										className="h-8 w-auto"
-										src="assets/icon-dark.png"
+										src="/assets/icon-dark.png"
 										alt="API Forge"
 									/>
 									<div className="text-lg font-bold ml-4">
