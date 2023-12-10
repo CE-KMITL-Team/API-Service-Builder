@@ -26,16 +26,11 @@ function ModelMenu() {
 	const [isHidden, setIsHidden] = useState(false);
 
 	const handleResizeClick = () => {
-		if (!isResized) {
+		setTimeout(() => {
 			setIsHidden(!isHidden);
-		}
-		setIsResized(!isResized);
-	};
+		}, 100);
 
-	const handleTransitionEnd = () => {
-		if (isResized) {
-			setIsHidden(!isHidden);
-		}
+		setIsResized(!isResized);
 	};
 
 	return (
@@ -49,7 +44,6 @@ function ModelMenu() {
 			<div
 				className="resize-btn cursor-pointer absolute w-2 rounded-r-lg h-fit bg-primary-700 hover:bg-primary-900 px-2 py-3 flex items-center justify-center -right-4 top-1/2 -translate-y-1/2"
 				onClick={handleResizeClick}
-				onTransitionEnd={handleTransitionEnd}
 			>
 				<FontAwesomeIcon
 					icon={icon({

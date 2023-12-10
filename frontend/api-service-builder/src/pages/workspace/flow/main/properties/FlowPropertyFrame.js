@@ -7,16 +7,11 @@ function FlowPropertyFrame() {
 	const [isHidden, setIsHidden] = useState(false);
 
 	const handleResizeClick = () => {
-		if (!isResized) {
+		setTimeout(() => {
 			setIsHidden(!isHidden);
-		}
-		setIsResized(!isResized);
-	};
+		}, 100);
 
-	const handleTransitionEnd = () => {
-		if (isResized) {
-			setIsHidden(!isHidden);
-		}
+		setIsResized(!isResized);
 	};
 
 	return (
@@ -24,13 +19,12 @@ function FlowPropertyFrame() {
 			className={`h-screen bg-grey text-white pt-6 px-${
 				isResized ? "0" : "6"
 			} w-${
-				isResized ? "5" : "72"
+				isResized ? "5" : "96"
 			} relative transition-all duration-300 ease-in-out`}
 		>
 			<div
 				className="resize-btn cursor-pointer absolute w-2 rounded-l-lg h-fit bg-primary-700 hover:bg-primary-900 px-2 py-3 flex items-center justify-center -left-4 top-1/2 -translate-y-1/2"
 				onClick={handleResizeClick}
-				onTransitionEnd={handleTransitionEnd}
 			>
 				<FontAwesomeIcon
 					icon={icon({

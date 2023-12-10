@@ -46,27 +46,32 @@ function MyAPITest() {
 				<hr className="mb-3 mt-5 border-solid border-t-2 border-gray-400" />
 			</div>
 			<div className="flex flex-col h-full">
-				<div className="mb-2 text-md font-bold text-gray-900">
+				<label
+					htmlFor="Parameter"
+					className="mb-2 text-md font-bold text-gray-900"
+				>
 					Parameter
-				</div>
+				</label>
 
 				<div className="group flex-1">
-					<div
+					<textarea
 						id="Parameter"
-						contentEditable
-						className="h-full p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500"
-					></div>
+						className="resize-none h-full p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500"
+					></textarea>
 				</div>
 				<hr className="mb-3 mt-5 border-solid border-t-2 border-gray-400" />
-				<div className="mb-2 text-md font-bold text-gray-900">
+				<label
+					htmlFor="Response"
+					className="mb-2 text-md font-bold text-gray-900"
+				>
 					Response: <span className="text-green-500">200 OK</span>
-				</div>
+				</label>
 				<div className="group flex-1">
-					<div
+					<textarea
 						id="Response"
 						contentEditable
-						className="h-full p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500"
-					></div>
+						className="resize-none h-full p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500"
+					></textarea>
 				</div>
 			</div>
 		</div>
