@@ -7,8 +7,8 @@ function FlowStartPopup({ isOpen, onRequestClose }) {
 	return (
 		<Modal
 			isOpen={isOpen}
-			overlayClassName="fixed inset-0 bg-gray-800 bg-opacity-75 flex items-center justify-center"
-			className="bg-white w-1/3 p-6 rounded-md sm:w-2/3 md:w-4/5 lg:w-2/5"
+			overlayClassName="z-50 fixed inset-0 bg-gray-800 bg-opacity-75 flex items-center justify-center"
+			className="z-50 bg-white w-1/3 p-6 rounded-md sm:w-2/3 md:w-4/5 lg:w-2/5"
 		>
 			<div className="flex justify-between">
 				<h1 className="text-xl text-black font-bold">Settings Flows</h1>
@@ -73,7 +73,11 @@ function FlowStartPopup({ isOpen, onRequestClose }) {
 					</div>
 				</div>
 				<div className="relative rounded-md flex items-end justify-center">
-					<img src="/assets/images/flow-setting-icon.png" className="w-56" />
+					<img
+						src="/assets/images/flow-setting-icon.png"
+						alt=""
+						className="w-56"
+					/>
 				</div>
 			</div>
 		</Modal>

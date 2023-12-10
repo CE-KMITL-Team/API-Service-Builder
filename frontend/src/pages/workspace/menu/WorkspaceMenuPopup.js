@@ -14,8 +14,8 @@ function WorkspaceMenuPopup({ isOpen, onRequestClose }) {
 	return (
 		<Modal
 			isOpen={isOpen}
-			overlayClassName="fixed inset-0 bg-gray-800 bg-opacity-75 flex items-center justify-center"
-			className="bg-white w-1/3 p-6 rounded-md sm:w-2/3 md:w-1/2 lg:w-1/3"
+			overlayClassName="z-50 fixed inset-0 bg-gray-800 bg-opacity-75 flex items-center justify-center"
+			className="z-50 bg-white w-1/3 p-6 rounded-md sm:w-2/3 md:w-1/2 lg:w-1/3"
 		>
 			<div className="flex justify-between">
 				<h1 className="text-xl text-black font-bold">API Path</h1>

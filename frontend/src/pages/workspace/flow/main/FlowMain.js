@@ -7,10 +7,6 @@ import FlowPropertyFrame from "./properties/FlowPropertyFrame";
 function FlowMain() {
 	const [isPopupOpen, setIsPopupOpen] = useState(true);
 
-	const openPopup = () => {
-		setIsPopupOpen(true);
-	};
-
 	const closePopup = () => {
 		setIsPopupOpen(false);
 	};

@@ -1,6 +1,6 @@
 import { icon } from "@fortawesome/fontawesome-svg-core/import.macro";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import WorkspaceMenuPopup from "./WorkspaceMenuPopup";
 
 function WorkspaceMenu() {
