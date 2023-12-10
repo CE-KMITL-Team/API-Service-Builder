@@ -35,9 +35,13 @@ function MyAPI() {
 						<h1 className=" text-2xl font-bold">My API</h1>
 					</div>
 					<div className="list mt-3 flex flex-col gap-y-5">
-						{data.map((val) => (
-							<MyAPICard data={val}></MyAPICard>
-						))}
+						{data.length !== 0 ? (
+							data.map((val) => (
+								<MyAPICard data={val}></MyAPICard>
+							))
+						) : (
+							<div className="ml-11 text-gray-700">You need to create api first . . .</div>
+						)}
 					</div>
 				</div>
 				<div className="test w-1/2 bg-grey p-5 border-solid border-l-2 border-gray-400 h-full">

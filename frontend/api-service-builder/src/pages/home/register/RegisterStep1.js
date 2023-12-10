@@ -25,7 +25,7 @@ function RegisterStep1() {
 
 				<div className="group w-full mt-10 max-w-lg">
 					<label
-						for="email"
+						htmlFor="email"
 						className="block mb-2 text-md font-medium text-gray-900 text-left"
 					>
 						Your work email

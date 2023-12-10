@@ -36,7 +36,7 @@ function Workspace() {
 						</div>
 						<div className="group w-full mt-4">
 							<label
-								for="project-name"
+								htmlFor="project-name"
 								className="block mb-1 text-md font-medium text-gray-900"
 							>
 								Project Name
@@ -51,7 +51,7 @@ function Workspace() {
 						</div>
 						<div className="group w-full mt-2">
 							<label
-								for="template"
+								htmlFor="template"
 								className="block mb-1 text-md font-medium text-gray-900"
 							>
 								Template

@@ -23,7 +23,7 @@ function Login() {
 
 					<div className="group w-full mt-8">
 						<label
-							for="email"
+							htmlFor="email"
 							className="block mb-2 text-md font-medium text-gray-900 text-left"
 						>
 							Email
@@ -38,7 +38,7 @@ function Login() {
 					</div>
 					<div className="group w-full mt-5 max-w-lg">
 						<label
-							for="password"
+							htmlFor="password"
 							className="block mb-2 text-md font-medium text-gray-900 text-left"
 						>
 							Password

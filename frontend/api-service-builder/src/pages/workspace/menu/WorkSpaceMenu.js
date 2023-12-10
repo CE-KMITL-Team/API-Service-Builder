@@ -1,8 +1,9 @@
 import { icon } from "@fortawesome/fontawesome-svg-core/import.macro";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import React from "react";
+import React, { useEffect, useState } from "react";
+import WorkspaceMenuPopup from "./WorkspaceMenuPopup";
 
-function WorkSpaceMenu() {
+function WorkspaceMenu() {
 	const models = [
 		{
 			id: 1,
@@ -29,6 +30,14 @@ function WorkSpaceMenu() {
 		},
 	];
 
+	const [isOnline, setOnline] = useState(false);
+	const [isPopupOpen, setIsPopupOpen] = useState(false);
+
+	const toggleOnline = () => {
+		setOnline(!isOnline);
+		setIsPopupOpen(!isOnline);
+	};
+
 	return (
 		<div className="h-screen bg-dark text-white pt-6 pl-10 pr-10 w-72 relative">
 			<div className="title flex items-center justify-center">
@@ -38,6 +47,38 @@ function WorkSpaceMenu() {
 					alt="API Forge"
 				/>
 				<div className="text-md font-bold ml-4">API Forge</div>
+			</div>
+			<div className="status mt-4">
+				<div className="p-2 bg-dark-800 flex rounded-md justify-evenly gap-5">
+					<div
+						className={`online px-3 py-2 rounded-md flex-1 text-center font-bold ${
+							isOnline
+								? `bg-dark font-bold text-green-500`
+								: `text-gray-600 cursor-pointer hover:text-gray-400 hover:bg-gray-800 duration-100`
+						}`}
+						onClick={(event) =>
+							!isOnline ? toggleOnline() : undefined
+						}
+					>
+						Online
+					</div>
+					<div
+						className={`offline px-3 py-2 rounded-md flex-1 text-center font-bold ${
+							!isOnline
+								? `bg-dark font-bold text-red-500`
+								: `text-gray-600 cursor-pointer hover:text-gray-600 hover:bg-gray-800 duration-100`
+						}`}
+						onClick={(event) =>
+							isOnline ? toggleOnline() : undefined
+						}
+					>
+						Offline
+					</div>
+					<WorkspaceMenuPopup
+						isOpen={isPopupOpen}
+						onRequestClose={() => setIsPopupOpen(false)}
+					/>
+				</div>
 			</div>
 			<div className="menu mt-8 flex flex-col gap-y-2">
 				<div className="items flex text-primary-700 items-center gap-x-2 relative">
@@ -107,4 +148,4 @@ function WorkSpaceMenu() {
 	);
 }
 
-export default WorkSpaceMenu;
+export default WorkspaceMenu;

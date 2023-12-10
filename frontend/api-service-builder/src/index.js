@@ -16,10 +16,13 @@ import RegisterStep2 from "./pages/home/register/RegisterStep2";
 import Document from "./pages/home/document/Document";
 import Workspace from "./pages/workspace/Workspace";
 import ProjectMenu from "./pages/workspace/menu/ProjectMenu";
-import WorkSpaceMenu from "./pages/workspace/menu/WorkSpaceMenu";
+import WorkspaceMenu from "./pages/workspace/menu/WorkspaceMenu";
 import MyAPI from "./pages/workspace/myapi/MyAPI";
 import ModelView from "./pages/workspace/model/ModelView";
 import ModelMenu from "./pages/workspace/model/ModelMenu";
+import ModelAdd from "./pages/workspace/model/ModelAdd";
+import FlowList from "./pages/workspace/flow/FlowList";
+import FlowMain from "./pages/workspace/flow/main/FlowMain";
 
 const router = createBrowserRouter([
 	//Home
@@ -89,18 +92,46 @@ const router = createBrowserRouter([
 		path: "/workspace/:project/myapi",
 		element: (
 			<div className="flex">
-				<WorkSpaceMenu />
+				<WorkspaceMenu />
 				<MyAPI />
 			</div>
 		),
 	},
 	{
-		path: "/workspace/:project/models/:model",
+		path: "/workspace/:project/model/:model",
 		element: (
 			<div className="flex">
-				<WorkSpaceMenu />
+				<WorkspaceMenu />
 				<ModelMenu />
 				<ModelView />
+			</div>
+		),
+	},
+	{
+		path: "/workspace/:project/addModel",
+		element: (
+			<div className="flex">
+				<WorkspaceMenu />
+				<ModelMenu />
+				<ModelAdd />
+			</div>
+		),
+	},
+	{
+		path: "/workspace/:project/flows",
+		element: (
+			<div className="flex">
+				<WorkspaceMenu />
+				<FlowList />
+			</div>
+		),
+	},
+	{
+		path: "/workspace/:project/flows/:flow",
+		element: (
+			<div className="flex">
+				<WorkspaceMenu />
+				<FlowMain />
 			</div>
 		),
 	},

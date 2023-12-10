@@ -22,7 +22,7 @@ function RegisterStep2() {
 					<div className="flex gap-x-10 w-full max-w-lg mt-8">
 						<div className="group w-full">
 							<label
-								for="first_name"
+								htmlFor="first_name"
 								className="block mb-2 text-md font-medium text-gray-900 text-left"
 							>
 								First Name
@@ -37,7 +37,7 @@ function RegisterStep2() {
 						</div>
 						<div className="group w-full">
 							<label
-								for="last_name"
+								htmlFor="last_name"
 								className="block mb-2 text-md font-medium text-gray-900 text-left"
 							>
 								Last Name
@@ -53,7 +53,7 @@ function RegisterStep2() {
 					</div>
 					<div className="group w-full mt-5 max-w-lg">
 						<label
-							for="password"
+							htmlFor="password"
 							className="block mb-2 text-md font-medium text-gray-900 text-left"
 						>
 							Password
@@ -75,7 +75,7 @@ function RegisterStep2() {
 							className="w-4 h-4 text-primary-800 bg-gray-100 border-gray-300 rounded"
 						/>
 						<label
-							for="link-checkbox"
+							htmlFor="link-checkbox"
 							className="ms-2 text-sm font-medium"
 						>
 							I agree with the{" "}

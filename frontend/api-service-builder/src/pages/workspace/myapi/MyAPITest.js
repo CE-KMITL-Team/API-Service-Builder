@@ -20,7 +20,7 @@ function MyAPITest() {
 				</div>
 				<div className="group w-full mt-4">
 					<label
-						for="api-path"
+						htmlFor="api-path"
 						className="block mb-1 text-md text-gray-900 font-bold"
 					>
 						API Path

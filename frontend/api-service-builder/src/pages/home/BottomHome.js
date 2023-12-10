@@ -10,7 +10,7 @@ function BottomHome() {
 				<img
 					src={imageSrc}
 					alt=""
-					className="rounded-full w-1/5 h-24 w-24 object-cover"
+					className="rounded-full h-24 w-24 object-cover"
 				/>
 				<div className="group">
 					<div className="text-lg font-bold">{name}</div>
@@ -111,7 +111,7 @@ function BottomHome() {
 							<div className="flex gap-x-8 mt-12">
 								<div className="flex-1">
 									<label
-										for="first_name"
+										htmlFor="first_name"
 										className="block mb-2 text-md font-medium text-gray-900"
 									>
 										First name
@@ -126,7 +126,7 @@ function BottomHome() {
 								</div>
 								<div className="flex-1">
 									<label
-										for="last_name"
+										htmlFor="last_name"
 										className="block mb-2 text-md font-medium text-gray-900"
 									>
 										Last name
@@ -143,7 +143,7 @@ function BottomHome() {
 							<div className="flex gap-x-8">
 								<div className="flex-1">
 									<label
-										for="email"
+										htmlFor="email"
 										className="block mb-2 text-md font-medium text-gray-900"
 									>
 										Email
@@ -158,7 +158,7 @@ function BottomHome() {
 								</div>
 								<div className="flex-1">
 									<label
-										for="phone"
+										htmlFor="phone"
 										className="block mb-2 text-md font-medium text-gray-900"
 									>
 										Phone
@@ -175,7 +175,7 @@ function BottomHome() {
 							<div className="flex">
 								<div className="flex-1">
 									<label
-										for="topic"
+										htmlFor="topic"
 										className="block mb-2 text-md font-medium text-gray-900"
 									>
 										Topic
@@ -192,7 +192,7 @@ function BottomHome() {
 							<div className="flex">
 								<div className="flex-1">
 									<label
-										for="request"
+										htmlFor="request"
 										className="block mb-2 text-md font-medium text-gray-900"
 									>
 										Your Request

@@ -6,30 +6,79 @@ import ModelTable from "./ModelTable";
 function ModelView() {
 	const data = [
 		{
-			name: "John Doe",
-			email: "john@example.com",
-			password: "password123",
-			tel: "123-456-7890",
+			name: "Alice Smith",
+			email: "alice@example.com",
+			password: "securepass456",
+			tel: "987-654-3210",
 		},
 		{
-			name: "John Doe",
-			email: "john@example.com",
-			password: "password123",
-			tel: "123-456-7",
+			name: "Bob Johnson",
+			email: "bob@example.com",
+			password: "secret123",
+			tel: "555-123-4567",
 		},
 		{
-			name: "John Doe",
-			email: "john@example.com",
-			password: "password123",
-			tel: "123-456-7890",
+			name: "Eva Brown",
+			email: "eva@example.com",
+			password: "pass456word",
+			tel: "789-456-1230",
 		},
 		{
-			name: "John Doe",
-			email: "john@example.com",
-			password: "password123",
-			tel: "123-456-7890",
+			name: "Chris Miller",
+			email: "chris@example.com",
+			password: "chrispass789",
+			tel: "234-567-8901",
+		},
+		{
+			name: "Olivia White",
+			email: "olivia@example.com",
+			password: "olivia123pass",
+			tel: "876-543-2109",
+		},
+		{
+			name: "Daniel Lee",
+			email: "daniel@example.com",
+			password: "danielpassword",
+			tel: "321-654-0987",
+		},
+		{
+			name: "Grace Taylor",
+			email: "grace@example.com",
+			password: "gracepass456",
+			tel: "654-789-0123",
+		},
+		{
+			name: "Michael Davis",
+			email: "michael@example.com",
+			password: "michaelpass789",
+			tel: "890-123-4567",
+		},
+		{
+			name: "Sophia Green",
+			email: "sophia@example.com",
+			password: "sophia456pass",
+			tel: "567-890-1234",
+		},
+		{
+			name: "Henry Wilson",
+			email: "henry@example.com",
+			password: "henry123pass",
+			tel: "012-345-6789",
+		},
+		{
+			name: "Emma Harris",
+			email: "emma@example.com",
+			password: "emmapass789",
+			tel: "789-012-3456",
 		},
 	];
+
+	const keysArray = Object.keys(data[0]);
+
+	const transformedArray = keysArray.map((key) => ({
+		Header: key,
+		accessor: key,
+	}));
 
 	const searchRef = useRef(null);
 
@@ -48,15 +97,16 @@ function ModelView() {
 		};
 	}, []);
 	return (
-		<div className="p-5 pl-10 pr-20 flex-1">
+		<div className="p-5 pl-10 pr-20 flex-1 flex flex-col h-screen">
 			<div className="head flex items-center justify-between gap-x-10 h-12">
 				<h1 className="title text-2xl font-bold">User</h1>
 				<div className="action flex gap-x-5 h-full">
 					<div className="select">
 						<select className="h-full bg-gray-50 border border-gray-300 text-gray-900 text-md rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2">
 							<option>- All -</option>
-							<option>Username</option>
-							<option>Password</option>
+							{keysArray.map((val) => (
+								<option>{val}</option>
+							))}
 						</select>
 					</div>
 					<div className="relative rounded-md shadow-sm h-full flex-1 w-full">
@@ -105,8 +155,8 @@ function ModelView() {
 					</button>
 				</div>
 			</div>
-			<div className="data mt-5">
-				<ModelTable data={data} />
+			<div className="data mt-5 flex-1 overflow-auto">
+				<ModelTable data={data} header={transformedArray} />
 			</div>
 		</div>
 	);
