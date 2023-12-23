@@ -1,6 +1,7 @@
-const express = require('express');
+const express = require("express");
 const router = express.Router();
 const mysql = require("mysql2");
+const port = 3000;
 
 // Your MySQL connection configuration
 const db = mysql.createConnection({
@@ -19,5 +20,4 @@ db.connect((err) => {
   }
 });
 
-// Export the router and db for use in other files
-module.exports = router;
+module.exports = { router, db };
