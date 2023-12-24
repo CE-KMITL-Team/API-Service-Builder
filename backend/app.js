@@ -3,6 +3,7 @@ const server = require('./server');
 const flows = require('./flows');
 const model = require('./models');
 const authorize = require('./authorize');
+const workspace = require('./workspace');
 
 const app = express();
 const port = 3000;
@@ -11,7 +12,7 @@ const port = 3000;
 app.use('/flows', flows);
 app.use('/models', model);
 app.use('/auth', authorize);
-app.use('/workspace', authorize);
+app.use('/workspace', workspace);
 
 app.listen(port, () => {
   console.log(`Server is running on http://localhost:${port}`);

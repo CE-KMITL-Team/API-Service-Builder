@@ -5,7 +5,7 @@ import FlowSpaceTest from "./FlowSpaceTest";
 import FlowStartPopup from "./FlowStartPopup";
 
 function FlowSpace() {
-	const [isPopupOpen, setIsPopupOpen] = useState(true);
+	const [isPopupOpen, setIsPopupOpen] = useState(false);
 
 	const openPopup = () => {
 		setIsPopupOpen(true);

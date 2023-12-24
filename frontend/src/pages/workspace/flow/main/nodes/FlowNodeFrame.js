@@ -26,10 +26,6 @@ function FlowNodeFrame() {
 					icon: icon({ name: "sort-numeric-up", style: "solid" }),
 				},
 				{
-					name: "Json",
-					icon: icon({ name: "code", style: "solid" }),
-				},
-				{
 					name: "Encode Base64",
 					icon: icon({ name: "file-code", style: "solid" }),
 				},
