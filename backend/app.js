@@ -11,6 +11,7 @@ const port = 3000;
 app.use('/flows', flows);
 app.use('/models', model);
 app.use('/auth', authorize);
+app.use('/workspace', authorize);
 
 app.listen(port, () => {
   console.log(`Server is running on http://localhost:${port}`);
