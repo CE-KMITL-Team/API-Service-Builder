@@ -10,79 +10,61 @@ router.use(bodyParser.urlencoded({ extended: true }));
 
 /*Login*/
 router.post("/login", async (req, res) => {
-	const { email, password } = req.body;
+  const { email, password } = req.body;
 
-	try {
-		const user = await new Promise((resolve) => {
-			db.query(
-				"SELECT * FROM user WHERE email = ?",
-				[email],
-				(err, results) => {
-					if (err) throw err;
-					resolve(results[0]);
-				}
-			);
-		});
+  try {
+    const user = await new Promise((resolve) => {
+      db.query(
+        "SELECT * FROM user WHERE email = ?",
+        [email],
+        (err, results) => {
+          if (err) throw err;
+          resolve(results[0]);
+        }
+      );
+    });
 
-		if (!user) {
-			return res.status(200).send({
-				msg: "Incorrect user !",
-				status: false,
-			});
-		}
+    if (!user) {
+      return res.status(401).send({ msg: "Incorrect user !", status: false });
+    }
 
-		const passwordMatch = await bcrypt.compare(password, user.password);
+    const passwordMatch = await bcrypt.compare(password, user.password);
 
-		if (!passwordMatch) {
-			return res.status(200).send({
-				msg: "Incorrect user !",
-				status: false,
-			});
-		} else {
-			console.log({
-				status: true,
-				userData: {
-					user,
-				},
-			});
-		}
+    if (!passwordMatch) {
+      return res.status(401).send({ msg: "Incorrect user !", status: false });
+    } else {
+      console.log("Login Successful");
+    }
 
-		return res.status(200).send("Login Successfully");
-	} catch (error) {
-		console.error("Error:", error);
-		return res.status(500).send({
-			msg: "Internal Server Error !",
-			status: false,
-		});
-	}
+    return res.status(200).send({ msg: "Login Successfully", status: true });
+  } catch (error) {
+    console.error("Error:", error);
+    return res.status(500).send("Internal Server Error");
+  }
 });
 
 /*Register*/
 router.post("/register", async (req, res) => {
-	const { firstname, lastname, email, password } = req.body;
+  const { firstname, lastname, email, password } = req.body;
 
-	const emailExists = await new Promise((resolve) => {
-		db.query(
-			"SELECT * FROM user WHERE email = ?",
-			[email],
-			(err, results) => {
-				if (err) throw err;
-				resolve(results.length > 0);
-			}
-		);
-	});
-	if (emailExists) {
-		return res.status(400).send("Email is already exists");
-	}
-	const hashedPassword = await bcrypt.hash(password, 10);
-	db.query(
-		"INSERT INTO user (firstname, lastname, email, password) VALUES (?,?,?,?)",
-		[firstname, lastname, email, hashedPassword],
-		(err, results) => {
-			if (err) throw err;
-			return res.status(200).send("User registered successfully");
-		}
-	);
+  const emailExists = await new Promise((resolve) => {
+    db.query("SELECT * FROM user WHERE email = ?", [email], (err, results) => {
+      if (err) throw err;
+      resolve(results.length > 0);
+    });
+  });
+  if (emailExists) {
+    return res.status(400).send("Email is already exists");
+  }
+  const hashedPassword = await bcrypt.hash(password, 10);
+  db.query(
+    "INSERT INTO user (firstname, lastname, email, password) VALUES (?,?,?,?)",
+    [firstname, lastname, email, hashedPassword],
+    (err, results) => {
+      if (err) throw err;
+      return res.status(200).send("User registered successfully");
+    }
+  );
 });
 
 module.exports = router;
