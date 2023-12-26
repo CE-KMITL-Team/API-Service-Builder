@@ -1,6 +1,13 @@
-import React from "react";
+import React, { useState } from "react";
+import { useDispatch } from "react-redux";
+import { fetchLogin } from "../../../actions/authActions";
 
 function Login() {
+	const [email, setEmail] = useState("");
+	const [password, setPassword] = useState("");
+
+	const dispatch = useDispatch();
+
 	return (
 		<div className="w-screen h-screen flex">
 			<div className="left bg-grey flex-1 flex items-center justify-center">
@@ -34,6 +41,7 @@ function Login() {
 							className="bg-gray-50 border border-gray-300 text-gray-900 text-md rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
 							placeholder="yourmail@gmail.com"
 							required
+							onChange={(e) => setEmail(e.target.value)}
 						/>
 					</div>
 					<div className="group w-full mt-5 max-w-lg">
@@ -49,9 +57,13 @@ function Login() {
 							className="bg-gray-50 border border-gray-300 text-gray-900 text-md rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
 							placeholder="************"
 							required
+							onChange={(e) => setPassword(e.target.value)}
 						/>
 					</div>
-					<button className="bg-primary-900 text-white hover:bg-primary-700 rounded-sm px-3 py-2 text-lg shadow-md w-full mt-8 max-w-lg">
+					<button
+						className="bg-primary-900 text-white hover:bg-primary-700 rounded-sm px-3 py-2 text-lg shadow-md w-full mt-8 max-w-lg"
+						onClick={() => dispatch(fetchLogin(email, password))}
+					>
 						Login
 					</button>
 

@@ -1,4 +1,5 @@
 import React from "react";
+import { Provider } from "react-redux";
 import ReactDOM from "react-dom/client";
 import "./index.css";
 import reportWebVitals from "./reportWebVitals";
@@ -23,6 +24,17 @@ import ModelMenu from "./pages/workspace/model/ModelMenu";
 import ModelAdd from "./pages/workspace/model/ModelAdd";
 import FlowList from "./pages/workspace/flow/FlowList";
 import FlowMain from "./pages/workspace/flow/main/FlowMain";
+
+import { composeWithDevTools } from "@redux-devtools/extension";
+import { rootReducers } from "./reducers/rootReducers";
+import { thunk } from "redux-thunk";
+import { applyMiddleware, legacy_createStore } from "redux";
+
+const middlewares = [thunk];
+const store = legacy_createStore(
+	rootReducers,
+	composeWithDevTools(applyMiddleware(...middlewares))
+);
 
 const router = createBrowserRouter([
 	//Home
@@ -150,7 +162,9 @@ const router = createBrowserRouter([
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
 	<React.StrictMode>
-		<RouterProvider router={router} />
+		<Provider store={store}>
+			<RouterProvider router={router} />
+		</Provider>
 	</React.StrictMode>
 );
 
