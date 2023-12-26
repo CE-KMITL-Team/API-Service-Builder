@@ -1,15 +1,20 @@
 const express = require("express");
-const server = require("./server");
+const bodyParser = require("body-parser");
+
+const server = require("./database");
 const flows = require("./flows");
 const model = require("./models");
 const authorize = require("./authorize");
 const workspace = require("./workspace");
-const cors = require("cors");
 
+const cors = require("cors");
 const app = express();
 const port = 3200;
-
 app.use(cors());
+
+//Setting Json Body
+app.use(express.json());
+app.use(bodyParser.urlencoded({ extended: true }));
 
 // Routes
 app.use("/flows", flows);

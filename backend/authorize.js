@@ -1,42 +1,36 @@
 const express = require("express");
-const { db } = require("./server");
 const router = express.Router();
 
 const bcrypt = require("bcrypt");
-const bodyParser = require("body-parser");
 
-router.use(express.json());
-router.use(bodyParser.urlencoded({ extended: true }));
+const userModel = require("./models/userModel");
 
-/*Login*/
+
+/* Login */
 router.post("/login", async (req, res) => {
   const { email, password } = req.body;
+  
+  //Error Message
+  const error = { msg: "Incorrect user !", status: false };
 
   try {
-    const user = await new Promise((resolve) => {
-      db.query(
-        "SELECT * FROM user WHERE email = ?",
-        [email],
-        (err, results) => {
-          if (err) throw err;
-          resolve(results[0]);
-        }
-      );
-    });
+    //Query SELECT
+    const data = await userModel.findOne({ where: { email } });
 
-    if (!user) {
-      return res.status(401).send({ msg: "Incorrect user !", status: false });
+    if (!data) {
+      return res.status(401).send(error);
     }
 
-    const passwordMatch = await bcrypt.compare(password, user.password);
+    //Check Password
+    const passwordMatch = await bcrypt.compare(password, data.password);
 
     if (!passwordMatch) {
-      return res.status(401).send({ msg: "Incorrect user !", status: false });
-    } else {
-      console.log("Login Successful");
+      return res.status(401).send(error);
     }
 
-    return res.status(200).send({ msg: "Login Successfully", status: true });
+    delete data.dataValues.password;
+
+    return res.status(200).send({ userData: data, status: true });
   } catch (error) {
     console.error("Error:", error);
     return res.status(500).send("Internal Server Error");
@@ -47,24 +41,31 @@ router.post("/login", async (req, res) => {
 router.post("/register", async (req, res) => {
   const { firstname, lastname, email, password } = req.body;
 
-  const emailExists = await new Promise((resolve) => {
-    db.query("SELECT * FROM user WHERE email = ?", [email], (err, results) => {
-      if (err) throw err;
-      resolve(results.length > 0);
-    });
-  });
-  if (emailExists) {
-    return res.status(400).send("Email is already exists");
+  //Error Message
+  const error = { msg: "Email is already exists", status: false };
+
+  //Query SELECT
+  const data = await userModel.findOne({ where: { email } });
+
+  if (data) {
+    return res.status(200).send(error);
   }
   const hashedPassword = await bcrypt.hash(password, 10);
-  db.query(
-    "INSERT INTO user (firstname, lastname, email, password) VALUES (?,?,?,?)",
-    [firstname, lastname, email, hashedPassword],
-    (err, results) => {
-      if (err) throw err;
-      return res.status(200).send("User registered successfully");
-    }
-  );
+
+  userModel
+    .create({
+      firstname: firstname,
+      lastname: lastname,
+      email: email,
+      password: hashedPassword,
+    })
+    .then((result) => {
+      delete result.dataValues.password;
+      return res.status(200).send({ userData: result, status: true });
+    })
+    .catch((err) => {
+      return res.status(200).send({ ...error, msg: "Error registering user" });
+    });
 });
 
 module.exports = router;
