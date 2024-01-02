@@ -11,9 +11,9 @@ const sequelize = new Sequelize(
     dialect: config.dialect,
     define: {
       timestamps: false,
-      freezeTableName: true
+      freezeTableName: true,
     },
-  },
+  }
 );
 
 sequelize.sync().then(() => {

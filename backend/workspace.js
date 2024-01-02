@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const sequelize = require("./dataBase");
+const sequelize = require("./newDatabase");
 const workspaceModel = require("./models/workspaceModel");
 const templateModel = require("./models/templateModel");
 
@@ -10,14 +10,14 @@ router.post("/create", async (req, res) => {
   const error = { msg: "Error creating database: ", status: false };
 
   if (!databaseName || !userId) {
-    return res.status(400).send({ msg: "Please provide a database name" });
+    return res.status(200).send({ msg: "Please provide a database name" });
   }
 
   const isValidDatabaseName = /^[a-zA-Z0-9_-]+$/.test(databaseName);
 
   if (!isValidDatabaseName) {
     return res
-      .status(400)
+      .status(200)
       .send({ msg: "Invalid characters in the database name" });
   }
 
@@ -28,25 +28,27 @@ router.post("/create", async (req, res) => {
 
     if (exitstingDatabase.length > 0) {
       return res
-        .status(400)
+        .status(200)
         .send({ msg: "Database already exists", status: false });
     }
 
-    await sequelize.query(`CREATE DATABASE IF NOT EXISTS \`${databaseName}\``);
+    await sequelize.query(
+      `CREATE DATABASE IF NOT EXISTS \`${userId}-${databaseName}\``
+    );
 
     const isValidUserId = await workspaceModel.findOne({
       where: { name: databaseName, owner_id: userId },
     });
 
     if (isValidUserId) {
-      return res.status(400).send({
+      return res.status(200).send({
         msg: "You have already created a database with this name",
         status: false,
       });
     }
 
     const newWorkSpace = await workspaceModel.create({
-      name: databaseName,
+      name: `${databaseName}`,
       status: 0,
       owner_id: userId,
     });

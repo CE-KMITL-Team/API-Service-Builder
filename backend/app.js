@@ -23,7 +23,7 @@ app.use("/auth", authorize);
 app.use("/workspace", workspace);
 
 app.listen(port, () => {
-	console.log(`Server is running on http://localhost:${port}`);
+  console.log(`Server is running on http://localhost:${port}`);
 });
 
 module.exports = app;
