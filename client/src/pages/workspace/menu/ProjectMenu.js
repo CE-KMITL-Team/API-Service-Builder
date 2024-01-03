@@ -1,26 +1,37 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { icon } from "@fortawesome/fontawesome-svg-core/import.macro";
 
-import React from "react";
+import React, { useEffect, useState } from "react";
 
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { fetchLogout } from "../../../actions/authActions";
 
+import { fetchGetWorkspace } from "../../../actions/workspaceActions";
+
 function ProjectMenu() {
-	const projects = [
-		{
-			name: "Co-Working",
-			online: false,
-		},
-		{
-			name: "Hotel",
-			online: false,
-		},
-	];
+	const [projects, setProjects] = useState([]);
 
 	const navigate = useNavigate();
 	const dispatch = useDispatch();
+
+	async function initState() {
+		try {
+			dispatch(fetchGetWorkspace()).then((val) => {
+				if (val !== false) {
+					setProjects(val);
+				} else {
+					setProjects([]);
+				}
+			});
+		} catch (error) {
+			console.log(error);
+		}
+	}
+
+	useEffect(() => {
+		initState();
+	}, []);
 
 	function onLogout() {
 		dispatch(fetchLogout());
@@ -65,13 +76,13 @@ function ProjectMenu() {
 			</div>
 			<div className="text-xl font-bold text-gray-400 mt-12">Project</div>
 			<div className="menu mt-4 flex flex-col gap-y-2">
-				{projects.map((project, index) => (
+				{projects.map((project) => (
 					<div
-						key={index}
+						key={project.id}
 						className={`items flex text-${
-							project.online ? "lime-400" : "red-400"
+							project.isOnline ? "lime-400" : "red-400"
 						} items-center cursor-pointer gap-x-2 hover:text-${
-							project.online ? "lime-500" : "red-500"
+							project.isOnline ? "lime-500" : "red-500"
 						}`}
 					>
 						<FontAwesomeIcon

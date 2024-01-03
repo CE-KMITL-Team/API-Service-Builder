@@ -56,9 +56,8 @@ router.post("/create", async (req, res) => {
 		});
 
 		return res.status(200).send({
-			msg: `Database '${project_name}' Create By user ${user_id}`,
 			status: true,
-			workspace: newWorkSpace,
+			workspace_id: newWorkSpace.id,
 		});
 	} catch (err) {
 		console.error("Error creating database:", err);
@@ -106,7 +105,13 @@ router.get("/get/workspaces", async (req, res) => {
 		where: { owner_id: userid },
 	});
 
-	return res.status(200).send({ workspace: data });
+	const modifiedData = data.map((workspace) => ({
+		id: workspace.id,
+		name: workspace.name,
+		isOnline: workspace.status === 1,
+	}));
+
+	return res.status(200).send({ workspaces: modifiedData });
 });
 
 router.get("/get/templates", async (req, res) => {
