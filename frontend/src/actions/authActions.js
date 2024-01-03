@@ -1,4 +1,4 @@
-import { login } from "../services/authService";
+import { login, register } from "../services/authService";
 import { endFetch, errorFetch, startFetch } from "./loadingActions";
 
 export const SET_AUTH = "SET_AUTH";
@@ -24,6 +24,25 @@ export function fetchLogin(email, password) {
 		} catch (error) {
 			dispatch(setAuth(null));
 			dispatch(errorFetch(error));
+		}
+	};
+}
+
+export function fetchRegister(email, firstname, lastname, password) {
+	return async (dispatch) => {
+		try {
+			dispatch(startFetch());
+			const user = await register(email, password, firstname, lastname);
+
+			if (user) {
+				dispatch(endFetch());
+				dispatch(errorFetch(null));
+				return true;
+			}
+			return false;
+		} catch (error) {
+			dispatch(errorFetch(error));
+			return false;
 		}
 	};
 }

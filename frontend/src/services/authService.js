@@ -24,3 +24,13 @@ export function register(email, password, firstname, lastname) {
 			return response.userData;
 		});
 }
+
+export function checkEmailAvailability(email) {
+	return api
+		.post(apiMap.CHECK_EMAIL, {
+			email: email,
+		})
+		.then((response) => {
+			return response;
+		});
+}

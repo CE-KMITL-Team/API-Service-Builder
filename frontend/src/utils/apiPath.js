@@ -4,6 +4,7 @@ export const apiMap = {
 	//Authorize
 	LOGIN: "/auth/login",
 	REGISTER: "/auth/register",
+	CHECK_EMAIL: "/auth/check-email",
 
 	//Workspaces
 	GET_TEMPLATES: "/workspace/get/templates",
