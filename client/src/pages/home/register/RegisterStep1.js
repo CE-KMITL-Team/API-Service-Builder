@@ -4,8 +4,9 @@ import { checkEmailAvailability } from "../../../services/authService";
 
 function RegisterStep1() {
 	const [email, setEmail] = useState("");
-	const navigate = useNavigate();
 	const [errorMessage, setErrorMessage] = useState({ error: null });
+	
+	const navigate = useNavigate();
 
 	async function onSubmit() {
 		try {

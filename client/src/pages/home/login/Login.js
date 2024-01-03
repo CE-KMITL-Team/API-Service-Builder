@@ -2,17 +2,24 @@ import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import { fetchLogin } from "../../../actions/authActions";
 import { useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 
 function Login() {
 	const [email, setEmail] = useState("");
 	const [password, setPassword] = useState("");
 
 	const dispatch = useDispatch();
+	const navigate = useNavigate();
 
-	const errorMessage = useSelector((store) => store.loading.error);
+	const store = useSelector((store) => store);
+	const errorMessage = store.loading.error;
 
-	function onSubmit() {
-		dispatch(fetchLogin(email, password));
+	async function onSubmit() {
+		dispatch(fetchLogin(email, password)).then((val) => {
+			if (val) {
+				navigate("/workspace");
+			}
+		});
 	}
 
 	return (

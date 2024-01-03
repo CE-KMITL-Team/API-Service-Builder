@@ -1,6 +1,23 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import { getTemplates } from "../../services/workspaceService";
 
 function Workspace() {
+	const [template, setTemplate] = useState([]);
+
+	async function initState() {
+		try {
+			const templates = await getTemplates();
+			
+			setTemplate(templates);
+		} catch (error) {
+			console.log(error);
+		}
+	}
+
+	useEffect(() => {
+		initState();
+	}, []);
+
 	return (
 		<div className="create-project flex justify-center items-center w-full whitespace-nowrap bg-gray-600">
 			<div className="box flex shadow-md w-2/4 h-2/4 min-h-[384px]">
@@ -13,15 +30,11 @@ function Workspace() {
 						<ol>
 							<div className="text-lg">Template</div>
 							<ul className="ps-5 mt-2 space-y-1 list-disc list-inside leading-loose">
-								<li className="cursor-pointer hover:underline">
-									Login & Register
-								</li>
-								<li className="cursor-pointer hover:underline">
-									Buying & Selling
-								</li>
-								<li className="cursor-pointer hover:underline">
-									E-Commerce
-								</li>
+								{template.map((val) => (
+									<li className="cursor-pointer hover:underline">
+										{val.name}
+									</li>
+								))}
 							</ul>
 						</ol>
 					</div>
@@ -58,10 +71,12 @@ function Workspace() {
 							</label>
 
 							<select className="w-full bg-gray-50 border border-gray-300 text-gray-900 text-md rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5">
-								<option>- Not use template -</option>
-								<option>Login & Register</option>
-								<option>Buying & Selling</option>
-								<option>E-Commerce</option>
+								<option value="-1">- Not use template -</option>
+								{template.map((val) => (
+									<option key={val.id} value={val.id}>
+										{val.name}
+									</option>
+								))}
 							</select>
 						</div>
 						<button className="bg-primary-900 text-white hover:bg-primary-800 rounded-sm py-2 text-lg shadow-md px-8 w-fit mt-8 max-w-lg">

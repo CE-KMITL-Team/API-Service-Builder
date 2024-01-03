@@ -3,6 +3,10 @@ import { icon } from "@fortawesome/fontawesome-svg-core/import.macro";
 
 import React from "react";
 
+import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { fetchLogout } from "../../../actions/authActions";
+
 function ProjectMenu() {
 	const projects = [
 		{
@@ -15,12 +19,13 @@ function ProjectMenu() {
 		},
 	];
 
-	// const menuItems = [
-	// 	{ label: "Account settings", link: "#" },
-	// 	{ label: "Support", link: "#" },
-	// 	{ label: "License", link: "#" },
-	// 	// Add more menu items as needed
-	// ];
+	const navigate = useNavigate();
+	const dispatch = useDispatch();
+
+	function onLogout() {
+		dispatch(fetchLogout());
+		navigate("/Login");
+	}
 
 	return (
 		<div className="h-screen bg-dark text-white pt-6 pl-10 pr-10 w-72 relative">
@@ -53,7 +58,9 @@ function ProjectMenu() {
 						})}
 						className="text-lg w-8"
 					/>
-					<div className="text-lg">Logout</div>
+					<div className="text-lg" onClick={() => onLogout()}>
+						Logout
+					</div>
 				</div>
 			</div>
 			<div className="text-xl font-bold text-gray-400 mt-12">Project</div>
