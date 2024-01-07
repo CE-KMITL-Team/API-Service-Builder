@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.2.1
+-- version 5.0.4
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Dec 26, 2023 at 10:32 AM
--- Server version: 10.4.28-MariaDB
--- PHP Version: 8.2.4
+-- Generation Time: Jan 07, 2024 at 08:00 PM
+-- Server version: 10.4.17-MariaDB
+-- PHP Version: 7.3.27
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -29,13 +29,13 @@ SET time_zone = "+00:00";
 
 CREATE TABLE `flow` (
   `id` int(10) NOT NULL,
-  `name` varchar(255) NOT NULL,
-  `description` varchar(255) DEFAULT NULL,
-  `API` varchar(255) NOT NULL,
-  `markdown` text NOT NULL,
+  `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `description` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `API` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `markdown` text COLLATE utf8mb4_unicode_ci NOT NULL,
   `status` int(10) NOT NULL,
   `workspace_id` int(10) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
 
@@ -44,12 +44,11 @@ CREATE TABLE `flow` (
 --
 
 CREATE TABLE `model` (
-  `id` int(10) NOT NULL,
-  `name` varchar(255) NOT NULL,
-  `description` varchar(255) DEFAULT NULL,
-  `table_name` varchar(255) NOT NULL,
+  `id` int(11) NOT NULL,
+  `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `description` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `workspace_id` int(10) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
 
@@ -58,9 +57,10 @@ CREATE TABLE `model` (
 --
 
 CREATE TABLE `template` (
-  `name` varchar(255) NOT NULL,
-  `blueprint` text NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+  `id` int(11) NOT NULL,
+  `name` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
+  `blueprint` text CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
 
@@ -70,21 +70,19 @@ CREATE TABLE `template` (
 
 CREATE TABLE `user` (
   `id` int(255) NOT NULL,
-  `firstname` varchar(255) NOT NULL,
-  `lastname` varchar(255) NOT NULL,
-  `email` varchar(255) NOT NULL,
-  `password` varchar(255) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+  `firstname` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
+  `lastname` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
+  `email` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
+  `password` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Dumping data for table `user`
 --
 
 INSERT INTO `user` (`id`, `firstname`, `lastname`, `email`, `password`) VALUES
-(1, 'Moth', 'B', 'C', '1'),
-(2, 'Orion', 'Frost', 'Orion-frost@example.co', '$2b$10$iD42QPWhOQ9HOCILuTuI9O2bcebBfVkqEJ3ADw/.R5J5YcezOfUXm'),
-(3, 'Chid', 'BOO', 'Chid_BOO@example.co', '$2b$10$Lzw7KVTdJ8uwQ9xNErIr8.cbl.1uo70NZZddfj8P8dMrHh1IHM0x2'),
-(4, 'test', 'test', 'Test1@example.co', '$2b$10$PhCdkkeg8enGdKMs5wx1PePZ09qWnPOwBRBByDYx.6h/cMWLK2HkO');
+(1, 'Test', 'Account', 'Test@gmail.com', '12341234'),
+(2, 'Mini', 'Mark', 'MiniMark@gmail.com', '$2b$10$oMyZO1Rm55pbegxC60ow0O8wdTX/msv9gd7YzU/qYE58Wk2WYZN6S');
 
 -- --------------------------------------------------------
 
@@ -94,10 +92,17 @@ INSERT INTO `user` (`id`, `firstname`, `lastname`, `email`, `password`) VALUES
 
 CREATE TABLE `workspace` (
   `id` int(10) NOT NULL,
-  `name` varchar(255) NOT NULL,
+  `name` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
   `status` int(10) NOT NULL,
   `owner_id` int(10) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `workspace`
+--
+
+INSERT INTO `workspace` (`id`, `name`, `status`, `owner_id`) VALUES
+(1, 'Test', 0, 2);
 
 --
 -- Indexes for dumped tables
@@ -118,6 +123,12 @@ ALTER TABLE `model`
   ADD KEY `workspace_id` (`workspace_id`);
 
 --
+-- Indexes for table `template`
+--
+ALTER TABLE `template`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indexes for table `user`
 --
 ALTER TABLE `user`
@@ -135,16 +146,28 @@ ALTER TABLE `workspace`
 --
 
 --
+-- AUTO_INCREMENT for table `model`
+--
+ALTER TABLE `model`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `template`
+--
+ALTER TABLE `template`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
 -- AUTO_INCREMENT for table `user`
 --
 ALTER TABLE `user`
-  MODIFY `id` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `workspace`
 --
 ALTER TABLE `workspace`
-  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- Constraints for dumped tables

@@ -25,7 +25,7 @@ router.post("/create", async (req, res) => {
 
 	try {
 		const [exitstingDatabase] = await customSequelize().query(
-			`SHOW DATABASES LIKE '${project_name}'`
+			`SHOW DATABASES LIKE '${user_id}-${project_name}'`
 		);
 
 		if (exitstingDatabase.length > 0) {
