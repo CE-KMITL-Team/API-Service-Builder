@@ -84,7 +84,67 @@ router.post("/create", async (req, res) => {
 
 /* Delete Table Model in workspace */
 router.delete("/delete", async (req, res) => {
-  const { workspace_id, model_name } = req.query;
+  const { workspace_id, model_id } = req.query;
+
+  try {
+    const workspace = await workspaceModel.findByPk(workspace_id);
+    if (!workspace) {
+      return res
+        .status(200)
+        .send({ msg: "Workspace not found", status: false });
+    }
+
+    const schemaName = `${workspace.owner_id}-${workspace.name.toLowerCase()}`;
+
+    const modelExists = await customSequelize(schemaName)
+      .getQueryInterface()
+      .showAllTables();
+
+    const tableExist = await modelModel.findOne({
+      where: {
+        workspace_id: workspace_id,
+        id: model_id,
+      },
+    });
+
+    if (!tableExist) {
+      return res
+        .status(200)
+        .send({ msg: "Model/table not found", status: false });
+    }
+
+    await modelModel
+      .destroy({
+        where: {
+          workspace_id: workspace_id,
+          id: model_id,
+        },
+      })
+      .then(async () => {
+        await customSequelize(schemaName)
+          .getQueryInterface()
+          .dropTable(tableExist.name, { cascade: true });
+
+        return res.status(200).send({ status: true, model_name: tableExist.name });
+      })
+      .catch((err) => {
+        console.log(err);
+        return res
+          .status(200)
+          .send({ status: false, msg: "Internal Server Error" });
+      });
+  } catch (err) {
+    console.error("Internal Server Error", err);
+    return res
+      .status(500)
+      .send({ msg: "Internal Server Error", status: false });
+  }
+});
+
+router.put("/edit", async (req, res) => {
+  const { workspace_id, model_name, field_list } = req.body;
+
+  console.log(field_list);
 
   try {
     const workspace = await workspaceModel.findByPk(workspace_id);
@@ -105,32 +165,14 @@ router.delete("/delete", async (req, res) => {
         .status(200)
         .send({ msg: "Model/table not found", status: false });
     }
-
-    await modelModel
-      .destroy({
-        where: {
-          name: model_name,
-          workspace_id: workspace_id,
-        },
-      })
-      .then(async () => {
-        await customSequelize(schemaName)
-          .getQueryInterface()
-          .dropTable(model_name, { cascade: true });
-
-        return res.status(200).send({ status: true, model_name: model_name });
-      })
-      .catch((err) => {
-        console.log(err);
-        return res
-          .status(200)
-          .send({ status: false, msg: "Your model name is already used !" });
-      });
+    const updataedModel = generateModel(schemaName, model_name, field_list);
+    await updataedModel.sync({ alter: true });
+    return res.status(200).send({ status: true });
   } catch (err) {
-    console.error("Internal Server Error", err);
+    console.error("Internal server not found:", err);
     return res
       .status(500)
-      .send({ msg: "Internal Server Error", status: false });
+      .send({ msg: "Internal server not found", status: false });
   }
 });
 
