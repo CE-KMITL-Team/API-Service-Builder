@@ -81,7 +81,21 @@ router.post("/create", async (req, res) => {
     return res.status(500).send({ msg: "Error creating model", status: false });
   }
 });
-
+// Get Table Model form workspace
+router.get('/get',async (req,res) => {
+  const {workspaceid} = req.query
+  const data = await modelModel.findAll({
+    attributes:["id","name","description"],
+    where : {workspace_id : workspaceid}
+  })
+  const workspace = await modelModel.findAll({
+    where : {workspace_id : workspaceid}
+  })
+  if(workspace.length == 0) {
+    return res.status(200).send({status : false, msg: "Workspace id is not found"})
+  }
+  return res.status(200).send({status: true , data : data})
+})
 /* Delete Table Model in workspace */
 router.delete("/delete", async (req, res) => {
   const { workspace_id, model_id } = req.query;
