@@ -17,8 +17,8 @@ const generateModel = (schemaName, modelName, fieldList) => {
         type === "number"
           ? DataTypes.INTEGER
           : length
-          ? DataTypes[type.toUpperCase()](length)
-          : DataTypes[type.toUpperCase()],
+            ? DataTypes[type.toUpperCase()](length)
+            : DataTypes[type.toUpperCase()],
       allowNull: !auto_increment,
       ...(auto_increment && { primaryKey: auto_increment }),
       ...(auto_increment && { autoIncrement: auto_increment }),
@@ -82,19 +82,24 @@ router.post("/create", async (req, res) => {
   }
 });
 // Get Table Model form workspace
-router.get('/get',async (req,res) => {
-  const {workspaceid} = req.query
-  const data = await modelModel.findAll({
-    attributes:["id","name","description"],
-    where : {workspace_id : workspaceid}
-  })
-  const workspace = await modelModel.findAll({
-    where : {workspace_id : workspaceid}
-  })
-  if(workspace.length == 0) {
-    return res.status(200).send({status : false, msg: "Workspace id is not found"})
+router.get('/get', async (req, res) => {
+  try {
+    const { workspaceid } = req.query
+    const data = await modelModel.findAll({
+      attributes: ["id", "name", "description"],
+      where: { workspace_id: workspaceid }
+    })
+    const workspace = await modelModel.findAll({
+      where: { workspace_id: workspaceid }
+    })
+    if (workspace.length == 0) {
+      return res.status(200).send({ status: false, msg: "Workspace id is not found" })
+    }
+    return res.status(200).send({ status: true, data: data })
+  } catch (err) {
+    console.log(err)
+    return res.status(500).send({ status: false, msg: "Internal Server Error" })
   }
-  return res.status(200).send({status: true , data : data})
 })
 /* Delete Table Model in workspace */
 router.delete("/delete", async (req, res) => {
