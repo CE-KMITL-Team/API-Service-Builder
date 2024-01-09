@@ -40,7 +40,25 @@ router.post("/add", async (req,res) => {
   console.error("Error creating Flow:", err);
     return res.status(500).send({ msg: "Error creating Flow", status: false });
   }
-
-
+// Check Flows name and path is exists
+try{
+router.post("/check-detail", async (req, res)=>{
+  const {flow_name ,flow_path } = req.body;
+  const checkname = await flowModel.findOne({where:{name : flow_name}});
+  const checkpath = await flowModel.findOne({where:{API : flow_path}});
+  if(checkname && checkpath){
+    return res.status(200).send({status : false, errorName: true, errorPath: true})
+  }
+  else if(checkname){
+    return res.status(200).send({status : false, errorName: true, errorPath: false})
+  }
+  else if(checkpath){
+    return res.status(200).send({status : false, errorName: false, errorPath: true})
+  }
+  return res.status(200).send({status: true});
+})}catch (error) {
+  console.error("Error:", error);
+  return res.status(500).send("Internal Server Error");
+}
 module.exports = router;
 
