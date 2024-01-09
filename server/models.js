@@ -1,10 +1,9 @@
 const express = require("express");
 const router = express.Router();
 const workspaceModel = require("./models/workspaceModel");
-const { DataTypes } = require("sequelize");
-const { sequelize, customSequelize } = require("./database");
-
 const modelModel = require("./models/modelModel");
+const { DataTypes, Sequelize } = require("sequelize");
+const { customSequelize } = require("./database");
 
 //Generate Table Logic
 const generateModel = (schemaName, modelName, fieldList) => {
@@ -96,9 +95,9 @@ router.delete("/delete", async (req, res) => {
 
     const schemaName = `${workspace.owner_id}-${workspace.name.toLowerCase()}`;
 
-    const modelExists = await customSequelize(schemaName)
-      .getQueryInterface()
-      .showAllTables();
+    // const modelExists = await customSequelize(schemaName)
+    //   .getQueryInterface()
+    //   .showAllTables();
 
     const tableExist = await modelModel.findOne({
       where: {
@@ -125,7 +124,9 @@ router.delete("/delete", async (req, res) => {
           .getQueryInterface()
           .dropTable(tableExist.name, { cascade: true });
 
-        return res.status(200).send({ status: true, model_name: tableExist.name });
+        return res
+          .status(200)
+          .send({ status: true, model_name: tableExist.name });
       })
       .catch((err) => {
         console.log(err);
@@ -173,6 +174,51 @@ router.put("/edit", async (req, res) => {
     return res
       .status(500)
       .send({ msg: "Internal server not found", status: false });
+  }
+});
+
+router.get("/:modelID/get", async (req, res) => {
+  const { modelID } = req.params;
+
+  try {
+    const modelDetails = await modelModel.findByPk(modelID, {
+      include: [{ model: workspaceModel, as: "workspace" }],
+    });
+
+    if (!modelDetails) {
+      return res.status(200).json({ msg: "Model not found", status: false });
+    }
+
+    const { name, workspace } = modelDetails;
+    console.log(name, workspace);
+
+    if (!workspace || !workspace.owner_id) {
+      return res
+        .status(200)
+        .json({ msg: "Invalid workspace details", status: false });
+    }
+
+    const schemaName = `${workspace.owner_id}-${workspace.name.toLowerCase()}`;
+    console.log(schemaName);
+
+    const sqlQuery = `SELECT * FROM ${modelDetails.name}`;
+
+    customSequelize(schemaName)
+      .query(sqlQuery, { type: Sequelize.QueryTypes.SELECT })
+      .then((result) => {
+        return res.status(200).json({ status: true, data: result });
+      })
+      .catch((err) => {
+        console.error("Internal server error", err);
+        return res
+          .status(500)
+          .json({ msg: "Internal server error", status: false });
+      });
+  } catch (err) {
+    console.error("Internal server error", err);
+    return res
+      .status(500)
+      .json({ msg: "Internal server error", status: false });
   }
 });
 

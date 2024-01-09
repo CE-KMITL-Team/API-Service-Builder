@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.0.4
+-- version 5.2.1
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jan 08, 2024 at 09:52 AM
--- Server version: 10.4.17-MariaDB
--- PHP Version: 7.3.27
+-- Generation Time: Jan 09, 2024 at 09:13 AM
+-- Server version: 10.4.24-MariaDB
+-- PHP Version: 8.1.5
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -37,6 +37,14 @@ CREATE TABLE `flow` (
   `workspace_id` int(10) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
+--
+-- Dumping data for table `flow`
+--
+
+INSERT INTO `flow` (`id`, `name`, `description`, `API`, `markdown`, `status`, `workspace_id`) VALUES
+(0, 'login', 'use to login', '/lohin', 'dawfsdverg vergvergv', 1, 1),
+(1, 'register', 'use to register', '/register', 'fsdgvsedgverg', 0, 1);
+
 -- --------------------------------------------------------
 
 --
@@ -49,6 +57,13 @@ CREATE TABLE `model` (
   `description` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `workspace_id` int(10) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `model`
+--
+
+INSERT INTO `model` (`id`, `name`, `description`, `workspace_id`) VALUES
+(5, 'Login', 'Login Model', 1);
 
 -- --------------------------------------------------------
 
@@ -149,7 +164,7 @@ ALTER TABLE `workspace`
 -- AUTO_INCREMENT for table `model`
 --
 ALTER TABLE `model`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `template`
