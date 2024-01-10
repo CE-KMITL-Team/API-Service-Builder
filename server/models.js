@@ -2,8 +2,10 @@ const express = require("express");
 const router = express.Router();
 const workspaceModel = require("./models/workspaceModel");
 const modelModel = require("./models/modelModel");
-const { DataTypes, Sequelize } = require("sequelize");
+const { DataTypes } = require("sequelize");
 const { customSequelize } = require("./database");
+
+const modelDynamic = require("./models-dynamic");
 
 //Generate Table Logic
 const generateModel = (schemaName, modelName, fieldList) => {
@@ -177,49 +179,7 @@ router.put("/edit", async (req, res) => {
   }
 });
 
-router.get("/:modelID/get", async (req, res) => {
-  const { modelID } = req.params;
-
-  try {
-    const modelDetails = await modelModel.findByPk(modelID, {
-      include: [{ model: workspaceModel, as: "workspace" }],
-    });
-
-    if (!modelDetails) {
-      return res.status(200).json({ msg: "Model not found", status: false });
-    }
-
-    const { name, workspace } = modelDetails;
-    console.log(name, workspace);
-
-    if (!workspace || !workspace.owner_id) {
-      return res
-        .status(200)
-        .json({ msg: "Invalid workspace details", status: false });
-    }
-
-    const schemaName = `${workspace.owner_id}-${workspace.name.toLowerCase()}`;
-    console.log(schemaName);
-
-    const sqlQuery = `SELECT * FROM ${modelDetails.name}`;
-
-    customSequelize(schemaName)
-      .query(sqlQuery, { type: Sequelize.QueryTypes.SELECT })
-      .then((result) => {
-        return res.status(200).json({ status: true, data: result });
-      })
-      .catch((err) => {
-        console.error("Internal server error", err);
-        return res
-          .status(500)
-          .json({ msg: "Internal server error", status: false });
-      });
-  } catch (err) {
-    console.error("Internal server error", err);
-    return res
-      .status(500)
-      .json({ msg: "Internal server error", status: false });
-  }
-});
+//Manage about database in model
+router.use("/", modelDynamic);
 
 module.exports = router;
