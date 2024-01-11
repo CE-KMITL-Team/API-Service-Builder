@@ -60,5 +60,31 @@ router.post("/check-detail", async (req, res)=>{
   console.error("Error:", error);
   return res.status(500).send("Internal Server Error");
 }
+// Delete Flow from workspace_id and flow_id
+router.delete('/delete',async (req,res)=>{
+  const{workspace_id , flow_id} = req.body;
+    const flow_name = await flowModel.findOne({
+      attributes : ["name"],
+      where: {
+        id : flow_id
+      }
+
+    })
+    const deleteFlow = await flowModel.destroy({
+      where: {
+        workspace_id: workspace_id,
+        id: flow_id,
+      }
+      
+    });
+    
+    if(deleteFlow === 0 ) {
+      return res.status(200).send({status : false , msg:"Flow not found" }); 
+    }
+    
+    return res.status(200).send({ status : true , flow_name :flow_name.name})
+  
+  }
+)
 module.exports = router;
 
