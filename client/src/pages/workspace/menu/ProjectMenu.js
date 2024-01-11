@@ -3,7 +3,7 @@ import { icon } from "@fortawesome/fontawesome-svg-core/import.macro";
 
 import React, { useEffect, useState } from "react";
 
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { fetchLogout } from "../../../actions/authActions";
 
@@ -81,20 +81,22 @@ function ProjectMenu() {
 						key={project.id}
 						className={`items flex text-${
 							project.isOnline ? "lime-400" : "red-400"
-						} items-center cursor-pointer gap-x-2 hover:text-${
+						} hover:text-${
 							project.isOnline ? "lime-500" : "red-500"
 						}`}
 					>
-						<FontAwesomeIcon
-							icon={icon({
-								name: "circle",
-								style: "solid",
-							})}
-							className="scale-50 w-8"
-						/>
-						<div className="text-lg text-gray-400 hover:text-gray-300">
-							{project.name}
-						</div>
+						<Link to={`/workspace/${project.id}/myapi`} className="flex items-center cursor-pointer gap-x-2">
+							<FontAwesomeIcon
+								icon={icon({
+									name: "circle",
+									style: "solid",
+								})}
+								className="scale-50 w-8"
+							/>
+							<div className="text-lg text-gray-400 hover:text-gray-300">
+								{project.name}
+							</div>
+						</Link>
 					</div>
 				))}
 			</div>

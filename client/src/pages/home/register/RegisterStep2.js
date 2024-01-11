@@ -113,6 +113,7 @@ function RegisterStep2() {
 								type="checkbox"
 								value=""
 								className="w-4 h-4 text-primary-800 bg-gray-100 border-gray-300 rounded"
+								required
 							/>
 							<label
 								htmlFor="link-checkbox"

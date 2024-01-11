@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { getTemplates } from "../../services/workspaceService";
 import { fetchCreateWorkspace } from "../../actions/workspaceActions";
 
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
 function Workspace() {
@@ -12,6 +12,9 @@ function Workspace() {
 
 	const dispatch = useDispatch();
 	const navigate = useNavigate();
+
+	const store = useSelector((store) => store);
+	const errorMessage = store.loading.error;
 
 	//initState
 	async function initState() {
@@ -86,13 +89,24 @@ function Workspace() {
 								<input
 									type="text"
 									id="project-name"
-									className="w-full bg-gray-50 border border-gray-300 text-gray-900 text-md rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5"
+									className={`${
+										errorMessage != null
+											? "border-red-500"
+											: ""
+									} w-full bg-gray-50 border border-gray-300 text-gray-900 text-md rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5`}
 									placeholder="My_New_Project"
 									required
 									onChange={(e) =>
 										setProjectName(e.target.value)
 									}
 								/>
+								{errorMessage != null ? (
+									<div className="error tracking-wide text-red-500 text-left w-full">
+										{errorMessage}
+									</div>
+								) : (
+									""
+								)}
 							</div>
 							<div className="group w-full mt-2">
 								<label
@@ -117,7 +131,10 @@ function Workspace() {
 									))}
 								</select>
 							</div>
-							<button className="bg-primary-900 text-white hover:bg-primary-800 rounded-sm py-2 text-lg shadow-md px-8 w-fit mt-8 max-w-lg">
+							<button
+								className="bg-primary-900 text-white hover:bg-primary-800 rounded-sm py-2 text-lg shadow-md px-8 w-fit mt-8 max-w-lg"
+								type="submit"
+							>
 								Create Project
 							</button>
 						</div>

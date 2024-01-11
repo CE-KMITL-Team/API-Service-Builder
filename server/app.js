@@ -1,11 +1,11 @@
 const express = require("express");
 const bodyParser = require("body-parser");
 
-const server = require("./database");
-const flows = require("./flows");
-const model = require("./models");
-const authorize = require("./authorize");
-const workspace = require("./workspace");
+const server = require("./services/database");
+const flows = require("./routers/flows");
+const model = require("./routers/model/models");
+const authorize = require("./routers/authorize");
+const workspace = require("./routers/workspace");
 
 const cors = require("cors");
 const app = express();
@@ -23,7 +23,7 @@ app.use("/auth", authorize);
 app.use("/workspace", workspace);
 
 app.listen(port, () => {
-  console.log(`Server is running on http://localhost:${port}`);
+	console.log(`Server is running on http://localhost:${port}`);
 });
 
 module.exports = app;

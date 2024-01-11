@@ -1,5 +1,5 @@
 const { DataTypes } = require("sequelize");
-const {sequelize} = require("../database");
+const {sequelize} = require("../services/database");
 
 const templateModel = sequelize.define("template", {
   id: {

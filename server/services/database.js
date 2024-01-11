@@ -1,6 +1,6 @@
 const express = require("express");
 const { Sequelize } = require("sequelize");
-const config = require("./config/database.json");
+const config = require("../config/database.json");
 
 const sequelize = new Sequelize(
 	config.database,

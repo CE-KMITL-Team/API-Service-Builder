@@ -1,8 +1,8 @@
 const express = require("express");
 const router = express.Router();
-const { customSequelize } = require("./database");
-const workspaceModel = require("./models/workspaceModel");
-const templateModel = require("./models/templateModel");
+const { customSequelize } = require("../services/database");
+const workspaceModel = require("../models/workspaceModel");
+const templateModel = require("../models/templateModel");
 
 /* Build new database in MySQL */
 router.post("/create", async (req, res) => {

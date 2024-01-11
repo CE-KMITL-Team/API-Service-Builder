@@ -1,9 +1,9 @@
 const express = require("express");
 const router = express.Router();
-const workspaceModel = require("./models/workspaceModel");
-const modelModel = require("./models/modelModel");
+const workspaceModel = require("../../models/workspaceModel");
+const modelModel = require("../../models/modelModel");
 const { DataTypes } = require("sequelize");
-const { customSequelize } = require("./database");
+const { customSequelize } = require("../../services/database");
 
 const modelDynamic = require("./models-dynamic");
 
