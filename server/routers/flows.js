@@ -23,7 +23,7 @@ router.post("/add", async (req, res) => {
   const { name, description, API, markdown, status, workspace_id } = req.body;
   try {
     const check = await flowModel.findOne({ where: { name, API } });
-    if (check) {
+    if (!check) {
       return res
         .status(200)
         .send({ status: false, msg: "Flow name or path is already used !" });
@@ -51,6 +51,7 @@ router.post("/check-detail", async (req, res) => {
   try {
     const checkname = await flowModel.findOne({ where: { name: flow_name } });
     const checkpath = await flowModel.findOne({ where: { API: flow_path } });
+
     if (checkname && checkpath) {
       return res
         .status(200)
@@ -64,6 +65,7 @@ router.post("/check-detail", async (req, res) => {
         .status(200)
         .send({ status: false, errorName: false, errorPath: true });
     }
+
     return res.status(200).send({ status: true });
   } catch (error) {
     console.error("Error:", error);
@@ -91,7 +93,7 @@ router.delete("/delete", async (req, res) => {
     if (deleteFlow === 0) {
       return res.status(200).send({ status: false, msg: "Flow not found" });
     }
-    
+
     return res.status(200).send({ status: true, flow_name: flow_name.name });
   } catch (err) {
     console.error("Internal server error:", err);
