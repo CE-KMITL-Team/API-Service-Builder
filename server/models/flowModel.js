@@ -1,8 +1,8 @@
 const { DataTypes } = require("sequelize");
-const {sequelize} = require("../services/database");
+const { sequelize } = require("../services/database");
 const workspaceModel = require("./workspaceModel");
 
-const flowModel = sequelize.define("Flow", {
+const flowModel = sequelize.define("flow", {
   id: {
     type: DataTypes.INTEGER,
     allowNull: false,
@@ -29,7 +29,7 @@ const flowModel = sequelize.define("Flow", {
     type: DataTypes.INTEGER,
     allowNull: false,
   },
-  workspaceId: {
+  workspace_id: {
     type: DataTypes.INTEGER,
     references: {
       model: "Workspace",
