@@ -94,7 +94,6 @@ router.delete("/delete", async (req, res) => {
   return res.status(200).send({ status: true, flow_name: flow_name.name });
 });
 
-
 /* Edit Flows */
 router.put("/edit", async (req, res) => {
   const {
@@ -115,10 +114,13 @@ router.put("/edit", async (req, res) => {
         .send({ status: false, msg: "Flow id is already used !" });
     }
 
-    if ((check.name == name)) {
+    if (check.name == name || check.API == API) {
       return res
         .status(200)
-        .send({ status: false, msg: "Flow name is already used !" });
+        .send({
+          status: false,
+          msg: "Flow name or API-Path is already used !",
+        });
     }
 
     await flowModel
