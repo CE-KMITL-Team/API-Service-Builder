@@ -10,6 +10,7 @@ function FlowNodeFrame() {
 			nodes: [
 				{
 					name: "Request",
+					type: "request",
 					icon: icon({ name: "plus", style: "solid" }),
 				},
 			],
@@ -19,18 +20,22 @@ function FlowNodeFrame() {
 			nodes: [
 				{
 					name: "Condition",
+					type: "condition",
 					icon: icon({ name: "cog", style: "solid" }),
 				},
 				{
 					name: "Count",
+					type: "count",
 					icon: icon({ name: "sort-numeric-up", style: "solid" }),
 				},
 				{
 					name: "Encode Base64",
+					type: "encode-base64",
 					icon: icon({ name: "file-code", style: "solid" }),
 				},
 				{
 					name: "Return Response",
+					type: "return-response",
 					icon: icon({ name: "reply", style: "solid" }),
 				},
 			],
@@ -40,18 +45,22 @@ function FlowNodeFrame() {
 			nodes: [
 				{
 					name: "Join",
+					type: "join",
 					icon: icon({ name: "link", style: "solid" }),
 				},
 				{
 					name: "User",
+					type: "database",
 					icon: icon({ name: "database", style: "solid" }),
 				},
 				{
 					name: "Book",
+					type: "database",
 					icon: icon({ name: "database", style: "solid" }),
 				},
 				{
 					name: "Category",
+					type: "database",
 					icon: icon({ name: "database", style: "solid" }),
 				},
 			],
@@ -140,6 +149,7 @@ function FlowNodeFrame() {
 								<FlowNode
 									key={nodeIndex}
 									name={node.name}
+									type={node.type}
 									icon={node.icon}
 								/>
 							))}
