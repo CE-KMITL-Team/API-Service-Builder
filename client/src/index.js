@@ -166,7 +166,7 @@ const router = createBrowserRouter([
 		),
 	},
 	{
-		path: "/workspace/:project/myapi",
+		path: "/workspace/:projectID/myapi",
 		element: (
 			<PrivateRoute>
 				<div className="flex">
@@ -177,7 +177,7 @@ const router = createBrowserRouter([
 		),
 	},
 	{
-		path: "/workspace/:project/model/:model",
+		path: "/workspace/:projectID/model/:activeModel",
 		element: (
 			<PrivateRoute>
 				<div className="flex">
@@ -189,7 +189,7 @@ const router = createBrowserRouter([
 		),
 	},
 	{
-		path: "/workspace/:project/addModel",
+		path: "/workspace/:projectID/addModel",
 		element: (
 			<PrivateRoute>
 				<div className="flex">
@@ -201,7 +201,7 @@ const router = createBrowserRouter([
 		),
 	},
 	{
-		path: "/workspace/:project/flows",
+		path: "/workspace/:projectID/flows",
 		element: (
 			<PrivateRoute>
 				<div className="flex">
@@ -212,7 +212,7 @@ const router = createBrowserRouter([
 		),
 	},
 	{
-		path: "/workspace/:project/flows/:flow",
+		path: "/workspace/:projectID/flows/:activeFlow",
 		element: (
 			<PrivateRoute>
 				<div className="flex">

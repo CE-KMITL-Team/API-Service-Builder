@@ -2,18 +2,20 @@ import { icon } from "@fortawesome/fontawesome-svg-core/import.macro";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React, { useState } from "react";
 import WorkspaceMenuPopup from "./WorkspaceMenuPopup";
+import { Link, useLocation } from "react-router-dom";
+import { useParams } from "react-router-dom";
 
 function WorkspaceMenu() {
 	const models = [
 		{
 			id: 1,
 			name: "Book",
-			link: "book",
+			link: "/book",
 		},
 		{
 			id: 2,
 			name: "User",
-			link: "user",
+			link: "/user",
 		},
 	];
 
@@ -33,20 +35,27 @@ function WorkspaceMenu() {
 	const [isOnline, setOnline] = useState(false);
 	const [isPopupOpen, setIsPopupOpen] = useState(false);
 
+	const { projectID, activeModel, activeFlow } = useParams();
+
+	const location = useLocation();
+
 	const toggleOnline = () => {
 		setOnline(!isOnline);
 		setIsPopupOpen(!isOnline);
 	};
 
+	const menuActiveClass =
+		"relative text-primary-700 font-bold after:content-[''] after:absolute after:w-2 after:rounded-l after:h-full after:bg-primary-700 after:-right-10";
+
 	return (
-		<div className="h-screen bg-dark text-white pt-6 pl-10 pr-10 w-72 relative">
+		<div className="h-screen bg-dark text-white pt-6 pl-10 pr-10 w-[260px] relative">
 			<div className="title flex items-center justify-center">
 				<img
 					className="h-6 w-auto"
 					src="/assets/icon-white.png"
 					alt="API Forge"
 				/>
-				<div className="text-md font-bold ml-4">API Forge</div>
+				<div className="text-md font-bold ml-4">{projectID}</div>
 			</div>
 			<div className="status mt-4">
 				<div className="p-2 bg-dark-800 flex rounded-md justify-evenly gap-5">
@@ -81,7 +90,14 @@ function WorkspaceMenu() {
 				</div>
 			</div>
 			<div className="menu mt-8 flex flex-col gap-y-2">
-				<div className="items flex text-primary-700 items-center gap-x-2 relative">
+				<Link
+					to={`/workspace/${projectID}/myapi`}
+					className={`text-gray-400 items flex cursor-pointer items-center gap-x-2 hover:text-primary-700 ease-in duration-75 hover:font-bold ${
+						location.pathname === `/workspace/${projectID}/myapi`
+							? menuActiveClass
+							: ""
+					}`}
+				>
 					<FontAwesomeIcon
 						icon={icon({
 							name: "plug",
@@ -89,19 +105,23 @@ function WorkspaceMenu() {
 						})}
 						className="text-lg w-8"
 					/>
-					<div className="text-lg after:content-[''] after:absolute after:w-2 after:rounded-l after:h-full after:bg-primary-700 after:-right-10 after:mb-5">
-						My API
-					</div>
-				</div>
+					<div className="text-lg">My API</div>
+				</Link>
 			</div>
-			<div className="text-lg font-bold text-gray-400 mt-8 cursor-pointer hover:text-primary-700 ease-in duration-75 hover:font-bold">
+			<Link
+				to={`/workspace/${projectID}/model/${models[0].name}`}
+				className="flex text-gray-400 text-lg font-bold mt-8 cursor-pointer hover:text-primary-700 ease-in duration-75 hover:font-bold"
+			>
 				Models
-			</div>
-			<div className="menu mt-3 flex flex-col gap-y-2">
-				{models.map((project, index) => (
-					<div
+			</Link>
+			<div className="text-gray-400 menu mt-3 flex flex-col gap-y-2">
+				{models.map((model, index) => (
+					<Link
 						key={index}
-						className="flex items-center text-gray-400 cursor-pointer hover:text-primary-700 ease-in duration-75 hover:font-bold"
+						to={`/workspace/${projectID}/model/${model.name}`}
+						className={`flex items-center cursor-pointer hover:text-primary-700 ease-in duration-75 hover:font-bold ${
+							activeModel === model.name ? menuActiveClass : ""
+						}`}
 					>
 						<FontAwesomeIcon
 							icon={icon({
@@ -110,18 +130,28 @@ function WorkspaceMenu() {
 							})}
 							className="text-md mr-3 ml-2"
 						/>
-						<div className="text-lg">{project.name}</div>
-					</div>
+						<div className="text-lg">{model.name}</div>
+					</Link>
 				))}
 			</div>
-			<div className="text-lg font-bold text-gray-400 mt-8 cursor-pointer hover:text-primary-700 ease-in duration-75 hover:font-bold">
+			<Link
+				to={`/workspace/${projectID}/flows`}
+				className={`flex text-gray-400 text-lg font-bold mt-8 cursor-pointer hover:text-primary-700 ease-in duration-75 hover:font-bold ${
+					location.pathname === `/workspace/${projectID}/flows`
+						? menuActiveClass
+						: ""
+				}`}
+			>
 				Flows
-			</div>
-			<div className="menu mt-3 flex flex-col gap-y-2 text-lg">
-				{flows.map((project, index) => (
-					<div
+			</Link>
+			<div className="text-gray-400 menu mt-3 flex flex-col gap-y-2 text-lg">
+				{flows.map((flow, index) => (
+					<Link
 						key={index}
-						className="flex items-center text-gray-400 cursor-pointer hover:text-primary-700 ease-in duration-75 hover:font-bold"
+						to={`/workspace/${projectID}/flows/${flow.name}`}
+						className={`flex items-center cursor-pointer hover:text-primary-700 ease-in duration-75 hover:font-bold ${
+							activeFlow === flow.name ? menuActiveClass : ""
+						}`}
 					>
 						<FontAwesomeIcon
 							icon={icon({
@@ -130,8 +160,8 @@ function WorkspaceMenu() {
 							})}
 							className="text-md mr-3 ml-2"
 						/>
-						<div className="text-lg">{project.name}</div>
-					</div>
+						<div className="text-lg">{flow.name}</div>
+					</Link>
 				))}
 			</div>
 			{/* <Dropdown menu={menuItems} />; */}

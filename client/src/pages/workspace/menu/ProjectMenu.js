@@ -85,7 +85,10 @@ function ProjectMenu() {
 							project.isOnline ? "lime-500" : "red-500"
 						}`}
 					>
-						<Link to={`/workspace/${project.id}/myapi`} className="flex items-center cursor-pointer gap-x-2">
+						<Link
+							to={`/workspace/${project.name}/myapi`}
+							className="flex items-center cursor-pointer gap-x-2"
+						>
 							<FontAwesomeIcon
 								icon={icon({
 									name: "circle",
