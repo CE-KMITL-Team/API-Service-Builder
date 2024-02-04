@@ -1,10 +1,14 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Provider } from "react-redux";
 import ReactDOM from "react-dom/client";
 import "./index.css";
 import reportWebVitals from "./reportWebVitals";
 
-import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import {
+	createBrowserRouter,
+	RouterProvider,
+	useNavigate,
+} from "react-router-dom";
 
 import Header from "./components/layout/Header";
 import Home from "./pages/home/Home";
@@ -29,12 +33,55 @@ import { composeWithDevTools } from "@redux-devtools/extension";
 import { rootReducers } from "./reducers/rootReducers";
 import { thunk } from "redux-thunk";
 import { applyMiddleware, legacy_createStore } from "redux";
+import { getUserID } from "./utils/userUtils";
 
 const middlewares = [thunk];
 const store = legacy_createStore(
 	rootReducers,
 	composeWithDevTools(applyMiddleware(...middlewares))
 );
+
+const AuthRedirect = ({ children }) => {
+	const navigate = useNavigate();
+	const [loading, setLoading] = useState(true);
+
+	useEffect(() => {
+		const checkUser = async () => {
+			const userID = await getUserID();
+
+			if (userID) {
+				navigate("/workspace");
+			}
+
+			setLoading(false);
+		};
+
+		checkUser();
+	}, [navigate]);
+
+	return loading ? null : <>{children}</>;
+};
+
+const PrivateRoute = ({ children }) => {
+	const navigate = useNavigate();
+	const [loading, setLoading] = useState(true);
+
+	useEffect(() => {
+		const checkUser = async () => {
+			const userID = await getUserID();
+
+			if (userID === null) {
+				navigate("/login");
+			}
+
+			setLoading(false);
+		};
+
+		checkUser();
+	}, [navigate]);
+
+	return loading ? null : <>{children}</>;
+};
 
 const router = createBrowserRouter([
 	//Home
@@ -76,75 +123,103 @@ const router = createBrowserRouter([
 	//Login & Register
 	{
 		path: "/login",
-		element: <Login />,
+		element: (
+			<AuthRedirect>
+				<Login />
+			</AuthRedirect>
+		),
 	},
 	{
 		path: "/register",
-		element: <RegisterStep1 />,
+		element: (
+			<AuthRedirect>
+				<RegisterStep1 />
+			</AuthRedirect>
+		),
 	},
 	{
 		path: "/register/1",
-		element: <RegisterStep1 />,
+		element: (
+			<AuthRedirect>
+				<RegisterStep1 />
+			</AuthRedirect>
+		),
 	},
 	{
 		path: "/register/2",
-		element: <RegisterStep2 />,
+		element: (
+			<AuthRedirect>
+				<RegisterStep2 />
+			</AuthRedirect>
+		),
 	},
 	//Workspace
 	{
 		path: "/workspace",
 		element: (
-			<div className="flex">
-				<ProjectMenu />
-				<Workspace />
-			</div>
+			<PrivateRoute>
+				<div className="flex">
+					<ProjectMenu />
+					<Workspace />
+				</div>
+			</PrivateRoute>
 		),
 	},
 	{
 		path: "/workspace/:project/myapi",
 		element: (
-			<div className="flex">
-				<WorkspaceMenu />
-				<MyAPI />
-			</div>
+			<PrivateRoute>
+				<div className="flex">
+					<WorkspaceMenu />
+					<MyAPI />
+				</div>
+			</PrivateRoute>
 		),
 	},
 	{
 		path: "/workspace/:project/model/:model",
 		element: (
-			<div className="flex">
-				<WorkspaceMenu />
-				<ModelMenu />
-				<ModelView />
-			</div>
+			<PrivateRoute>
+				<div className="flex">
+					<WorkspaceMenu />
+					<ModelMenu />
+					<ModelView />
+				</div>
+			</PrivateRoute>
 		),
 	},
 	{
 		path: "/workspace/:project/addModel",
 		element: (
-			<div className="flex">
-				<WorkspaceMenu />
-				<ModelMenu />
-				<ModelAdd />
-			</div>
+			<PrivateRoute>
+				<div className="flex">
+					<WorkspaceMenu />
+					<ModelMenu />
+					<ModelAdd />
+				</div>
+			</PrivateRoute>
 		),
 	},
 	{
 		path: "/workspace/:project/flows",
 		element: (
-			<div className="flex">
-				<WorkspaceMenu />
-				<FlowList />
-			</div>
+			<PrivateRoute>
+				<div className="flex">
+					<WorkspaceMenu />
+					<FlowList />
+				</div>
+			</PrivateRoute>
 		),
 	},
 	{
 		path: "/workspace/:project/flows/:flow",
 		element: (
-			<div className="flex">
-				<WorkspaceMenu />
-				<FlowMain />
-			</div>
+			<PrivateRoute>
+				<div className="flex">
+					<WorkspaceMenu />
+					<FlowMain />
+				</div>
+			</PrivateRoute>
 		),
 	},
 	{

@@ -1,9 +1,12 @@
 import { login, register } from "../services/authService";
 import { endFetch, errorFetch, startFetch } from "./loadingActions";
+import { localStorageUtils, StorageKeys } from "../utils/localStorage";
 
 export const SET_AUTH = "SET_AUTH";
 
 export function setAuth(user) {
+	localStorageUtils.setItem(StorageKeys.USER_DATA, user);
+
 	return {
 		type: SET_AUTH,
 		payload: user,

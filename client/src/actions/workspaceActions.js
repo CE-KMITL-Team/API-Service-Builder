@@ -1,4 +1,6 @@
 import { createWorkspace, getWorkspaces } from "../services/workspaceService";
+import { StorageKeys, localStorageUtils } from "../utils/localStorage";
+import { getUserID } from "../utils/userUtils";
 import { endFetch, errorFetch, startFetch } from "./loadingActions";
 
 //Create Workspace
@@ -7,7 +9,7 @@ export function fetchCreateWorkspace(project_name, template_id) {
 		try {
 			dispatch(startFetch());
 
-			const userID = getState().auth.userData.id;
+			const userID = getUserID(getState);
 
 			const data = await createWorkspace(
 				userID,
@@ -35,7 +37,7 @@ export function fetchGetWorkspace() {
 		try {
 			dispatch(startFetch());
 
-			const userID = getState().auth.userData.id;
+			const userID = getUserID(getState);
 
 			const data = await getWorkspaces(userID);
 			console.log(data);
