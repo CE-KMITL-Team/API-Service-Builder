@@ -189,7 +189,7 @@ const router = createBrowserRouter([
 		),
 	},
 	{
-		path: "/workspace/:projectID/addModel",
+		path: "/workspace/:projectID/addmodel",
 		element: (
 			<PrivateRoute>
 				<div className="flex">

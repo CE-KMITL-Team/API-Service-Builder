@@ -2,6 +2,7 @@ import { icon } from "@fortawesome/fontawesome-svg-core/import.macro";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React, { useState } from "react";
 import ModelMenuCard from "./ModelMenuCard";
+import { Link, useParams } from "react-router-dom";
 
 function ModelMenu() {
 	const models = [
@@ -20,10 +21,17 @@ function ModelMenu() {
 			name: "Order",
 			description: "ข้อมูลการชำระเงิน",
 		},
+		{
+			id: 4,
+			name: "User",
+			description: "ข้อมูลผู้ใช้",
+		},
 	];
 
 	const [isResized, setIsResized] = useState(false);
 	const [isHidden, setIsHidden] = useState(false);
+
+	const { projectID } = useParams();
 
 	const handleResizeClick = () => {
 		setTimeout(() => {
@@ -62,16 +70,18 @@ function ModelMenu() {
 			>
 				<div className="title flex text-black items-center justify-between">
 					<div className="text-lg font-bold">Models</div>
-					<div className="tools cursor-pointer text-primary-900 flex items-center gap-x-2 hover:text-primary-700 hover:scale-110 duration-100">
-						<div className="text">Create</div>
-						<FontAwesomeIcon
-							icon={icon({
-								name: "circle-plus",
-								style: "solid",
-							})}
-							className="scale-125"
-						/>
-					</div>
+					<Link to={`/workspace/${projectID}/addmodel`}>
+						<div className="tools cursor-pointer text-primary-900 flex items-center gap-x-2 hover:text-primary-700 hover:scale-110 duration-100">
+							Add Model
+							<FontAwesomeIcon
+								icon={icon({
+									name: "circle-plus",
+									style: "solid",
+								})}
+								className="scale-125"
+							/>
+						</div>
+					</Link>
 				</div>
 				<hr className="my-3 border-gray-400" />
 				<div className="relative">

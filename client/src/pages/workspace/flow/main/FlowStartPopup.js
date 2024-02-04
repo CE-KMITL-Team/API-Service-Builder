@@ -80,6 +80,25 @@ function FlowStartPopup({ isOpen, onRequestClose }) {
 					/>
 				</div>
 			</div>
+			<hr className="w-full border-gray-400 my-4 mt-6" />
+			<div className="flex justify-end">
+				<button
+					className="text-gray-500 hover:text-gray-700"
+					onClick={onRequestClose}
+				>
+					Cancel
+				</button>
+				<button className="bg-primary-900 text-white ml-8 hover:bg-primary-700 rounded-md px-3 py-2 flex shadow-sm items-center gap-x-3">
+					<FontAwesomeIcon
+						icon={icon({
+							name: "save",
+							style: "solid",
+						})}
+						className="scale-105"
+					/>
+					<div className="text-md">Save</div>
+				</button>
+			</div>
 		</Modal>
 	);
 }

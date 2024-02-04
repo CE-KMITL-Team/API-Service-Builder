@@ -4,6 +4,7 @@ import React, { useState } from "react";
 import WorkspaceMenuPopup from "./WorkspaceMenuPopup";
 import { Link, useLocation } from "react-router-dom";
 import { useParams } from "react-router-dom";
+import MenuFooter from "./MenuFooter";
 
 function WorkspaceMenu() {
 	const models = [
@@ -93,7 +94,8 @@ function WorkspaceMenu() {
 				<Link
 					to={`/workspace/${projectID}/myapi`}
 					className={`text-gray-400 items flex cursor-pointer items-center gap-x-2 hover:text-primary-700 ease-in duration-75 hover:font-bold ${
-						location.pathname === `/workspace/${projectID}/myapi`
+						location.pathname.toLowerCase() ===
+						`/workspace/${projectID}/myapi`.toLowerCase()
 							? menuActiveClass
 							: ""
 					}`}
@@ -110,7 +112,12 @@ function WorkspaceMenu() {
 			</div>
 			<Link
 				to={`/workspace/${projectID}/model/${models[0].name}`}
-				className="flex text-gray-400 text-lg font-bold mt-8 cursor-pointer hover:text-primary-700 ease-in duration-75 hover:font-bold"
+				className={`flex text-gray-400 text-lg font-bold mt-8 cursor-pointer hover:text-primary-700 ease-in duration-75 hover:font-bold ${
+					location.pathname.toLowerCase() ===
+					`/workspace/${projectID}/addmodel`.toLowerCase()
+						? menuActiveClass
+						: ""
+				}`}
 			>
 				Models
 			</Link>
@@ -137,12 +144,13 @@ function WorkspaceMenu() {
 			<Link
 				to={`/workspace/${projectID}/flows`}
 				className={`flex text-gray-400 text-lg font-bold mt-8 cursor-pointer hover:text-primary-700 ease-in duration-75 hover:font-bold ${
-					location.pathname === `/workspace/${projectID}/flows`
+					location.pathname.toLowerCase() ===
+					`/workspace/${projectID}/flows`.toLowerCase()
 						? menuActiveClass
 						: ""
 				}`}
 			>
-				Flows
+				Flow List
 			</Link>
 			<div className="text-gray-400 menu mt-3 flex flex-col gap-y-2 text-lg">
 				{flows.map((flow, index) => (
@@ -164,16 +172,7 @@ function WorkspaceMenu() {
 					</Link>
 				))}
 			</div>
-			{/* <Dropdown menu={menuItems} />; */}
-			<div className="setting absolute bottom-3 right-3 cursor-pointer">
-				<FontAwesomeIcon
-					icon={icon({
-						name: "gear",
-						style: "solid",
-					})}
-					className="text-lg w-8 text-gray-500"
-				/>
-			</div>
+			<MenuFooter></MenuFooter>
 		</div>
 	);
 }

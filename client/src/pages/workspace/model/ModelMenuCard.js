@@ -1,11 +1,17 @@
 import { icon } from "@fortawesome/fontawesome-svg-core/import.macro";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React from "react";
+import { Link, useParams } from "react-router-dom";
 
 function ModelMenuCard({ data }) {
+	const { projectID } = useParams();
+
 	return (
 		<div className="card text-black flex items-center cursor-pointer">
-			<div className="group flex-1">
+			<Link
+				to={`/workspace/${projectID}/model/${data.name}`}
+				className="group flex-1"
+			>
 				<div className="group-hover:text-primary-900">
 					<div className="title text-lg font-bold leading-5">
 						{data.name}
@@ -14,15 +20,26 @@ function ModelMenuCard({ data }) {
 						{data.description}
 					</div>
 				</div>
-			</div>
-			<div className="p-3 justify-center cursor-pointer text-primary-900 flex items-center gap-x-5 hover:text-primary-700 hover:scale-125 duration-100">
-				<FontAwesomeIcon
-					icon={icon({
-						name: "ellipsis-vertical",
-						style: "solid",
-					})}
-					className="scale-105"
-				/>
+			</Link>
+			<div className="p-3 justify-center cursor-pointer text-primary-900 flex items-center gap-x-5 hover:text-primary-700 duration-100">
+				<Link to={`/workspace/${projectID}/addModel?id=${data.id}`}>
+					<FontAwesomeIcon
+						icon={icon({
+							name: "pen-to-square",
+							style: "solid",
+						})}
+						className="scale-105 opacity-90 cursor-pointer duration-75 text-orange-500 hover:text-orange-700"
+					/>
+				</Link>
+				<Link>
+					<FontAwesomeIcon
+						icon={icon({
+							name: "trash",
+							style: "solid",
+						})}
+						className="scale-105 opacity-90 cursor-pointer duration-75 text-red-500 hover:text-red-700"
+					/>
+				</Link>
 			</div>
 		</div>
 	);

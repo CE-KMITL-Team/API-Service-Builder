@@ -1,6 +1,7 @@
 import { icon } from "@fortawesome/fontawesome-svg-core/import.macro";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React, { useEffect, useRef } from "react";
+import { Link, useParams } from "react-router-dom";
 
 function FlowList() {
 	const flowLists = [
@@ -31,6 +32,7 @@ function FlowList() {
 	];
 
 	const searchRef = useRef(null);
+	const { projectID } = useParams();
 
 	useEffect(() => {
 		const handleKeyDown = (event) => {
@@ -142,20 +144,26 @@ function FlowList() {
 								</td>
 								<td className="border border-gray-300 py-2 px-1">
 									<div className="flex justify-center gap-x-5">
-										<FontAwesomeIcon
-											icon={icon({
-												name: "pen-to-square",
-												style: "solid",
-											})}
-											className="scale-105 ml-2 opacity-90 cursor-pointer duration-75 text-orange-500 hover:text-orange-700"
-										/>
-										<FontAwesomeIcon
-											icon={icon({
-												name: "trash",
-												style: "solid",
-											})}
-											className="scale-105 ml-2 opacity-90 cursor-pointer duration-75 text-red-500 hover:text-red-700"
-										/>
+										<Link
+											to={`/workspace/${projectID}/flows/${flow.name}`}
+										>
+											<FontAwesomeIcon
+												icon={icon({
+													name: "pen-to-square",
+													style: "solid",
+												})}
+												className="scale-105 ml-2 opacity-90 cursor-pointer duration-75 text-orange-500 hover:text-orange-700"
+											/>
+										</Link>
+										<Link>
+											<FontAwesomeIcon
+												icon={icon({
+													name: "trash",
+													style: "solid",
+												})}
+												className="scale-105 ml-2 opacity-90 cursor-pointer duration-75 text-red-500 hover:text-red-700"
+											/>
+										</Link>
 									</div>
 								</td>
 							</tr>
