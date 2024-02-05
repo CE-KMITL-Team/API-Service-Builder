@@ -9,6 +9,7 @@ export const apiMap = {
 	//Workspaces
 	GET_TEMPLATES: "/workspace/get/templates",
 	GET_WORKSPACES: "/workspace/get/workspaces",
+	GET_WORKSPACE_DETAIL_BY_NAME: "/workspace/get/workspaceDetailByName",
 	CREATE_WORKSPACES: "/workspace/create",
 
 	//Models

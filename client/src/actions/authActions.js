@@ -1,6 +1,7 @@
 import { login, register } from "../services/authService";
 import { endFetch, errorFetch, startFetch } from "./loadingActions";
 import { localStorageUtils, StorageKeys } from "../utils/localStorage";
+import userUtils from "../utils/userUtils";
 
 export const SET_AUTH = "SET_AUTH";
 
@@ -55,6 +56,8 @@ export function fetchRegister(email, firstname, lastname, password) {
 }
 
 export function fetchLogout() {
+	userUtils.logout();
+
 	return (dispatch) => {
 		dispatch(setAuth(null));
 	};

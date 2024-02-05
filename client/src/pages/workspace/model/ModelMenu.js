@@ -31,7 +31,7 @@ function ModelMenu() {
 	const [isResized, setIsResized] = useState(false);
 	const [isHidden, setIsHidden] = useState(false);
 
-	const { projectID } = useParams();
+	const { projectName } = useParams();
 
 	const handleResizeClick = () => {
 		setTimeout(() => {
@@ -70,7 +70,7 @@ function ModelMenu() {
 			>
 				<div className="title flex text-black items-center justify-between">
 					<div className="text-lg font-bold">Models</div>
-					<Link to={`/workspace/${projectID}/addmodel`}>
+					<Link to={`/workspace/${projectName}/addmodel`}>
 						<div className="tools cursor-pointer text-primary-900 flex items-center gap-x-2 hover:text-primary-700 hover:scale-110 duration-100">
 							Add Model
 							<FontAwesomeIcon

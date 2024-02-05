@@ -4,12 +4,12 @@ import React from "react";
 import { Link, useParams } from "react-router-dom";
 
 function ModelMenuCard({ data }) {
-	const { projectID } = useParams();
+	const { projectName } = useParams();
 
 	return (
 		<div className="card text-black flex items-center cursor-pointer">
 			<Link
-				to={`/workspace/${projectID}/model/${data.name}`}
+				to={`/workspace/${projectName}/model/${data.name}`}
 				className="group flex-1"
 			>
 				<div className="group-hover:text-primary-900">
@@ -22,7 +22,7 @@ function ModelMenuCard({ data }) {
 				</div>
 			</Link>
 			<div className="p-3 justify-center cursor-pointer text-primary-900 flex items-center gap-x-5 hover:text-primary-700 duration-100">
-				<Link to={`/workspace/${projectID}/addModel?id=${data.id}`}>
+				<Link to={`/workspace/${projectName}/addModel?id=${data.id}`}>
 					<FontAwesomeIcon
 						icon={icon({
 							name: "pen-to-square",

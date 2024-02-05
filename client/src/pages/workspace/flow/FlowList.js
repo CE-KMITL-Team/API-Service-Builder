@@ -32,7 +32,7 @@ function FlowList() {
 	];
 
 	const searchRef = useRef(null);
-	const { projectID } = useParams();
+	const { projectName } = useParams();
 
 	useEffect(() => {
 		const handleKeyDown = (event) => {
@@ -145,7 +145,7 @@ function FlowList() {
 								<td className="border border-gray-300 py-2 px-1">
 									<div className="flex justify-center gap-x-5">
 										<Link
-											to={`/workspace/${projectID}/flows/${flow.name}`}
+											to={`/workspace/${projectName}/flows/${flow.name}`}
 										>
 											<FontAwesomeIcon
 												icon={icon({

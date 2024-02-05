@@ -7,6 +7,7 @@ import reportWebVitals from "./reportWebVitals";
 import {
 	createBrowserRouter,
 	RouterProvider,
+	useLocation,
 	useNavigate,
 } from "react-router-dom";
 
@@ -33,7 +34,8 @@ import { composeWithDevTools } from "@redux-devtools/extension";
 import { rootReducers } from "./reducers/rootReducers";
 import { thunk } from "redux-thunk";
 import { applyMiddleware, legacy_createStore } from "redux";
-import { getUserID } from "./utils/userUtils";
+import userUtils from "./utils/userUtils";
+import workspaceUtils from "./utils/workspaceUtils";
 
 const middlewares = [thunk];
 const store = legacy_createStore(
@@ -47,7 +49,7 @@ const AuthRedirect = ({ children }) => {
 
 	useEffect(() => {
 		const checkUser = async () => {
-			const userID = await getUserID();
+			const userID = await userUtils.getID();
 
 			if (userID) {
 				navigate("/workspace");
@@ -65,19 +67,50 @@ const AuthRedirect = ({ children }) => {
 const PrivateRoute = ({ children }) => {
 	const navigate = useNavigate();
 	const [loading, setLoading] = useState(true);
+	const [checkWorkspaceData, setCheckWorkspaceData] = useState(null);
+
+	const location = useLocation();
 
 	useEffect(() => {
+		const pathNameSplit = location.pathname
+			.toLowerCase()
+			.split("/")
+			.filter((word) => word.length > 0);
+
 		const checkUser = async () => {
-			const userID = await getUserID();
+			const userID = await userUtils.getID();
 
 			if (userID === null) {
 				navigate("/login");
+				setLoading(false);
+				return false;
+			} else {
+				setLoading(false);
+				return true;
 			}
-
-			setLoading(false);
 		};
 
-		checkUser();
+		const checkWorkspace = async () => {
+			if (pathNameSplit.length >= 2 && pathNameSplit[0] === "workspace") {
+				let data = await workspaceUtils.findByName(pathNameSplit[1]);
+				if (data === null) {
+					workspaceUtils.clear();
+					navigate("/workspace");
+					setLoading(false);
+					return false;
+				} else {
+					workspaceUtils.init(data);
+					setLoading(false);
+					return true;
+				}
+			}
+		};
+
+		checkUser().then((status) => {
+			if (status) {
+				checkWorkspace();
+			}
+		});
 	}, [navigate]);
 
 	return loading ? null : <>{children}</>;
@@ -166,7 +199,7 @@ const router = createBrowserRouter([
 		),
 	},
 	{
-		path: "/workspace/:projectID/myapi",
+		path: "/workspace/:projectName/myapi",
 		element: (
 			<PrivateRoute>
 				<div className="flex">
@@ -177,7 +210,7 @@ const router = createBrowserRouter([
 		),
 	},
 	{
-		path: "/workspace/:projectID/model/:activeModel",
+		path: "/workspace/:projectName/model/:activeModel",
 		element: (
 			<PrivateRoute>
 				<div className="flex">
@@ -189,7 +222,7 @@ const router = createBrowserRouter([
 		),
 	},
 	{
-		path: "/workspace/:projectID/addmodel",
+		path: "/workspace/:projectName/addmodel",
 		element: (
 			<PrivateRoute>
 				<div className="flex">
@@ -201,7 +234,7 @@ const router = createBrowserRouter([
 		),
 	},
 	{
-		path: "/workspace/:projectID/flows",
+		path: "/workspace/:projectName/flows",
 		element: (
 			<PrivateRoute>
 				<div className="flex">
@@ -212,7 +245,7 @@ const router = createBrowserRouter([
 		),
 	},
 	{
-		path: "/workspace/:projectID/flows/:activeFlow",
+		path: "/workspace/:projectName/flows/:activeFlow",
 		element: (
 			<PrivateRoute>
 				<div className="flex">

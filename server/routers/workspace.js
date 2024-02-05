@@ -106,4 +106,39 @@ router.get("/get/templates", async (req, res) => {
 	}
 });
 
+/* Get Woekspace Detail By Name */
+router.get("/get/workspaceDetailByName", async (req, res) => {
+	const { name, userid } = req.query;
+
+	if (!userid) {
+		return res
+			.status(400)
+			.send({ error: "userid parameter is missing in the request." });
+	}
+
+	if (!name) {
+		return res
+			.status(400)
+			.send({ error: "name parameter is missing in the request." });
+	}
+
+	try {
+		let data = await workspaceModel.findOne({
+			where: { owner_id: userid, name: name },
+		});
+
+		if (data) {
+			data.status = data.status === 1;
+			delete data.dataValues.owner_id;
+
+			return res.status(200).send({ status: true, data: data });
+		}
+
+		return res.status(200).send({ status: false, msg: "Not have workspace you finding." });
+	} catch (error) {
+		console.error("Error fetching workspaces:", error);
+		return res.status(500).send({ error: "Internal Server Error" });
+	}
+});
+
 module.exports = router;
