@@ -67,7 +67,6 @@ const AuthRedirect = ({ children }) => {
 const PrivateRoute = ({ children }) => {
 	const navigate = useNavigate();
 	const [loading, setLoading] = useState(true);
-	const [checkWorkspaceData, setCheckWorkspaceData] = useState(null);
 
 	const location = useLocation();
 
