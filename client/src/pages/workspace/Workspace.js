@@ -4,6 +4,7 @@ import { fetchCreateWorkspace } from "../../actions/workspaceActions";
 
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import workspaceUtils from "../../utils/workspaceUtils";
 
 function Workspace() {
 	const [template, setTemplate] = useState([]);
@@ -31,13 +32,18 @@ function Workspace() {
 
 	//Submit
 	async function onSubmit() {
-		dispatch(fetchCreateWorkspace(projectName, selectedTemplateId)).then(
-			(val) => {
-				if (val !== false) {
-					navigate(`/workspace/${val.workspace_id}/myapi`);
-				}
+		await dispatch(
+			fetchCreateWorkspace(projectName, selectedTemplateId)
+		).then(async (val) => {
+			if (val !== false) {
+				let workspace_data = await workspaceUtils.findByID(
+					val.workspace_id
+				);
+
+				workspaceUtils.init(workspace_data);
+				navigate(`/workspace/${workspaceUtils.getName()}/myapi`);
 			}
-		);
+		});
 	}
 
 	return (

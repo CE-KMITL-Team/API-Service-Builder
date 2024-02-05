@@ -1,4 +1,7 @@
-import { getWorkspaceDetailByName } from "../services/workspaceService";
+import {
+	getWorkspaceDetailByID,
+	getWorkspaceDetailByName,
+} from "../services/workspaceService";
 import { StorageKeys, localStorageUtils } from "./localStorage";
 
 const workspaceUtils = {
@@ -7,6 +10,14 @@ const workspaceUtils = {
 
 		try {
 			let res = await getWorkspaceDetailByName(name, user_id);
+			return res.data;
+		} catch (error) {
+			return null;
+		}
+	},
+	findByID: async (workspace_id) => {
+		try {
+			let res = await getWorkspaceDetailByID(workspace_id);
 			return res.data;
 		} catch (error) {
 			return null;

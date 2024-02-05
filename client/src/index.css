@@ -31,3 +31,21 @@ code {
 		url(../public/assets/images/home-background.png) lightgray 50% / contain
 			repeat !important;
 }
+
+/* scrollbar */
+::-webkit-scrollbar {
+	width: 7px;
+}
+
+::-webkit-scrollbar-track {
+	background-color: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+	background-color: #d6dee1;
+	background-clip: content-box;
+}
+
+::-webkit-scrollbar-thumb:hover {
+	background-color: #a8bbbf;
+}

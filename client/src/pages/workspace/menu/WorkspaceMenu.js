@@ -76,7 +76,7 @@ function WorkspaceMenu() {
 		"relative text-primary-700 font-bold after:content-[''] after:absolute after:w-2 after:rounded-l after:h-full after:bg-primary-700 after:-right-10";
 
 	return (
-		<div className="h-screen bg-dark text-white pt-6 pl-10 pr-10 w-[260px] relative">
+		<div className="h-screen bg-dark text-white pt-6 pl-10 pr-10 w-[310px] relative overflow-auto">
 			<div className="title flex items-center justify-center">
 				<img
 					className="h-6 w-auto"
