@@ -83,6 +83,30 @@ router.post("/create", async (req, res) => {
   }
 });
 
+router.get("/get", async (req, res) => {
+  const { workspace_id } = req.query;
+
+  try {
+    const workspace = await workspaceModel.findByPk(workspace_id);
+    if (!workspace) {
+      return res
+        .status(200)
+        .send({ msg: "Workspace not found", status: false });
+    }
+
+    const modelList = await modelModel.findAll({
+      where: {
+        workspace_id: workspace_id,
+      },
+    });
+
+    return res.status(200).send({ status: true, data: modelList });
+  } catch (err) {
+    console.error("Internal Server Error", err);
+    return res.status(500).send({ msg: "Internal Server Error", status: false });
+  }
+});
+
 /* Delete Table Model in workspace */
 router.delete("/delete", async (req, res) => {
   const { workspace_id, model_id } = req.query;

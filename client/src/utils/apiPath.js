@@ -15,4 +15,5 @@ export const apiMap = {
 	CREATE_MODEL: "/models/create",
 	EDIT_MODEL: "/models/edit",
 	DELETE_MODEL: "/models/delete",
+	GET_MODELWORKSPACE: "/models/get",
 };
