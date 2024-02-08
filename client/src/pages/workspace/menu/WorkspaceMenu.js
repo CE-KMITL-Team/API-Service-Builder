@@ -62,7 +62,6 @@ function WorkspaceMenu() {
 			} else {
 				setModel([]);
 			}
-			console.log("Data", data);
 		} catch (error) {
 			console.error("Error fetching data:", error);
 		}

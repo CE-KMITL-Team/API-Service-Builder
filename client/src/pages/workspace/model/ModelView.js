@@ -1,7 +1,10 @@
 import { icon } from "@fortawesome/fontawesome-svg-core/import.macro";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import React, { useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import ModelTable from "./ModelTable";
+import { useDispatch } from "react-redux";
+import { fetchGetDataModels } from "../../../actions/dataModelActions";
+import { WorkspaceUtils } from "../../../utils/workspaceUtils";
 
 function ModelView() {
   const data = [
@@ -73,6 +76,9 @@ function ModelView() {
     },
   ];
 
+  // const [data, setData] = useState([]);
+  const dispatch = useDispatch();
+
   const keysArray = Object.keys(data[0]);
 
   const transformedArray = keysArray.map((key) => ({
@@ -82,7 +88,22 @@ function ModelView() {
 
   const searchRef = useRef(null);
 
+  // async function initState() {
+  //   try {
+  //     const data = await dispatch(fetchGetDataModels(WorkspaceUtils.getID()));
+  //     if (data.status === true) {
+  //       setData(data.data);
+  //     } else {
+  //       setData([]);
+  //     }
+  //     console.log("Data", data);
+  //   } catch (error) {
+  //     console.error("Error fetching data:", error);
+  //   }
+  // }
+
   useEffect(() => {
+    // initState();
     const handleKeyDown = (event) => {
       if ((event.ctrlKey || event.metaKey) && event.key === "k") {
         event.preventDefault();

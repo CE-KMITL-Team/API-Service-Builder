@@ -17,4 +17,7 @@ export const apiMap = {
 	EDIT_MODEL: "/models/edit",
 	DELETE_MODEL: "/models/delete",
 	GET_MODELWORKSPACE: "/models/get",
+
+	//DataModels
+	GET_DATA_MODELS: "/models/:modelID/get",
 };
