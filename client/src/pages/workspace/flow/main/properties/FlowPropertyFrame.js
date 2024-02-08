@@ -1,8 +1,16 @@
 import { icon } from "@fortawesome/fontawesome-svg-core/import.macro";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import React, { useState } from "react";
+import { Tab } from "@headlessui/react";
+import React, { useEffect, useState } from "react";
+import { getNodePropertyByName } from "./FlowPropertyJson";
+import { useSelector } from "react-redux";
 
 function FlowPropertyFrame() {
+	const currentNode = useSelector((state) => state.focusNode.currentNode);
+
+	const nodeProperty = getNodePropertyByName(currentNode?.type || "");
+	const NodeList = nodeProperty !== undefined ? [nodeProperty] : [];
+
 	const [isResized, setIsResized] = useState(false);
 	const [isHidden, setIsHidden] = useState(false);
 
@@ -20,27 +28,45 @@ function FlowPropertyFrame() {
 				isResized ? "0" : "6"
 			} w-${
 				isResized ? "5" : "96"
-			} relative transition-all duration-300 ease-in-out`}
+			} relative transition-all duration-300 ease-in-out overflow-auto`}
 		>
 			<div
-				className="resize-btn cursor-pointer absolute w-2 rounded-l-lg h-fit bg-primary-700 hover:bg-primary-900 px-2 py-3 flex items-center justify-center -left-4 top-1/2 -translate-y-1/2"
-				onClick={handleResizeClick}
-			>
-				<FontAwesomeIcon
-					icon={icon({
-						name: "caret-right",
-						style: "solid",
-					})}
-					className={`transition-all duration-300 ease-in-out scale-125 ${
-						isResized ? "rotate-180" : ""
-					}`}
-				/>
-			</div>
-			<div
-				className={`transition-all duration-300 ease-in-out flex flex-col gap-y-6 ${
+				className={`transition-all duration-300 ease-in-out flex flex-col overflow-auto text-dark ${
 					isResized ? "opacity-0" : "opacity-1"
 				} ${isHidden ? "hidden" : ""}`}
-			></div>
+			>
+				{/* Content */}
+				{NodeList.map((item, index) => (
+					<Tab.Group key={index}>
+						<Tab.List
+							className={({ selected }) => {
+								return `flex justify-evenly font-bold text-lg mb-3`;
+							}}
+						>
+							{Object.keys(item.menu).map((key) => (
+								<Tab
+									key={key}
+									className={({ selected }) => {
+										return `${
+											selected
+												? "text-black"
+												: "text-gray-400 scale-95"
+										}`;
+									}}
+								>
+									{key}
+								</Tab>
+							))}
+						</Tab.List>
+						<hr className="w-full border-gray-400 my-0 py-0" />
+						<Tab.Panels>
+							{Object.values(item.menu).map((data, dataIndex) => (
+								<Tab.Panel key={dataIndex}>{data}</Tab.Panel>
+							))}
+						</Tab.Panels>
+					</Tab.Group>
+				))}
+			</div>
 		</div>
 	);
 }
