@@ -26,3 +26,12 @@ export function getModelWorkspace(workspace_id) {
       return response;
     });
 }
+
+export function getModelDetail(model_id) {
+  return api
+    .get(apiMap.GET_MODELDETAIL, { params: { model_id: model_id } })
+    .then((response) => {
+      return response;
+    });
+}
+console.log("getModelDetail", getModelDetail(21));

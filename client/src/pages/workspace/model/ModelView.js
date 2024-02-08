@@ -4,106 +4,44 @@ import React, { useState, useEffect, useRef } from "react";
 import ModelTable from "./ModelTable";
 import { useDispatch } from "react-redux";
 import { fetchGetDataModels } from "../../../actions/dataModelActions";
-import { WorkspaceUtils } from "../../../utils/workspaceUtils";
+import { useLocation } from "react-router-dom";
+import workspaceUtils from "../../../utils/workspaceUtils";
+import modelUtils from "../../../utils/modelUtils";
 
 function ModelView() {
-  const data = [
-    {
-      name: "Alice Smith",
-      email: "alice@example.com",
-      password: "securepass456",
-      tel: "987-654-3210",
-    },
-    {
-      name: "Bob Johnson",
-      email: "bob@example.com",
-      password: "secret123",
-      tel: "555-123-4567",
-    },
-    {
-      name: "Eva Brown",
-      email: "eva@example.com",
-      password: "pass456word",
-      tel: "789-456-1230",
-    },
-    {
-      name: "Chris Miller",
-      email: "chris@example.com",
-      password: "chrispass789",
-      tel: "234-567-8901",
-    },
-    {
-      name: "Olivia White",
-      email: "olivia@example.com",
-      password: "olivia123pass",
-      tel: "876-543-2109",
-    },
-    {
-      name: "Daniel Lee",
-      email: "daniel@example.com",
-      password: "danielpassword",
-      tel: "321-654-0987",
-    },
-    {
-      name: "Grace Taylor",
-      email: "grace@example.com",
-      password: "gracepass456",
-      tel: "654-789-0123",
-    },
-    {
-      name: "Michael Davis",
-      email: "michael@example.com",
-      password: "michaelpass789",
-      tel: "890-123-4567",
-    },
-    {
-      name: "Sophia Green",
-      email: "sophia@example.com",
-      password: "sophia456pass",
-      tel: "567-890-1234",
-    },
-    {
-      name: "Henry Wilson",
-      email: "henry@example.com",
-      password: "henry123pass",
-      tel: "012-345-6789",
-    },
-    {
-      name: "Emma Harris",
-      email: "emma@example.com",
-      password: "emmapass789",
-      tel: "789-012-3456",
-    },
-  ];
-
-  // const [data, setData] = useState([]);
+  const [data, setData] = useState([]);
+  const [transformedArray, setTransformedArray] = useState([]);
   const dispatch = useDispatch();
-
-  const keysArray = Object.keys(data[0]);
-
-  const transformedArray = keysArray.map((key) => ({
-    Header: key,
-    accessor: key,
-  }));
+  const location = useLocation();
 
   const searchRef = useRef(null);
 
-  // async function initState() {
-  //   try {
-  //     const data = await dispatch(fetchGetDataModels(WorkspaceUtils.getID()));
-  //     if (data.status === true) {
-  //       setData(data.data);
-  //     } else {
-  //       setData([]);
-  //     }
-  //     console.log("Data", data);
-  //   } catch (error) {
-  //     console.error("Error fetching data:", error);
-  //   }
-  // }
+  async function initState() {
+    try {
+      const data = await dispatch(
+        fetchGetDataModels(modelUtils.getCurrentID())
+      );
+
+      if (data.status === true) {
+        setData(data.data);
+
+        setTransformedArray(
+          Object.keys(data.data[0] || {}).map((key) => ({
+            Header: key,
+            accessor: key,
+          }))
+        );
+      } else {
+        setData([]);
+      }
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+  }
 
   useEffect(() => {
-    // initState();
+    initState();
+
     const handleKeyDown = (event) => {
       if ((event.ctrlKey || event.metaKey) && event.key === "k") {
         event.preventDefault();
@@ -116,7 +54,8 @@ function ModelView() {
     return () => {
       window.removeEventListener("keydown", handleKeyDown);
     };
-  }, []);
+  }, [location]);
+
   return (
     <div className="p-5 pl-10 pr-20 flex-1 flex flex-col h-screen">
       <div className="head flex items-center justify-between gap-x-10 h-12">
@@ -125,7 +64,7 @@ function ModelView() {
           <div className="select">
             <select className="h-full bg-gray-50 border border-gray-300 text-gray-900 text-md rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2">
               <option>- All -</option>
-              {keysArray.map((val) => (
+              {Object.keys(data[0] || {}).map((val) => (
                 <option>{val}</option>
               ))}
             </select>
@@ -176,6 +115,7 @@ function ModelView() {
           </button>
         </div>
       </div>
+
       <div className="data mt-5 flex-1 overflow-auto">
         <ModelTable data={data} header={transformedArray} />
       </div>

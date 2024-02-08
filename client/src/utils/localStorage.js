@@ -1,6 +1,7 @@
 const StorageKeys = {
 	USER_DATA: "userData",
 	WORKSPACE_DATA: "workspaceData",
+	MODEL_CURRENT: "modelCurrentData",
 };
 
 const localStorageUtils = {
