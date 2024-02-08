@@ -6,11 +6,12 @@ export const apiMap = {
   REGISTER: "/auth/register",
   CHECK_EMAIL: "/auth/check-email",
 
-  //Workspaces
-  GET_TEMPLATES: "/workspace/get/templates",
-  GET_WORKSPACES: "/workspace/get/workspaces",
-  GET_WORKSPACE_DETAIL_BY_NAME: "/workspace/get/workspaceDetailByName",
-  CREATE_WORKSPACES: "/workspace/create",
+	//Workspaces
+	GET_TEMPLATES: "/workspace/get/templates",
+	GET_WORKSPACES: "/workspace/get/workspaces",
+	GET_WORKSPACE_DETAIL_BY_NAME: "/workspace/get/workspaceDetailByName",
+	GET_WORKSPACE_DETAIL_BY_ID: "/workspace/get/workspaceDetailByID",
+	CREATE_WORKSPACES: "/workspace/create",
 
   //Models
   CREATE_MODEL: "/models/create",

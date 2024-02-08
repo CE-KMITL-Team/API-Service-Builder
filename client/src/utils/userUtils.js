@@ -1,7 +1,7 @@
 import { StorageKeys, localStorageUtils } from "./localStorage";
 
 const userUtils = {
-	getID: (state = null) => {
+	getID: function (state = null) {
 		try {
 			return (
 				state?.auth?.userData?.id ||
@@ -13,40 +13,44 @@ const userUtils = {
 		}
 	},
 
-	getFirstname: (userData) => {
+	getFirstname: function (state = null) {
 		try {
-			return userData.firstname;
+			return (
+				state?.auth?.userData?.firstname ||
+				localStorageUtils.getItem(StorageKeys.USER_DATA).firstname
+			);
 		} catch (error) {
 			console.log(`Get firstname error: ${error}`);
 			return "";
 		}
 	},
 
-	getLastname: (userData) => {
+	getLastname: function (state = null) {
 		try {
-			return userData.lastname;
+			return (
+				state?.auth?.userData?.lastname ||
+				localStorageUtils.getItem(StorageKeys.USER_DATA).lastname
+			);
 		} catch (error) {
 			console.log(`Get lastname error: ${error}`);
 			return "";
 		}
 	},
 
-	getEmail: (userData) => {
+	getEmail: function (state = null) {
 		try {
-			return userData.email;
+			return (
+				state?.auth?.userData?.email ||
+				localStorageUtils.getItem(StorageKeys.USER_DATA).email
+			);
 		} catch (error) {
 			console.log(`Get email error: ${error}`);
 			return "";
 		}
 	},
 
-	getFullName: (userData) => {
-		try {
-			return `${userData.firstname} ${userData.lastname}`;
-		} catch (error) {
-			console.log(`Get full name error: ${error}`);
-			return "";
-		}
+	getFullName: function (state = null) {
+		return `${this.getFirstname(state)} ${this.getLastname(state)}`;
 	},
 
 	logout: () => {

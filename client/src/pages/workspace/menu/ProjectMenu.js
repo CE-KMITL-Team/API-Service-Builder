@@ -45,7 +45,7 @@ function ProjectMenu() {
 	};
 
 	return (
-		<div className="h-screen bg-dark text-white pt-6 pl-10 pr-10 w-72 relative">
+		<div className="h-screen bg-dark text-white pt-6 pl-10 pr-10 w-72 relative overflow-auto">
 			<div className="title flex items-center justify-center">
 				<img
 					className="h-6 w-auto"

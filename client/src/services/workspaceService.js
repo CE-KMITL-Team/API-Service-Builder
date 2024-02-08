@@ -36,3 +36,13 @@ export function getWorkspaceDetailByName(name, userid) {
 			return response;
 		});
 }
+
+export function getWorkspaceDetailByID(workspace_id) {
+	return api
+		.get(apiMap.GET_WORKSPACE_DETAIL_BY_ID, {
+			params: { id: workspace_id },
+		})
+		.then((response) => {
+			return response;
+		});
+}

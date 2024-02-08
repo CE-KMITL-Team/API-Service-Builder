@@ -69,64 +69,70 @@ function WorkspaceMenu() {
   const menuActiveClass =
     "relative text-primary-700 font-bold after:content-[''] after:absolute after:w-2 after:rounded-l after:h-full after:bg-primary-700 after:-right-10";
 
-  return (
-    <div className="h-screen bg-dark text-white pt-6 pl-10 pr-10 w-[260px] relative">
-      <div className="title flex items-center justify-center">
-        <img
-          className="h-6 w-auto"
-          src="/assets/icon-white.png"
-          alt="API Forge"
-        />
-        <div className="text-md font-bold ml-4">{workspaceUtils.getName()}</div>
-      </div>
-      <div className="status mt-4">
-        <div className="p-2 bg-dark-800 flex rounded-md justify-evenly gap-5">
-          <div
-            className={`online px-3 py-2 rounded-md flex-1 text-center font-bold ${
-              isOnline
-                ? `bg-dark font-bold text-green-500`
-                : `text-gray-600 cursor-pointer hover:text-gray-400 hover:bg-gray-800 duration-100`
-            }`}
-            onClick={(event) => (!isOnline ? toggleOnline() : undefined)}
-          >
-            Online
-          </div>
-          <div
-            className={`offline px-3 py-2 rounded-md flex-1 text-center font-bold ${
-              !isOnline
-                ? `bg-dark font-bold text-red-500`
-                : `text-gray-600 cursor-pointer hover:text-gray-600 hover:bg-gray-800 duration-100`
-            }`}
-            onClick={(event) => (isOnline ? toggleOnline() : undefined)}
-          >
-            Offline
-          </div>
-          <WorkspaceMenuPopup
-            isOpen={isPopupOpen}
-            onRequestClose={() => setIsPopupOpen(false)}
-          />
-        </div>
-      </div>
-      <div className="menu mt-8 flex flex-col gap-y-2">
-        <Link
-          to={`/workspace/${projectName}/myapi`}
-          className={`text-gray-400 items flex cursor-pointer items-center gap-x-2 hover:text-primary-700 ease-in duration-75 hover:font-bold ${
-            location.pathname.toLowerCase() ===
-            `/workspace/${projectName}/myapi`.toLowerCase()
-              ? menuActiveClass
-              : ""
-          }`}
-        >
-          <FontAwesomeIcon
-            icon={icon({
-              name: "plug",
-              style: "solid",
-            })}
-            className="text-lg w-8"
-          />
-          <div className="text-lg">My API</div>
-        </Link>
-      </div>
+	return (
+		<div className="h-screen bg-dark text-white pt-6 pl-10 pr-10 w-[310px] relative overflow-auto">
+			<div className="title flex items-center justify-center">
+				<img
+					className="h-6 w-auto"
+					src="/assets/icon-white.png"
+					alt="API Forge"
+				/>
+				<div className="text-md font-bold ml-4">
+					{workspaceUtils.getName()}
+				</div>
+			</div>
+			<div className="status mt-4">
+				<div className="p-2 bg-dark-800 flex rounded-md justify-evenly gap-5">
+					<div
+						className={`online px-3 py-2 rounded-md flex-1 text-center font-bold ${
+							isOnline
+								? `bg-dark font-bold text-green-500`
+								: `text-gray-600 cursor-pointer hover:text-gray-400 hover:bg-gray-800 duration-100`
+						}`}
+						onClick={(event) =>
+							!isOnline ? toggleOnline() : undefined
+						}
+					>
+						Online
+					</div>
+					<div
+						className={`offline px-3 py-2 rounded-md flex-1 text-center font-bold ${
+							!isOnline
+								? `bg-dark font-bold text-red-500`
+								: `text-gray-600 cursor-pointer hover:text-gray-600 hover:bg-gray-800 duration-100`
+						}`}
+						onClick={(event) =>
+							isOnline ? toggleOnline() : undefined
+						}
+					>
+						Offline
+					</div>
+					<WorkspaceMenuPopup
+						isOpen={isPopupOpen}
+						onRequestClose={() => setIsPopupOpen(false)}
+					/>
+				</div>
+			</div>
+			<div className="menu mt-8 flex flex-col gap-y-2">
+				<Link
+					to={`/workspace/${projectName}/myapi`}
+					className={`text-gray-400 items flex cursor-pointer items-center gap-x-2 hover:text-primary-700 ease-in duration-75 hover:font-bold ${
+						location.pathname.toLowerCase() ===
+						`/workspace/${projectName}/myapi`.toLowerCase()
+							? menuActiveClass
+							: ""
+					}`}
+				>
+					<FontAwesomeIcon
+						icon={icon({
+							name: "plug",
+							style: "solid",
+						})}
+						className="text-lg w-8"
+					/>
+					<div className="text-lg">My API</div>
+				</Link>
+			</div>
 
       <div
         onClick={() => handleModelLinkClick(models[0])}
