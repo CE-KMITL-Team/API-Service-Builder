@@ -2,7 +2,7 @@ import { icon } from "@fortawesome/fontawesome-svg-core/import.macro";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React, { useState, useEffect } from "react";
 import ModelMenuCard from "./ModelMenuCard";
-import { Link, useParams } from "react-router-dom";
+import { Link, useLocation, useParams } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { fetchGetModelWorkspace } from "../../../actions/modelActions";
 import workspaceUtils from "../../../utils/workspaceUtils";
@@ -37,6 +37,7 @@ function ModelMenu() {
   const [models, setModel] = useState([]);
 
   const dispatch = useDispatch();
+	const location = useLocation();
 
   const { projectName, activeModel } = useParams();
 
@@ -71,7 +72,7 @@ function ModelMenu() {
 
   useEffect(() => {
     initState();
-  }, []);
+  }, [location]);
 
   return (
     <div

@@ -11,63 +11,65 @@ import workspaceUtils from "../../../utils/workspaceUtils";
 import modelUtils from "../../../utils/modelUtils";
 
 function WorkspaceMenu() {
-  const flows = [
-    {
-      id: 1,
-      name: "Login",
-      link: "user",
-    },
-    {
-      id: 2,
-      name: "Register",
-      link: "register",
-    },
-  ];
+	const flows = [
+		{
+			id: 1,
+			name: "Login",
+			link: "user",
+		},
+		{
+			id: 2,
+			name: "Register",
+			link: "register",
+		},
+	];
 
-  const [isOnline, setOnline] = useState(false);
-  const [isPopupOpen, setIsPopupOpen] = useState(false);
-  const [models, setModel] = useState([]);
+	const [isOnline, setOnline] = useState(false);
+	const [isPopupOpen, setIsPopupOpen] = useState(false);
+	const [models, setModel] = useState([]);
 
-  const dispatch = useDispatch();
+	const dispatch = useDispatch();
 
-  const { projectName, activeModel, activeFlow } = useParams();
+	const { projectName, activeModel, activeFlow } = useParams();
 
-  const location = useLocation();
-  const navigate = useNavigate();
+	const location = useLocation();
+	const navigate = useNavigate();
 
-  const handleModelLinkClick = (modelData) => {
-    modelUtils.setCurrent(modelData);
-    
-    navigate(`/workspace/${projectName}/model/${modelData.name}`);
-  };
+	const handleModelLinkClick = (modelData) => {
+		modelUtils.setCurrent(modelData);
 
-  const toggleOnline = () => {
-    setOnline(!isOnline);
-    setIsPopupOpen(!isOnline);
-  };
+		navigate(`/workspace/${projectName}/model/${modelData.name}`);
+	};
 
-  async function initState() {
-    try {
-      const data = await dispatch(
-        fetchGetModelWorkspace(workspaceUtils.getID())
-      );
+	const linkToAddModel = () => navigate(`/workspace/${projectName}/addmodel`);
 
-      if (data.status === true) {
-        setModel(data.data);
-      } else {
-        setModel([]);
-      }
-    } catch (error) {
-      console.error("Error fetching data:", error);
-    }
-  }
+	const toggleOnline = () => {
+		setOnline(!isOnline);
+		setIsPopupOpen(!isOnline);
+	};
 
-  useEffect(() => {
-    initState();
-  }, []);
+	async function initState() {
+		try {
+			const data = await dispatch(
+				fetchGetModelWorkspace(workspaceUtils.getID())
+			);
 
-  const menuActiveClass =
-    "relative text-primary-700 font-bold after:content-[''] after:absolute after:w-2 after:rounded-l after:h-full after:bg-primary-700 after:-right-10";
+			if (data.status === true) {
+				setModel(data.data);
+			} else {
+				setModel([]);
+			}
+		} catch (error) {
+			console.error("Error fetching data:", error);
+		}
+	}
+
+	useEffect(() => {
+		initState();
+	}, [location]);
+
+	const menuActiveClass =
+		"relative text-primary-700 font-bold after:content-[''] after:absolute after:w-2 after:rounded-l after:h-full after:bg-primary-700 after:-right-10";
 
 	return (
 		<div className="h-screen bg-dark text-white pt-6 pl-10 pr-10 w-[310px] relative overflow-auto">
@@ -133,71 +135,74 @@ function WorkspaceMenu() {
 					<div className="text-lg">My API</div>
 				</Link>
 			</div>
-
-      <div
-        onClick={() => handleModelLinkClick(models[0])}
-        className={`flex text-gray-400 text-lg font-bold mt-8 cursor-pointer hover:text-primary-700 ease-in duration-75 hover:font-bold ${
-          location.pathname.toLowerCase() ===
-          `/workspace/${projectName}/addmodel`.toLowerCase()
-            ? menuActiveClass
-            : ""
-        }`}
-      >
-        Models
-      </div>
-      <div className="text-gray-400 menu mt-3 flex flex-col gap-y-2">
-        {models.map((model, index) => (
-          <div
-            className={`flex items-center cursor-pointer hover:text-primary-700 ease-in duration-75 hover:font-bold ${
-              activeModel === model.name ? menuActiveClass : ""
-            }`}
-            onClick={() => handleModelLinkClick(model)}
-          >
-            <FontAwesomeIcon
-              icon={icon({
-                name: "database",
-                style: "solid",
-              })}
-              className="text-md mr-3 ml-2"
-            />
-            <div className="text-lg">{model.name}</div>
-          </div>
-        ))}
-      </div>
-      <Link
-        to={`/workspace/${projectName}/flows`}
-        className={`flex text-gray-400 text-lg font-bold mt-8 cursor-pointer hover:text-primary-700 ease-in duration-75 hover:font-bold ${
-          location.pathname.toLowerCase() ===
-          `/workspace/${projectName}/flows`.toLowerCase()
-            ? menuActiveClass
-            : ""
-        }`}
-      >
-        Flow List
-      </Link>
-      <div className="text-gray-400 menu mt-3 flex flex-col gap-y-2 text-lg">
-        {flows.map((flow, index) => (
-          <Link
-            key={index}
-            to={`/workspace/${projectName}/flows/${flow.name}`}
-            className={`flex items-center cursor-pointer hover:text-primary-700 ease-in duration-75 hover:font-bold ${
-              activeFlow === flow.name ? menuActiveClass : ""
-            }`}
-          >
-            <FontAwesomeIcon
-              icon={icon({
-                name: "diagram-project",
-                style: "solid",
-              })}
-              className="text-md mr-3 ml-2"
-            />
-            <div className="text-lg">{flow.name}</div>
-          </Link>
-        ))}
-      </div>
-      <MenuFooter></MenuFooter>
-    </div>
-  );
+			<div
+				onClick={() =>
+					models[0] !== undefined
+						? handleModelLinkClick(models[0])
+						: linkToAddModel()
+				}
+				className={`flex text-gray-400 text-lg font-bold mt-8 cursor-pointer hover:text-primary-700 ease-in duration-75 hover:font-bold ${
+					location.pathname.toLowerCase() ===
+					`/workspace/${projectName}/addmodel`.toLowerCase()
+						? menuActiveClass
+						: ""
+				}`}
+			>
+				Models
+			</div>
+			<div className="text-gray-400 menu mt-3 flex flex-col gap-y-2">
+				{models.map((model, index) => (
+					<div
+						className={`flex items-center cursor-pointer hover:text-primary-700 ease-in duration-75 hover:font-bold ${
+							activeModel === model.name ? menuActiveClass : ""
+						}`}
+						onClick={() => handleModelLinkClick(model)}
+					>
+						<FontAwesomeIcon
+							icon={icon({
+								name: "database",
+								style: "solid",
+							})}
+							className="text-md mr-3 ml-2"
+						/>
+						<div className="text-lg">{model.name}</div>
+					</div>
+				))}
+			</div>
+			<Link
+				to={`/workspace/${projectName}/flows`}
+				className={`flex text-gray-400 text-lg font-bold mt-8 cursor-pointer hover:text-primary-700 ease-in duration-75 hover:font-bold ${
+					location.pathname.toLowerCase() ===
+					`/workspace/${projectName}/flows`.toLowerCase()
+						? menuActiveClass
+						: ""
+				}`}
+			>
+				Flow List
+			</Link>
+			<div className="text-gray-400 menu mt-3 flex flex-col gap-y-2 text-lg">
+				{flows.map((flow, index) => (
+					<Link
+						key={index}
+						to={`/workspace/${projectName}/flows/${flow.name}`}
+						className={`flex items-center cursor-pointer hover:text-primary-700 ease-in duration-75 hover:font-bold ${
+							activeFlow === flow.name ? menuActiveClass : ""
+						}`}
+					>
+						<FontAwesomeIcon
+							icon={icon({
+								name: "diagram-project",
+								style: "solid",
+							})}
+							className="text-md mr-3 ml-2"
+						/>
+						<div className="text-lg">{flow.name}</div>
+					</Link>
+				))}
+			</div>
+			<MenuFooter></MenuFooter>
+		</div>
+	);
 }
 
 export default WorkspaceMenu;

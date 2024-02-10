@@ -46,7 +46,7 @@ function FlowSpace() {
 	};
 
 	return (
-		<div class="container">
+		<div className="container">
 			<FlowStartPopup isOpen={isPopupOpen} onRequestClose={closePopup} />
 			<div className="h-screen relative flex flex-col">
 				<div className="action flex flex-col gap-y-4 justify-end items-end absolute right-8 top-5">
@@ -188,7 +188,7 @@ const NestestFlowNode = ({ mainWay, mainElement, handleAddData }) => {
 	const fetchElement = mainWay ? mainElement.isTrue : mainElement.isFalse;
 
 	return (
-		<div class="help">
+		<div className="help">
 			{fetchElement.map((element, index) => (
 				<FlowNode
 					key={element.id}

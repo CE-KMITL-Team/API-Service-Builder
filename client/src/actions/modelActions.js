@@ -1,79 +1,81 @@
 import {
-  createModel,
-  getModelWorkspace,
-  getModelDetail,
+	createModel,
+	getModelWorkspace,
+	getModelDetail,
 } from "../services/modelsService";
 import { endFetch, errorFetch, startFetch } from "./loadingActions";
 
 export function fetchCreateModel(
-  workspace_id,
-  model_name,
-  model_type,
-  model_description
+	workspace_id,
+	name,
+	description,
+	columns,
+	generateAPI
 ) {
-  return async (dispatch) => {
-    try {
-      dispatch(startFetch());
+	return async (dispatch) => {
+		try {
+			dispatch(startFetch());
 
-      const data = await createModel(
-        workspace_id,
-        model_name,
-        model_type,
-        model_description
-      );
+			const data = await createModel(
+				workspace_id,
+				name,
+				description,
+				columns,
+				generateAPI
+			);
 
-      if (data) {
-        dispatch(endFetch());
-        dispatch(errorFetch(null));
+			if (data) {
+				dispatch(endFetch());
+				dispatch(errorFetch(null));
 
-        return Promise.resolve(data);
-      }
-    } catch (error) {
-      dispatch(errorFetch(error));
+				return Promise.resolve(data);
+			}
+		} catch (error) {
+			dispatch(errorFetch(error));
 
-      return Promise.resolve(false);
-    }
-  };
+			return Promise.resolve(false);
+		}
+	};
 }
 
 export function fetchGetModelWorkspace(workspace_id) {
-  return async (dispatch) => {
-    try {
-      dispatch(startFetch());
+	return async (dispatch) => {
+		try {
+			dispatch(startFetch());
 
-      const data = await getModelWorkspace(workspace_id);
-      if (data) {
-        dispatch(endFetch());
-        dispatch(errorFetch(null));
+			const data = await getModelWorkspace(workspace_id);
+			if (data) {
+				dispatch(endFetch());
+				dispatch(errorFetch(null));
 
-        return Promise.resolve(data);
-      }
-    } catch (error) {
-      console.log(error);
-      dispatch(errorFetch(error));
+				return Promise.resolve(data);
+			}
+		} catch (error) {
+			console.log(error);
+			dispatch(errorFetch(error));
 
-      return Promise.resolve(false);
-    }
-  };
+			return Promise.resolve(false);
+		}
+	};
 }
 
 export function fetchGetModelDetail(model_id) {
-  return async (dispatch) => {
-    try {
-      dispatch(startFetch());
+	return async (dispatch) => {
+		try {
+			dispatch(startFetch());
 
-      const data = await getModelDetail(model_id);
+			const data = await getModelDetail(model_id);
 
-      if (data) {
-        dispatch(endFetch());
-        dispatch(errorFetch(null));
+			if (data) {
+				dispatch(endFetch());
+				dispatch(errorFetch(null));
 
-        return Promise.resolve(data);
-      }
-    } catch (error) {
-      dispatch(errorFetch(error));
+				return Promise.resolve(data);
+			}
+		} catch (error) {
+			dispatch(errorFetch(error));
 
-      return Promise.resolve(false);
-    }
-  };
+			return Promise.resolve(false);
+		}
+	};
 }

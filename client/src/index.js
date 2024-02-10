@@ -36,6 +36,8 @@ import { thunk } from "redux-thunk";
 import { applyMiddleware, legacy_createStore } from "redux";
 import userUtils from "./utils/userUtils";
 import workspaceUtils from "./utils/workspaceUtils";
+import ModelEdit from "./pages/workspace/model/ModelEdit";
+import Loading from "./components/Loading";
 
 const middlewares = [thunk];
 const store = legacy_createStore(
@@ -233,6 +235,18 @@ const router = createBrowserRouter([
 		),
 	},
 	{
+		path: "/workspace/:projectName/editmodel",
+		element: (
+			<PrivateRoute>
+				<div className="flex">
+					<WorkspaceMenu />
+					<ModelMenu />
+					<ModelEdit />
+				</div>
+			</PrivateRoute>
+		),
+	},
+	{
 		path: "/workspace/:projectName/flows",
 		element: (
 			<PrivateRoute>
@@ -270,6 +284,7 @@ const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
 	<React.StrictMode>
 		<Provider store={store}>
+			<Loading></Loading>
 			<RouterProvider router={router} />
 		</Provider>
 	</React.StrictMode>

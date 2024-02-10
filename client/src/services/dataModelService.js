@@ -6,4 +6,3 @@ export function getDataModels(modelID) {
     return response;
   });
 }
-console.log("Data Model Test", getDataModels(21));
