@@ -117,7 +117,7 @@ function ModelView() {
       </div>
 
       <div className="data mt-5 flex-1 overflow-auto">
-        <ModelTable data={data} header={transformedArray} />
+        <ModelTable data={data} header={transformedArray} refresh={initState} />
       </div>
     </div>
   );

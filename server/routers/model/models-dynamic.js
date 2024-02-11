@@ -82,7 +82,7 @@ router.post("/:modelID/add", async (req, res) => {
 //Delete data in user model
 router.delete("/:modelID/delete", async (req, res) => {
   const { modelID } = req.params;
-  const { columns } = req.body;
+  const { id } = req.query;
 
   //Check Model Exists
   const modelDetailsResult = await getDBName_From_ModelID(modelID);
@@ -97,7 +97,7 @@ router.delete("/:modelID/delete", async (req, res) => {
   const { modelDetails, schemaName } = modelDetailsResult;
 
   //Query Delete Data
-  const sqlQuery = `DELETE FROM ${modelDetails.name} WHERE id = '${columns.id}'`;
+  const sqlQuery = `DELETE FROM ${modelDetails.name} WHERE id = '${id}'`;
 
   customSequelize(schemaName)
     .query(sqlQuery, { type: Sequelize.QueryTypes.DELETE })

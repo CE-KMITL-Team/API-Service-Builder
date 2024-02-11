@@ -38,3 +38,12 @@ export function getModelDetail(model_id) {
 			return response;
 		});
 }
+
+
+export function deleteModel(model_id) {
+	return api
+		.delete(apiMap.DELETE_MODEL, { params: { model_id: model_id } })
+		.then((response) => {
+			return response;
+		});
+}
