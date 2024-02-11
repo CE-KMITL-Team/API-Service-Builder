@@ -6,12 +6,12 @@ export default function InputCondition({
 	title,
 	description,
 	conditionText = [
-		"equal",
-		"not equal",
-		"more than",
-		"less than",
-		"equal or more than",
-		"equal or less than",
+		"equal (==)",
+		"not equal (!=)",
+		"more than (>)",
+		"less than (<)",
+		"more than or equal (>=)",
+		"less than or equal (<=)",
 	],
 }) {
 	const [conditionList, setConditionList] = useState([
@@ -19,7 +19,7 @@ export default function InputCondition({
 			left: "",
 			right: "",
 			condition: "equal",
-		}
+		},
 	]);
 
 	const addCondition = () => {

@@ -58,7 +58,7 @@ function FlowNode({
 					id={`FlowNode-${id}`}
 					onClick={handleClick}
 					className={`${
-						id === currentNode.id
+						id === (currentNode?.id ?? 0)
 							? "outline-primary-900 outline-dashed"
 							: ""
 					} w-fit rounded-md bg-white text-black flex items-center p-2 px-3 border border-gray-400 cursor-pointer`}

@@ -1,7 +1,5 @@
-import { icon } from "@fortawesome/fontawesome-svg-core/import.macro";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Tab } from "@headlessui/react";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { getNodePropertyByName } from "./FlowPropertyJson";
 import { useSelector } from "react-redux";
 

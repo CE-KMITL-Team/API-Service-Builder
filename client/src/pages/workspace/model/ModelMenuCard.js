@@ -1,12 +1,15 @@
 import { icon } from "@fortawesome/fontawesome-svg-core/import.macro";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import React from "react";
-import { Link, useNavigate, useParams } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { Link, useLocation, useNavigate, useParams } from "react-router-dom";
 import modelUtils from "../../../utils/modelUtils";
 
 function ModelMenuCard({ data }) {
-	const { projectName } = useParams();
+	const [idParam, setIdParam] = useState(null);
+
+	const { projectName, activeModel } = useParams();
 	const navigate = useNavigate();
+	const location = useLocation();
 
 	const handleModelLinkClick = (modelName) => {
 		modelUtils.setCurrent(data);
@@ -20,11 +23,22 @@ function ModelMenuCard({ data }) {
 		navigate(`/workspace/${projectName}/editModel?id=${modelID}`);
 	};
 
+	useEffect(() => {
+		const urlParams = new URLSearchParams(window.location.search);
+		const id = urlParams.get("id");
+
+		setIdParam(id);
+	}, [location]);
+
 	return (
 		<div className="card text-black flex items-center cursor-pointer">
 			<div
 				onClick={() => handleModelLinkClick(data.name)}
-				className="group flex-1"
+				className={`group flex-1 ${
+					`${idParam}` === `${data.id}` || data.name === activeModel
+						? "text-primary-800"
+						: ""
+				}`}
 			>
 				<div className="group-hover:text-primary-900">
 					<div className="title text-lg font-bold leading-5">

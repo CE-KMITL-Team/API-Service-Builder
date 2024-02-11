@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 export default function InputText({
 	title = "",
@@ -10,6 +10,12 @@ export default function InputText({
 	underline = false,
 	controller,
 }) {
+	const [value, setValue] = useState(defaultValue);
+
+	useEffect(() => {
+		setValue(defaultValue);
+	}, [defaultValue]);
+
 	return (
 		<div className="mt-4 input group text-lg">
 			<div className="title text-primary-900 font-bold">{title}</div>
@@ -19,8 +25,11 @@ export default function InputText({
 				type={type}
 				required={required}
 				placeholder={placeholder}
-				onChange={(e) => controller(e.target.value)}
-				defaultValue={defaultValue}
+				onChange={(e) => {
+					setValue(e.target.value);
+					controller(e.target.value);
+				}}
+				value={value}
 			/>
 			{underline && <hr className="my-5 w-full border-gray-400 py-0" />}
 		</div>

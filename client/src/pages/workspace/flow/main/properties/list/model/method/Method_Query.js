@@ -1,9 +1,12 @@
 import React, { useState } from "react";
-import InputSelect from "../../inputs/InputSelect";
-import InputText from "../../inputs/InputText";
-import InputCondition from "../../inputs/InputCondition";
+import InputSelect from "../../../inputs/InputSelect";
+import InputText from "../../../inputs/InputText";
+import InputCondition from "../../../inputs/InputCondition";
 
-export default function Property_Join_Database() {
+export default function Method_Query() {
+	const [column, setColumn] = useState();
+	const [direction, setDirection] = useState("ASC");
+
 	const [limit, setLimit] = useState(true);
 
 	return (
@@ -11,16 +14,13 @@ export default function Property_Join_Database() {
 			<InputSelect
 				title="Order by"
 				description="Column name"
-				items={["id", "Firstname", "Lastname"]}
+				items={["Firstname", "Lastname"]}
+				controller={setDirection}
 			></InputSelect>
 			<InputSelect
 				description="Direction"
 				items={["ASC", "DESC"]}
-				underline={true}
-			></InputSelect>
-			<InputSelect
-				title="Group By"
-				items={["Book.ID", "Book.Name"]}
+				controller={setDirection}
 				underline={true}
 			></InputSelect>
 			<InputText
@@ -39,12 +39,7 @@ export default function Property_Join_Database() {
 				<label htmlFor="optional">no limit</label>
 			</div>
 			<hr className="my-5 w-full border-gray-400 py-0" />
-			<InputSelect
-				title="Create sum column"
-				items={["Order.quantity"]}
-				underline={true}
-			></InputSelect>
-			<InputCondition title="Where Condition"></InputCondition>
+			<InputCondition title="Query Condition"></InputCondition>
 		</>
 	);
 }
