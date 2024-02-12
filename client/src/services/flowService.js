@@ -32,3 +32,13 @@ export function getFlowDetailByName(flowName) {
 			return response;
 		});
 }
+
+export function getFlows(workspaceid) {
+	return api
+		.get(apiMap.GET_FLOW, {
+			params: { workspaceid: workspaceid },
+		})
+		.then((response) => {
+			return response;
+		});
+}

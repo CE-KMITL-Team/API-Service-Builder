@@ -1,41 +1,68 @@
 import { icon } from "@fortawesome/fontawesome-svg-core/import.macro";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
+import { fetchGetFlows } from "../../../actions/flowActions";
+import { useDispatch } from "react-redux";
+import workspaceUtils from "../../../utils/workspaceUtils";
 
 function FlowList() {
-	const flowLists = [
-		{
-			id: 0,
-			name: "User Login",
-			description: "ใช้สำหรับ login เข้าใช้งาน",
-			path: "/user/{id}",
-		},
-		{
-			id: 1,
-			name: "Profile Page",
-			description: "แสดงข้อมูลโปรไฟล์ของผู้ใช้",
-			path: "/profile/{username}",
-		},
-		{
-			id: 2,
-			name: "Product Details",
-			description: "แสดงรายละเอียดสินค้า",
-			path: "/product/{productId}",
-		},
-		{
-			id: 3,
-			name: "Cart Checkout",
-			description: "ดำเนินการสั่งซื้อและชำระเงิน",
-			path: "/cart/checkout",
-		},
-	];
+	// const flowLists = [
+	// 	{
+	// 		id: 0,
+	// 		name: "User Login",
+	// 		description: "ใช้สำหรับ login เข้าใช้งาน",
+	// 		path: "/user/{id}",
+	// 	},
+	// 	{
+	// 		id: 1,
+	// 		name: "Profile Page",
+	// 		description: "แสดงข้อมูลโปรไฟล์ของผู้ใช้",
+	// 		path: "/profile/{username}",
+	// 	},
+	// 	{
+	// 		id: 2,
+	// 		name: "Product Details",
+	// 		description: "แสดงรายละเอียดสินค้า",
+	// 		path: "/product/{productId}",
+	// 	},
+	// 	{
+	// 		id: 3,
+	// 		name: "Cart Checkout",
+	// 		description: "ดำเนินการสั่งซื้อและชำระเงิน",
+	// 		path: "/cart/checkout",
+	// 	},
+	// ];
+	const [flowLists, setFlowlist] = useState([]);
+	const dispatch = useDispatch();
 
 	const searchRef = useRef(null);
 	const { projectName } = useParams();
 	const navigate = useNavigate();
 
+	async function initialState() {
+		try {
+			const data = await dispatch(
+				fetchGetFlows(workspaceUtils.getID())
+
+			);
+			console.log(data.data)
+			if (data.status === true) {
+				setFlowlist(data.data);
+
+			}
+			else {
+				setFlowlist([]);
+				console.log("abc", workspaceUtils.getID())
+			}
+
+		} catch (error) {
+			console.error("Error fetching data:", error);
+		}
+	}
+
 	useEffect(() => {
+		initialState()
 		const handleKeyDown = (event) => {
 			if ((event.ctrlKey || event.metaKey) && event.key === "k") {
 				event.preventDefault();
@@ -48,6 +75,7 @@ function FlowList() {
 		return () => {
 			window.removeEventListener("keydown", handleKeyDown);
 		};
+
 	}, []);
 
 	const handleAddFlow = () => {
@@ -148,7 +176,7 @@ function FlowList() {
 									{flow.description}
 								</td>
 								<td className="border border-gray-300 p-2">
-									{flow.path}
+									{flow.API}
 								</td>
 								<td className="border border-gray-300 py-2 px-1">
 									<div className="flex justify-center gap-x-5">
