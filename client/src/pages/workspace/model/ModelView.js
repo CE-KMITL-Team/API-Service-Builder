@@ -5,7 +5,6 @@ import ModelTable from "./ModelTable";
 import { useDispatch } from "react-redux";
 import { fetchGetDataModels } from "../../../actions/dataModelActions";
 import { useLocation } from "react-router-dom";
-import workspaceUtils from "../../../utils/workspaceUtils";
 import modelUtils from "../../../utils/modelUtils";
 
 function ModelView() {
@@ -93,7 +92,7 @@ function ModelView() {
               name="price"
               id="price"
               className="h-full w-full rounded-md border-0 py-1.5 pl-12 pr-20 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 sm:text-sm sm:leading-6"
-              placeholder="Quick search..."
+              placeholder="Search..."
               ref={searchRef}
             />
             <div className="absolute inset-y-0 right-0 flex items-center text-gray-500">
@@ -103,21 +102,21 @@ function ModelView() {
               </p>
             </div>
           </div>
-          <button className="bg-primary-900 text-white hover:bg-primary-700 rounded-md px-3 py-2 flex shadow-sm items-center gap-x-3">
-            <FontAwesomeIcon
-              icon={icon({
-                name: "file-import",
-                style: "solid",
-              })}
-              className="scale-105"
-            />
-            <div className="text-md">Import</div>
-          </button>
         </div>
       </div>
 
       <div className="data mt-5 flex-1 overflow-auto">
         <ModelTable data={data} header={transformedArray} refresh={initState} />
+        <button className="bg-primary-900 text-white hover:bg-primary-700 rounded-md px-3 py-2 flex justify-end shadow-sm items-center gap-x-3 mt-2 ">
+          <FontAwesomeIcon
+            icon={icon({
+              name: "file-excel",
+              style: "solid",
+            })}
+            className="scale-105"
+          />
+          <div className="text-md">Import</div>
+        </button>
       </div>
     </div>
   );

@@ -81,12 +81,12 @@ export function fetchGetModelDetail(model_id) {
   };
 }
 
-export function fetchDeleteModel(model_id) {
+export function fetchDeleteModel(workspace_id, model_id) {
   return async (dispatch) => {
     try {
       dispatch(startFetch());
 
-      const data = await deleteModel(model_id);
+      const data = await deleteModel(workspace_id, model_id);
 
       if (data) {
         dispatch(endFetch());
