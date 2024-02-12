@@ -42,3 +42,13 @@ export function getFlows(workspaceid) {
 			return response;
 		});
 }
+
+export function deleteFlows(workspace_id, flow_id) {
+	return api
+	  .delete(apiMap.DELETE_FLOW, {
+		data: { workspace_id: workspace_id, flow_id: flow_id },
+	  })
+	  .then((response) => {
+		return response;
+	  });
+  }

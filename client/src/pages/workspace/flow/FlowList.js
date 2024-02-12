@@ -2,38 +2,14 @@ import { icon } from "@fortawesome/fontawesome-svg-core/import.macro";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React, { useEffect, useRef, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
-import { fetchGetFlows } from "../../../actions/flowActions";
+import { fetchGetFlows, fetchDeleteFlows } from "../../../actions/flowActions";
 import { useDispatch } from "react-redux";
 import workspaceUtils from "../../../utils/workspaceUtils";
 
 function FlowList() {
-	// const flowLists = [
-	// 	{
-	// 		id: 0,
-	// 		name: "User Login",
-	// 		description: "ใช้สำหรับ login เข้าใช้งาน",
-	// 		path: "/user/{id}",
-	// 	},
-	// 	{
-	// 		id: 1,
-	// 		name: "Profile Page",
-	// 		description: "แสดงข้อมูลโปรไฟล์ของผู้ใช้",
-	// 		path: "/profile/{username}",
-	// 	},
-	// 	{
-	// 		id: 2,
-	// 		name: "Product Details",
-	// 		description: "แสดงรายละเอียดสินค้า",
-	// 		path: "/product/{productId}",
-	// 	},
-	// 	{
-	// 		id: 3,
-	// 		name: "Cart Checkout",
-	// 		description: "ดำเนินการสั่งซื้อและชำระเงิน",
-	// 		path: "/cart/checkout",
-	// 	},
 	// ];
 	const [flowLists, setFlowlist] = useState([]);
+	console.log("flowLists", flowLists)
 	const dispatch = useDispatch();
 
 	const searchRef = useRef(null);
@@ -46,20 +22,22 @@ function FlowList() {
 				fetchGetFlows(workspaceUtils.getID())
 
 			);
-			console.log(data.data)
+
 			if (data.status === true) {
 				setFlowlist(data.data);
 
 			}
 			else {
 				setFlowlist([]);
-				console.log("abc", workspaceUtils.getID())
+
 			}
 
 		} catch (error) {
 			console.error("Error fetching data:", error);
 		}
 	}
+
+
 
 	useEffect(() => {
 		initialState()
@@ -80,6 +58,18 @@ function FlowList() {
 
 	const handleAddFlow = () => {
 		navigate(`/workspace/${projectName}/flows/unnamedFlow`);
+	};
+
+	const handleDeleteFlows = async (flow_id) => {
+		try {
+			await dispatch(
+				fetchDeleteFlows(workspaceUtils.getID(), flow_id)
+			);
+			console.log("asdasd", workspaceUtils.getID(), flow_id)
+
+		} catch (error) {
+			console.error("Error deleting data:", error);
+		}
 	};
 
 	return (
@@ -191,7 +181,7 @@ function FlowList() {
 												className="scale-105 ml-2 opacity-90 cursor-pointer duration-75 text-orange-500 hover:text-orange-700"
 											/>
 										</Link>
-										<Link>
+										<div onClick={() => handleDeleteFlows(flow.id)}>
 											<FontAwesomeIcon
 												icon={icon({
 													name: "trash",
@@ -199,7 +189,7 @@ function FlowList() {
 												})}
 												className="scale-105 ml-2 opacity-90 cursor-pointer duration-75 text-red-500 hover:text-red-700"
 											/>
-										</Link>
+										</div>
 									</div>
 								</td>
 							</tr>
