@@ -1,7 +1,7 @@
 import { icon } from "@fortawesome/fontawesome-svg-core/import.macro";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React, { useEffect, useRef } from "react";
-import { Link, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 
 function FlowList() {
 	const flowLists = [
@@ -33,6 +33,7 @@ function FlowList() {
 
 	const searchRef = useRef(null);
 	const { projectName } = useParams();
+	const navigate = useNavigate();
 
 	useEffect(() => {
 		const handleKeyDown = (event) => {
@@ -49,12 +50,19 @@ function FlowList() {
 		};
 	}, []);
 
+	const handleAddFlow = () => {
+		navigate(`/workspace/${projectName}/flows/unnamedFlow`);
+	};
+
 	return (
 		<div className="p-5 pl-10 pr-20 flex-1 flex flex-col h-screen">
 			<div className="head items-center justify-between gap-x-10 h-12 flex">
 				<div className="group flex gap-x-8">
 					<h1 className="title text-2xl font-bold">Flow List</h1>
-					<button className="bg-primary-900 text-white hover:bg-primary-700 rounded-md px-3 py-1 flex shadow-sm items-center gap-x-3">
+					<button
+						onClick={() => handleAddFlow()}
+						className="bg-primary-900 text-white hover:bg-primary-700 rounded-md px-3 py-1 flex shadow-sm items-center gap-x-3"
+					>
 						<FontAwesomeIcon
 							icon={icon({
 								name: "plus",
@@ -62,7 +70,7 @@ function FlowList() {
 							})}
 							className="scale-105"
 						/>
-						<div className="text-md">Add API</div>
+						<div className="text-md">Add Flow</div>
 					</button>
 				</div>
 				<div className="action flex gap-x-5 h-full">
