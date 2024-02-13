@@ -2,70 +2,10 @@ import { icon } from "@fortawesome/fontawesome-svg-core/import.macro";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React, { useState } from "react";
 import FlowNode from "./FlowNode";
+import nodeListJson from "./FlowNodeJson";
 
 function FlowNodeFrame() {
-	const nodeList = [
-		{
-			head: "Trigger-Node",
-			nodes: [
-				{
-					name: "Request",
-					type: "request",
-					icon: icon({ name: "plus", style: "solid" }),
-				},
-			],
-		},
-		{
-			head: "Node",
-			nodes: [
-				{
-					name: "Condition",
-					type: "condition",
-					icon: icon({ name: "cog", style: "solid" }),
-				},
-				{
-					name: "Count",
-					type: "count",
-					icon: icon({ name: "sort-numeric-up", style: "solid" }),
-				},
-				{
-					name: "Encode Base64",
-					type: "encode-base64",
-					icon: icon({ name: "file-code", style: "solid" }),
-				},
-				{
-					name: "Return Response",
-					type: "return-response",
-					icon: icon({ name: "reply", style: "solid" }),
-				},
-			],
-		},
-		{
-			head: "Model",
-			nodes: [
-				{
-					name: "Join",
-					type: "join",
-					icon: icon({ name: "link", style: "solid" }),
-				},
-				{
-					name: "User",
-					type: "database",
-					icon: icon({ name: "database", style: "solid" }),
-				},
-				{
-					name: "Book",
-					type: "database",
-					icon: icon({ name: "database", style: "solid" }),
-				},
-				{
-					name: "Category",
-					type: "database",
-					icon: icon({ name: "database", style: "solid" }),
-				},
-			],
-		},
-	];
+	const nodeList = nodeListJson;
 
 	const [isResized, setIsResized] = useState(false);
 	const [isHidden, setIsHidden] = useState(false);
@@ -149,6 +89,7 @@ function FlowNodeFrame() {
 								<FlowNode
 									key={nodeIndex}
 									name={node.name}
+									reference={node.ref}
 									type={node.type}
 									icon={node.icon}
 								/>

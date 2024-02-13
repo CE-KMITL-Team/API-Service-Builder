@@ -5,6 +5,7 @@ export default function InputSelect({
 	description,
 	items = [],
 	controller,
+	defaultValue,
 	underline = false,
 }) {
 	return (
@@ -12,6 +13,7 @@ export default function InputSelect({
 			<div className="title text-primary-900 font-bold">{title}</div>
 			<div className="description mb-2">{description}</div>
 			<select
+				value={defaultValue}
 				onChange={(e) => controller(e.target.value)}
 				className="w-full bg-gray-50 border border-gray-300 text-gray-900 text-md rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2"
 			>

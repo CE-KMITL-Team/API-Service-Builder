@@ -13,34 +13,34 @@ export default function InputCondition({
 		"more than or equal (>=)",
 		"less than or equal (<=)",
 	],
+	defaultValue,
+	controller,
 }) {
-	const [conditionList, setConditionList] = useState([
-		{
-			left: "",
-			right: "",
-			condition: "equal",
-		},
-	]);
-
 	const addCondition = () => {
-		setConditionList((prevConditions) => [
-			...prevConditions,
-			{
-				left: "",
-				right: "",
-				condition: "",
-			},
-		]);
+		controller((prevConditions) => {
+			if (prevConditions[prevConditions.length - 1] !== undefined) {
+				prevConditions[prevConditions.length - 1].next = "and";
+			}
+
+			return [
+				...prevConditions,
+				{
+					left: "",
+					right: "",
+					condition: "equal (==)",
+				},
+			];
+		});
 	};
 
 	const deleteCondition = (index) => {
-		setConditionList((prevConditions) =>
+		controller((prevConditions) =>
 			prevConditions.filter((_, i) => i !== index)
 		);
 	};
 
 	const editCondition = (index, property, value) => {
-		setConditionList((prevConditions) => {
+		controller((prevConditions) => {
 			const newConditions = [...prevConditions];
 			newConditions[index] = {
 				...newConditions[index],
@@ -55,7 +55,7 @@ export default function InputCondition({
 			<div className="title text-primary-900 font-bold">{title}</div>
 			<div className="description mb-2">{description}</div>
 
-			{conditionList.map((condition, index) => (
+			{defaultValue.map((condition, index) => (
 				<>
 					<div
 						className="group flex flex-col justify-center items-center py-3 px-4 bg-gray-300 rounded-lg"
@@ -116,12 +116,22 @@ export default function InputCondition({
 						/>
 					</div>
 
-					{conditionList.length !== index + 1 && (
+					{defaultValue.length !== index + 1 && (
 						<div className="connect flex justify-center flex-col items-center">
 							<div className="bg-gray-400 font-sm w-[2px] text-center">
 								&nbsp;
 							</div>
-							<select className="w-fit bg-gray-50 border border-gray-300 text-gray-900 text-md rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2">
+							<select
+								className="w-fit bg-gray-50 border border-gray-300 text-gray-900 text-md rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2"
+								value={condition.next}
+								onChange={(e) => {
+									editCondition(
+										index,
+										"next",
+										e.target.value
+									);
+								}}
+							>
 								<option value="and">and</option>
 								<option value="or">or</option>
 							</select>
