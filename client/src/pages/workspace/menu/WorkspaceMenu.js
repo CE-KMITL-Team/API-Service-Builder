@@ -9,24 +9,25 @@ import { useDispatch } from "react-redux";
 import { fetchGetModelWorkspace } from "../../../actions/modelActions";
 import workspaceUtils from "../../../utils/workspaceUtils";
 import modelUtils from "../../../utils/modelUtils";
-
+import { fetchGetFlows } from "../../../actions/flowActions";
 function WorkspaceMenu() {
-	const flows = [
-		{
-			id: 1,
-			name: "Login",
-			link: "user",
-		},
-		{
-			id: 2,
-			name: "Register",
-			link: "register",
-		},
-	];
+	// const flows = [
+	// 	{
+	// 		id: 1,
+	// 		name: "Login",
+	// 		link: "user",
+	// 	},
+	// 	{
+	// 		id: 2,
+	// 		name: "Register",
+	// 		link: "register",
+	// 	},
+	// ];
 
 	const [isOnline, setOnline] = useState(false);
 	const [isPopupOpen, setIsPopupOpen] = useState(false);
 	const [models, setModel] = useState([]);
+	const [flows , setFlows] = useState([]);
 
 	const dispatch = useDispatch();
 
@@ -54,6 +55,15 @@ function WorkspaceMenu() {
 				fetchGetModelWorkspace(workspaceUtils.getID())
 			);
 
+			const flowData = await dispatch(
+				fetchGetFlows(workspaceUtils.getID())
+				);
+			if (flowData.status === true) {
+				setFlows(flowData.data);
+			}
+			else{
+				setFlows([]);
+			}
 			if (data.status === true) {
 				setModel(data.data);
 			} else {

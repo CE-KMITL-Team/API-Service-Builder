@@ -1,4 +1,4 @@
-import { addFlow, getFlowDetailByName,getFlows,deleteFlows } from "../services/flowService";
+import { addFlow, getFlowDetailByName, getFlows, deleteFlows } from "../services/flowService";
 import { endFetch, errorFetch, startFetch } from "./loadingActions";
 
 export const FOCUS_NODE = "FOCUS_NODE";
@@ -96,22 +96,22 @@ export function fetchGetFlows(workspaceid) {
 
 export function fetchDeleteFlows(workspace_id, flow_id) {
 	return async (dispatch) => {
-	  try {
-		dispatch(startFetch());
-  
-		const data = await deleteFlows(workspace_id, flow_id);
-  
-		if (data) {
-		  dispatch(endFetch());
-		  dispatch(errorFetch(null));
-  
-		  return Promise.resolve(data);
+		try {
+			dispatch(startFetch());
+
+			const data = await deleteFlows(workspace_id, flow_id);
+
+			if (data) {
+				dispatch(endFetch());
+				dispatch(errorFetch(null));
+
+				return Promise.resolve(data);
+			}
+		} catch (error) {
+			dispatch(errorFetch(error));
+
+			return Promise.resolve(false);
 		}
-	  } catch (error) {
-		dispatch(errorFetch(error));
-  
-		return Promise.resolve(false);
-	  }
 	};
-  }
-  
+}
+

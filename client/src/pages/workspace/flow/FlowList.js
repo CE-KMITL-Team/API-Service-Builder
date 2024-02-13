@@ -14,7 +14,8 @@ function FlowList() {
 
 	const searchRef = useRef(null);
 	const { projectName } = useParams();
-	const navigate = useNavigate();
+	const navigate = useNavigate(); 
+	
 
 	async function initialState() {
 		try {
@@ -65,6 +66,7 @@ function FlowList() {
 			await dispatch(
 				fetchDeleteFlows(workspaceUtils.getID(), flow_id)
 			);
+			initialState()
 			console.log("asdasd", workspaceUtils.getID(), flow_id)
 
 		} catch (error) {

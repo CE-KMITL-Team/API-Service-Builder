@@ -1,22 +1,44 @@
 import { icon } from "@fortawesome/fontawesome-svg-core/import.macro";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import React from "react";
+import React, { useEffect, useRef, useState } from "react";
 import MyAPICard from "./MyAPICard";
+import { Link, useNavigate, useParams } from "react-router-dom";
+import { useDispatch } from "react-redux";
 import MyAPITest from "./MyAPITest";
+import workspaceUtils from "../../../utils/workspaceUtils";
+import { fetchGetFlows, fetchDeleteFlows } from "../../../actions/flowActions";
+
 
 function MyAPI() {
-	const data = [
-		{
-			id: 1,
-			path: "/user/{id}",
-			description: "ใช้สำหรับ login เข้าใช้งาน",
-		},
-		{
-			id: 2,
-			path: "/Book/{id}",
-			description: "ใช้สำหรับ ดึงข้อมูลหนังสือ...",
-		},
-	];
+	// ];
+	const [flowLists, setFlowlist] = useState([]);
+	const dispatch = useDispatch();
+
+	async function initialState() {
+		try {
+			const data = await dispatch(
+				fetchGetFlows(workspaceUtils.getID())
+			);
+
+
+			if (data.status === true) {
+				setFlowlist(data.data);
+
+			}
+			else {
+				setFlowlist([]);
+
+			}
+
+		} catch (error) {
+			console.error("Error fetching data:", error);
+		}
+	}
+
+	useEffect(() => {
+		initialState()
+	}, [])
+
 
 	return (
 		<div className="pl-5 w-full ">
@@ -35,8 +57,8 @@ function MyAPI() {
 						<h1 className=" text-2xl font-bold">My API</h1>
 					</div>
 					<div className="list mt-3 flex flex-col gap-y-5">
-						{data.length !== 0 ? (
-							data.map((val) => (
+						{flowLists.length !== 0 ? (
+							flowLists.map((val) => (
 								<MyAPICard data={val}></MyAPICard>
 							))
 						) : (
