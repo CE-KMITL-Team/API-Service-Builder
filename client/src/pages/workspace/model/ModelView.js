@@ -44,10 +44,10 @@ function ModelView() {
   const fileterData = () => {
     return data.filter((item) => {
       return Object.keys(item).some((key) => {
-        return item[key]
-          .toString()
-          .toLowerCase()
-          .includes(searchTerm.toLowerCase());
+        return (
+          item[key]?.toString() ??
+          "".toLowerCase().includes(searchTerm.toLowerCase())
+        );
       });
     });
   };
