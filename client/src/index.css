@@ -2,6 +2,10 @@
 @import "tailwindcss/components";
 @import "tailwindcss/utilities";
 
+@import "reactflow/dist/style.css";
+@import "reactflow/dist/base.css";
+
+/* Default Style */
 * {
 	margin: 0;
 	padding: 0;
@@ -48,4 +52,47 @@ code {
 
 ::-webkit-scrollbar-thumb:hover {
 	background-color: #a8bbbf;
+}
+
+/* Flow node */
+.react-flow__node {
+	background: theme("colors.primary.700");
+	color: theme("colors.white");
+	border: 1px solid theme("colors.primary.900");
+	box-shadow: theme("boxShadow.md");
+	border-radius: theme("borderRadius.md");
+	min-width: theme("width.32");
+	width: theme("width.fit");
+	text-align: center;
+	padding: theme("padding.[2]");
+}
+
+.react-flow__node-input {
+	background: theme("colors.gray.500");
+	border: 1px solid theme("colors.gray.700");
+}
+
+.react-flow__node-output {
+	background: theme("colors.orange.500");
+	border: 1px solid theme("colors.orange.600");
+}
+
+.react-flow__handle {
+	background: theme("colors.gray.500");
+	transform: theme("translate.1/2");
+	min-width: theme("width.5");
+	background: theme("colors.gray.500" / 55%);
+	border: none;
+	min-height: auto !important;
+	height: 5px;
+}
+
+.react-flow__handle-bottom {
+	bottom: -5px;
+	border-radius: 0px 0px theme("borderRadius.sm") theme("borderRadius.sm");
+}
+
+.react-flow__handle-top {
+	top: -5px;
+	border-radius: theme("borderRadius.sm") theme("borderRadius.sm") 0px 0px;
 }

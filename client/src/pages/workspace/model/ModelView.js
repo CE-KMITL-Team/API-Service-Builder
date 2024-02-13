@@ -58,7 +58,9 @@ function ModelView() {
   return (
     <div className="p-5 pl-10 pr-20 flex-1 flex flex-col h-screen">
       <div className="head flex items-center justify-between gap-x-10 h-12">
-        <h1 className="title text-2xl font-bold">User</h1>
+        <h1 className="title text-2xl font-bold">
+          {modelUtils.getCurrentName()}
+        </h1>
         <div className="action flex gap-x-5 h-full">
           <div className="select">
             <select className="h-full bg-gray-50 border border-gray-300 text-gray-900 text-md rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2">

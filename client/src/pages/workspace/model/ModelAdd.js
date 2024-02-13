@@ -426,7 +426,7 @@ function ModelAdd() {
                 onChange={() => handleCheckboxChange("insert all")}
               />
               <label htmlFor="insert_all" className="block text-md text-left">
-                insert Data
+                Insert Data
               </label>
             </div>
           </div>

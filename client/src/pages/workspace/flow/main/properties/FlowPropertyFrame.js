@@ -1,16 +1,18 @@
 import { Tab } from "@headlessui/react";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { getNodePropertyByName } from "./FlowPropertyJson";
 import { useSelector } from "react-redux";
 
 function FlowPropertyFrame() {
 	const currentNode = useSelector((state) => state.focusNode.currentNode);
 
-	const nodeProperty = getNodePropertyByName(currentNode?.type || "");
+	const nodeProperty = getNodePropertyByName(currentNode?.data?.ref || "");
 	const NodeList = nodeProperty !== undefined ? [nodeProperty] : [];
 
 	const [isResized, setIsResized] = useState(false);
 	const [isHidden, setIsHidden] = useState(false);
+
+	const [selectedIndex, setSelectedIndex] = useState(0);
 
 	const handleResizeClick = () => {
 		setTimeout(() => {
@@ -35,7 +37,11 @@ function FlowPropertyFrame() {
 			>
 				{/* Content */}
 				{NodeList.map((item, index) => (
-					<Tab.Group key={index}>
+					<Tab.Group
+						key={index}
+						selectedIndex={selectedIndex}
+						onChange={setSelectedIndex}
+					>
 						<Tab.List
 							className={({ selected }) => {
 								return `flex justify-evenly font-bold text-lg mb-3`;

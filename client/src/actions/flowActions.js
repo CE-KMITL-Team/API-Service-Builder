@@ -2,11 +2,21 @@ import { addFlow, getFlowDetailByName,getFlows,deleteFlows } from "../services/f
 import { endFetch, errorFetch, startFetch } from "./loadingActions";
 
 export const FOCUS_NODE = "FOCUS_NODE";
+export const SAVE_PROPERTY = "SAVE_PROPERTY";
 
 export const saveFocusNode = (jsonData) => ({
 	type: FOCUS_NODE,
 	payload: jsonData,
 });
+
+export const saveProperty = (property) => {
+	return {
+		type: SAVE_PROPERTY,
+		payload: {
+			property,
+		},
+	};
+};
 
 export function fetchAddFlow({
 	name,

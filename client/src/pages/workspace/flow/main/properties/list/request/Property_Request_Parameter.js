@@ -1,9 +1,14 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import InputText from "../../inputs/InputText";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { icon } from "@fortawesome/fontawesome-svg-core/import.macro";
+import { useDispatch, useSelector } from "react-redux";
+import { saveProperty } from "../../../../../../../actions/flowActions";
 
 export default function Property_Request_Parameter() {
+	const dispatch = useDispatch();
+	const nodeStore = useSelector((state) => state.focusNode.flowProperty);
+
 	const [requestColumn, setRequestColumn] = useState("");
 	const [optional, setOptional] = useState(false);
 	const [type, setType] = useState("Type");
@@ -39,8 +44,6 @@ export default function Property_Request_Parameter() {
 			setOptional(false);
 			setType("Type");
 			setError("");
-		} else {
-			// Handle validation or show an error message
 		}
 	};
 
@@ -49,6 +52,16 @@ export default function Property_Request_Parameter() {
 		updatedColumns.splice(index, 1);
 		setColumns(updatedColumns);
 	};
+
+	useEffect(() => {
+		dispatch(saveProperty({ requestColumn: columns }));
+	}, [columns]);
+
+	// Load Default Data
+	useEffect(() => {
+		const { requestColumn } = nodeStore["node_0"]?.property || {};
+		setColumns(requestColumn ?? []);
+	}, []);
 
 	return (
 		<>
