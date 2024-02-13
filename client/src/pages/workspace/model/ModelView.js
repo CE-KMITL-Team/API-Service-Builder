@@ -12,6 +12,9 @@ function ModelView() {
   const [transformedArray, setTransformedArray] = useState([]);
   const dispatch = useDispatch();
   const location = useLocation();
+  const [searchTerm, setSearchTerm] = useState("");
+  // const [selectedHeader, setSelectedHeader] = useState("- All -");
+  // const [filteredData, setFilteredData] = useState([]);
 
   const searchRef = useRef(null);
 
@@ -38,6 +41,31 @@ function ModelView() {
     }
   }
 
+  const fileterData = () => {
+    return data.filter((item) => {
+      return Object.keys(item).some((key) => {
+        return item[key]
+          .toString()
+          .toLowerCase()
+          .includes(searchTerm.toLowerCase());
+      });
+    });
+  };
+
+  // const handleChange = async (e) => {
+  //   const selected = e.target.value;
+  //   setSelectedHeader(selected);
+
+  //   if (selected === "- All -") {
+  //     setFilteredData(data);
+  //   } else {
+  //     const newData = data.map((item) => ({
+  //       [selected]: item[selected],
+  //     }));
+  //     setFilteredData(newData);
+  //   }
+  // };
+
   useEffect(() => {
     initState();
 
@@ -63,13 +91,17 @@ function ModelView() {
         </h1>
         <div className="action flex gap-x-5 h-full">
           <div className="select">
-            <select className="h-full bg-gray-50 border border-gray-300 text-gray-900 text-md rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2">
+            <select
+              // onChange={handleChange}
+              className="h-full bg-gray-50 border border-gray-300 text-gray-900 text-md rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2"
+            >
               <option>- All -</option>
               {Object.keys(data[0] || {}).map((val) => (
                 <option>{val}</option>
               ))}
             </select>
           </div>
+
           <div className="relative rounded-md shadow-sm h-full flex-1 w-full">
             <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3 h-full">
               <span className="text-gray-500 sm:text-sm">
@@ -96,6 +128,7 @@ function ModelView() {
               className="h-full w-full rounded-md border-0 py-1.5 pl-12 pr-20 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 sm:text-sm sm:leading-6"
               placeholder="Search..."
               ref={searchRef}
+              onChange={(e) => setSearchTerm(e.target.value)}
             />
             <div className="absolute inset-y-0 right-0 flex items-center text-gray-500">
               <p className="pr-4">
@@ -107,9 +140,14 @@ function ModelView() {
         </div>
       </div>
 
-      <div className="data mt-5 flex-1 overflow-auto">
-        <ModelTable data={data} header={transformedArray} refresh={initState} />
-        <button className="bg-primary-900 text-white hover:bg-primary-700 rounded-md px-3 py-2 flex justify-end shadow-sm items-center gap-x-3 mt-2 ">
+      <div className="data mt-5 flex-1 overflow-auto w-full">
+        <ModelTable
+          data={fileterData()}
+          header={transformedArray}
+          refresh={initState}
+          highlight={searchTerm}
+        />
+        <button className="bg-primary-900 text-white hover:bg-primary-700 rounded-md px-3 py-2 flex ml-auto shadow-sm items-center gap-x-3 mt-2 ">
           <FontAwesomeIcon
             icon={icon({
               name: "file-excel",

@@ -8,10 +8,11 @@ import { fetchGetModelWorkspace } from "../../../actions/modelActions";
 import workspaceUtils from "../../../utils/workspaceUtils";
 import modelUtils from "../../../utils/modelUtils";
 
-function ModelMenu() {
+function ModelMenu({ refresh }) {
   const [isResized, setIsResized] = useState(false);
   const [isHidden, setIsHidden] = useState(false);
   const [models, setModel] = useState([]);
+  const [searchTerm, setSearchTerm] = useState("");
 
   const dispatch = useDispatch();
   const location = useLocation();
@@ -46,6 +47,13 @@ function ModelMenu() {
       console.error("Error fetching data:", error);
     }
   }
+
+  const fileterData = () => {
+    return models.filter((item) => {
+      const firstKeyword = searchTerm.toLowerCase().split()[0];
+      return item.name.toString().toLowerCase().includes(firstKeyword);
+    });
+  };
 
   useEffect(() => {
     initState();
@@ -119,10 +127,11 @@ function ModelMenu() {
             id="price"
             className="mb-4 block w-full rounded-md border-0 py-1.5 pl-12 pr-3 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 sm:text-sm sm:leading-6"
             placeholder="Search model here..."
+            onChange={(e) => setSearchTerm(e.target.value)}
           />
         </div>
         <div className="list flex flex-col gap-x-5">
-          {models.map((val) => (
+          {fileterData().map((val) => (
             <div key={val.id}>
               <ModelMenuCard data={val} />
               <hr className="my-2 border-gray-400" />

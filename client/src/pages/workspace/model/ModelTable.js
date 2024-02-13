@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { icon } from "@fortawesome/fontawesome-svg-core/import.macro";
 import { useTable, useSortBy } from "react-table";
@@ -9,12 +9,17 @@ import {
   fetchDeleteDataModels,
 } from "../../../actions/dataModelActions";
 import modelUtils from "../../../utils/modelUtils";
+import { text } from "@fortawesome/fontawesome-svg-core";
+import { fetchGetModelDetail } from "../../../actions/modelActions";
+import { useLocation } from "react-router-dom";
 
-function ModelTable({ data, header, refresh }) {
+function ModelTable({ data, header, refresh, highlight }) {
   const tableInstance = useTable({ columns: header, data }, useSortBy);
   const dispatch = useDispatch();
   const [inputValues, setInputValues] = useState({});
   const [editingIndex, setEditingIndex] = useState(null);
+
+  const [tableHeader, setTableHeader] = useState(header);
 
   const handleInputChange = (e, header) => {
     const { value } = e.target;
@@ -79,6 +84,42 @@ function ModelTable({ data, header, refresh }) {
     }
   };
 
+  const highlightText = (text) => {
+    if (typeof text !== "string") return text;
+
+    if (!highlight) return text;
+
+    const regex = new RegExp(`(${highlight})`, "gi");
+    return text.replace(
+      regex,
+      `<mark style="background-color: #3368d1; color: white">$1</mark>`
+    );
+  };
+
+  const loadDefaulHeader = async () => {
+    try {
+      const data = await dispatch(
+        fetchGetModelDetail(modelUtils.getCurrentID())
+      );
+
+      if (data.status === true) {
+        const tableData = data.data.tables.map((table) => ({
+          Header: table.name,
+          accessor: table.name,
+        }));
+
+        setTableHeader(tableData);
+      }
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+  };
+
+  const location = useLocation();
+  useEffect(() => {
+    loadDefaulHeader();
+  }, [location]);
+
   return (
     <form onSubmit={handleAddField}>
       <table
@@ -114,7 +155,7 @@ function ModelTable({ data, header, refresh }) {
         </thead>
         <tbody {...tableInstance.getTableBodyProps()}>
           <tr className="border-t">
-            {header.map((val) => (
+            {tableHeader.map((val) => (
               <td className="p-2 border" key={val.accessor}>
                 {val.accessor !== "id" && (
                   <input
@@ -167,7 +208,11 @@ function ModelTable({ data, header, refresh }) {
                         onChange={(e) => handleInputChange(e, cell.column.id)}
                       />
                     ) : (
-                      cell.render("Cell")
+                      <span
+                        dangerouslySetInnerHTML={{
+                          __html: highlightText(cell.value),
+                        }}
+                      />
                     )}
                   </td>
                 ))}
