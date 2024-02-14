@@ -14,7 +14,8 @@ function FlowMain() {
 	const { projectName, activeFlow } = useParams();
 
 	const [isPopupOpen, setIsPopupOpen] = useState(
-		activeFlow === "unnamedFlow"
+		// activeFlow === "unnamedFlow"
+		true
 	);
 	
 	const [toggleHidden, setToggleHidden] = useState(false);

@@ -23,6 +23,7 @@ export function addFlow(
 		});
 }
 
+
 export function getFlowDetailByName(flowName) {
 	return api
 		.get(apiMap.GET_FLOW_DETAIL_BY_ID, {
@@ -45,10 +46,18 @@ export function getFlows(workspaceid) {
 
 export function deleteFlows(workspace_id, flow_id) {
 	return api
-	  .delete(apiMap.DELETE_FLOW, {
-		data: { workspace_id: workspace_id, flow_id: flow_id },
-	  })
-	  .then((response) => {
-		return response;
-	  });
-  }
+		.delete(apiMap.DELETE_FLOW, {
+			data: { workspace_id: workspace_id, flow_id: flow_id },
+		})
+		.then((response) => {
+			return response;
+		});
+}
+
+export function editDataFlows(id, columns) {
+	return api
+		.put(apiMap.EDIT_DATA_FLOWs, { id: id, columns: columns })
+		.then((response) => {
+			return response;
+		});
+}

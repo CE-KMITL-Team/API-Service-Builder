@@ -2,7 +2,7 @@ import { Fragment } from "react";
 import { Menu, Transition } from "@headlessui/react";
 
 // Update the function to accept a 'menu' prop
-function Dropdown({ menu, children, direction = "down" }) {
+function Dropdown({ menu, children, direction = "bottom" }) {
   function classNames(...classes) {
     return classes.filter(Boolean).join(" ");
   }
@@ -24,8 +24,8 @@ function Dropdown({ menu, children, direction = "down" }) {
         leaveTo="transform opacity-0 scale-95"
       >
         <Menu.Items
-          className={`absolute right-0 w-56 origin-top-right divide-y divide-gray-100 rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none ${
-            direction === "top" ? "-top-2 transform -translate-y-full" : "mt-2"
+          className={`z-20 absolute right-0 w-56 origin-top-right divide-y divide-gray-100 rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none ${
+            direction === "top" ? "-top-2 transform -translate-y-full" : "mt-2 -bottom-2 transform translate-y-full"
           } `}
         >
           {menu.map((link) => (

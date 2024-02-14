@@ -159,7 +159,7 @@ router.delete("/delete", async (req, res) => {
 router.put("/edit", async (req, res) => {
 	const {
 		id,
-		columns: { name, description, API, markdown, status, workspace_id },
+		columns: { name, description, API, markdown, status },
 	} = req.body;
 
 	try {
@@ -194,7 +194,7 @@ router.put("/edit", async (req, res) => {
 				{
 					where: {
 						id: id,
-						workspace_id: workspace_id,
+						
 					},
 				}
 			)

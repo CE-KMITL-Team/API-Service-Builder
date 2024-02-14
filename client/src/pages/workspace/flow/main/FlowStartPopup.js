@@ -7,15 +7,18 @@ import workspaceUtils from "../../../../utils/workspaceUtils";
 import { useDispatch } from "react-redux";
 import {
 	fetchAddFlow,
+	fetchEditDataFlows,
 	fetchGetModelDetail,
 } from "../../../../actions/flowActions";
 
 function FlowStartPopup({ isOpen, onRequestClose }) {
 	const [isNew, setIsNew] = useState(false);
 
+	const [idFlow, setIdFlow] = useState("")
 	const [name, setName] = useState("");
 	const [description, setDescription] = useState("");
 	const [path, setPath] = useState("");
+	
 
 	const { projectName, activeFlow } = useParams();
 
@@ -26,6 +29,7 @@ function FlowStartPopup({ isOpen, onRequestClose }) {
 		const response = await dispatch(fetchGetModelDetail(activeFlow));
 
 		if (response.status) {
+			setIdFlow(response.data.id)
 			setName(response.data.name);
 			setDescription(response.data.description);
 			setPath(response.data.API);
@@ -48,6 +52,29 @@ function FlowStartPopup({ isOpen, onRequestClose }) {
 			navigate(`/workspace/${projectName}/flows`);
 		}
 	};
+
+
+	const handleSavePopup = async (event) => {
+		event.preventDefault();
+
+		const editedData = {
+			name: name,
+			description: description,
+			API: path,
+		};
+		console.log(editedData)
+		console.log("asdasdas", activeFlow)
+		try {
+			await dispatch(fetchEditDataFlows(idFlow, editedData));
+			console.log("test", idFlow, editedData)
+			onRequestClose();
+			navigate(`/workspace/${projectName}/flows/${activeFlow}`);
+		} catch (error) {
+			console.error("Error editing data:", error);
+		}
+	};
+
+
 
 	const handleSave = async (event) => {
 		if (isNew) {
@@ -82,6 +109,7 @@ function FlowStartPopup({ isOpen, onRequestClose }) {
 			<form
 				onSubmit={(e) => {
 					e.preventDefault();
+					handleSavePopup(e)
 					handleSave(e);
 				}}
 			>
@@ -175,6 +203,7 @@ function FlowStartPopup({ isOpen, onRequestClose }) {
 					</button>
 					<button
 						type="submit"
+						// onClick={handleSavePopup()}
 						className="bg-primary-900 text-white ml-8 hover:bg-primary-700 rounded-md px-3 py-2 flex shadow-sm items-center gap-x-3"
 					>
 						<FontAwesomeIcon

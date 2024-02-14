@@ -14,8 +14,10 @@ function FlowList() {
 
 	const searchRef = useRef(null);
 	const { projectName } = useParams();
-	const navigate = useNavigate(); 
-	
+	const navigate = useNavigate();
+	const [searchTerm, setSearchTerm] = useState("");
+
+	// const [highlight, setHighlight] = useState(false);
 
 	async function initialState() {
 		try {
@@ -38,6 +40,15 @@ function FlowList() {
 		}
 	}
 
+	const fileterData = () => {
+		return flowLists.filter((item) => {
+			return Object.keys(item).some((key) => {
+				return (
+					item[key]?.toString().toLowerCase().includes(searchTerm.toLowerCase())
+				);
+			});
+		});
+	};
 
 
 	useEffect(() => {
@@ -45,6 +56,7 @@ function FlowList() {
 		const handleKeyDown = (event) => {
 			if ((event.ctrlKey || event.metaKey) && event.key === "k") {
 				event.preventDefault();
+				// setHighlight(true);
 				searchRef.current.focus();
 			}
 		};
@@ -59,6 +71,18 @@ function FlowList() {
 
 	const handleAddFlow = () => {
 		navigate(`/workspace/${projectName}/flows/unnamedFlow`);
+	};
+
+	const highlightText = (text) => {
+		if (typeof text !== "string") return text;
+
+		if (!searchTerm) return text;
+
+		const regex = new RegExp(`(${searchTerm})`, "gi");
+		return text.replace(
+			regex,
+			`<mark style="background-color: #3368d1; color: white">$1</mark>`
+		);
 	};
 
 	const handleDeleteFlows = async (flow_id) => {
@@ -114,11 +138,12 @@ function FlowList() {
 							</span>
 						</div>
 						<input
+							onChange={(e) => setSearchTerm(e.target.value)}
 							type="text"
 							name="price"
 							id="price"
 							className="h-full w-full rounded-md border-0 py-1.5 pl-12 pr-20 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 sm:text-sm sm:leading-6"
-							placeholder="Quick search..."
+							placeholder="Search..."
 							ref={searchRef}
 						/>
 						<div className="absolute inset-y-0 right-0 flex items-center text-gray-500">
@@ -153,8 +178,10 @@ function FlowList() {
 						</tr>
 					</thead>
 					<tbody>
-						{flowLists.map((flow) => (
+						{fileterData().map((flow) => (
+
 							<tr key={flow.id}>
+
 								<td
 									align="center"
 									className="border border-gray-300 p-2"
@@ -162,14 +189,15 @@ function FlowList() {
 									<input type="checkbox" />
 								</td>
 								<td className="border border-gray-300 p-2">
-									{flow.name}
+									<span dangerouslySetInnerHTML={{ __html: highlightText(flow.name) }} />
 								</td>
 								<td className="border border-gray-300 p-2">
-									{flow.description}
+									<span dangerouslySetInnerHTML={{ __html: highlightText(flow.description) }} />
 								</td>
 								<td className="border border-gray-300 p-2">
-									{flow.API}
+									<span dangerouslySetInnerHTML={{ __html: highlightText(flow.API) }} />
 								</td>
+
 								<td className="border border-gray-300 py-2 px-1">
 									<div className="flex justify-center gap-x-5">
 										<Link

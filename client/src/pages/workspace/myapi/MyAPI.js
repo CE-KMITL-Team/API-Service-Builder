@@ -59,7 +59,7 @@ function MyAPI() {
 					<div className="list mt-3 flex flex-col gap-y-5">
 						{flowLists.length !== 0 ? (
 							flowLists.map((val) => (
-								<MyAPICard data={val}></MyAPICard>
+								<MyAPICard data={val} reload={() => initialState()}></MyAPICard>
 							))
 						) : (
 							<div className="ml-11 text-gray-700">You need to create api first . . .</div>

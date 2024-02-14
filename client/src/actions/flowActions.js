@@ -1,4 +1,4 @@
-import { addFlow, getFlowDetailByName, getFlows, deleteFlows } from "../services/flowService";
+import { addFlow, getFlowDetailByName, getFlows, deleteFlows, editDataFlows } from "../services/flowService";
 import { endFetch, errorFetch, startFetch } from "./loadingActions";
 
 export const FOCUS_NODE = "FOCUS_NODE";
@@ -73,6 +73,27 @@ export function fetchGetModelDetail(flow_name) {
 		}
 	};
 }
+export function fetchEditDataFlows(id, columns) {
+	return async (dispatch) => {
+	  try {
+		dispatch(startFetch());
+  
+		const data = await editDataFlows(id, columns);
+  
+		if (data) {
+		  dispatch(endFetch());
+		  dispatch(errorFetch(null));
+  
+		  return Promise.resolve(data);
+		}
+	  } catch (error) {
+		console.log(error);
+		dispatch(errorFetch(error));
+  
+		return Promise.resolve(false);
+	  }
+	};
+  }
 export function fetchGetFlows(workspaceid) {
 	return async (dispatch) => {
 		try {

@@ -18,6 +18,7 @@ export const apiMap = {
   GET_FLOW_DETAIL_BY_ID: "/flows/getFlowDetailByName",
   GET_FLOW: "/flows/get",
   DELETE_FLOW :"/flows/delete",
+  EDIT_DATA_FLOWs:"/flows/edit",
 
   //Models
   CREATE_MODEL: "/models/create",
