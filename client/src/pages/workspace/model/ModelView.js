@@ -10,12 +10,10 @@ import modelUtils from "../../../utils/modelUtils";
 function ModelView() {
   const [data, setData] = useState([]);
   const [transformedArray, setTransformedArray] = useState([]);
+  const [searchTerm, setSearchTerm] = useState("");
+  const [selectedHeader, setSelectedHeader] = useState("- All -");
   const dispatch = useDispatch();
   const location = useLocation();
-  const [searchTerm, setSearchTerm] = useState("");
-  // const [selectedHeader, setSelectedHeader] = useState("- All -");
-  // const [filteredData, setFilteredData] = useState([]);
-
   const searchRef = useRef(null);
 
   async function initState() {
@@ -23,7 +21,6 @@ function ModelView() {
       const data = await dispatch(
         fetchGetDataModels(modelUtils.getCurrentID())
       );
-
       if (data.status === true) {
         setData(data.data);
 
@@ -43,32 +40,30 @@ function ModelView() {
 
   const fileterData = () => {
     return data.filter((item) => {
-      return Object.keys(item).some((key) => {
-        return (
-          item[key]?.toString() ??
-          "".toLowerCase().includes(searchTerm.toLowerCase())
-        );
-      });
+      return (
+        (selectedHeader === "- All -" ||
+          item[selectedHeader]
+            ?.toString()
+            .toLowerCase()
+            .includes(searchTerm.toLowerCase())) &&
+        Object.keys(item).some((key) => {
+          return item[key]
+            ?.toString()
+            .toLowerCase()
+            .includes(searchTerm.toLowerCase());
+        })
+      );
     });
   };
 
-  // const handleChange = async (e) => {
-  //   const selected = e.target.value;
-  //   setSelectedHeader(selected);
-
-  //   if (selected === "- All -") {
-  //     setFilteredData(data);
-  //   } else {
-  //     const newData = data.map((item) => ({
-  //       [selected]: item[selected],
-  //     }));
-  //     setFilteredData(newData);
-  //   }
-  // };
+  const handleChange = (event) => {
+    const selectedValue = event.target.value;
+    setSelectedHeader(selectedValue);
+  };
 
   useEffect(() => {
     initState();
-
+    
     const handleKeyDown = (event) => {
       if ((event.ctrlKey || event.metaKey) && event.key === "k") {
         event.preventDefault();
@@ -92,16 +87,18 @@ function ModelView() {
         <div className="action flex gap-x-5 h-full">
           <div className="select">
             <select
-              // onChange={handleChange}
+              onChange={handleChange}
+              value={selectedHeader}
               className="h-full bg-gray-50 border border-gray-300 text-gray-900 text-md rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2"
             >
-              <option>- All -</option>
+              <option value="- All -">- All -</option>
               {Object.keys(data[0] || {}).map((val) => (
-                <option>{val}</option>
+                <option key={val} value={val}>
+                  {val}
+                </option>
               ))}
             </select>
           </div>
-
           <div className="relative rounded-md shadow-sm h-full flex-1 w-full">
             <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3 h-full">
               <span className="text-gray-500 sm:text-sm">
@@ -139,7 +136,6 @@ function ModelView() {
           </div>
         </div>
       </div>
-
       <div className="data mt-5 flex-1 overflow-auto w-full">
         <ModelTable
           data={fileterData()}

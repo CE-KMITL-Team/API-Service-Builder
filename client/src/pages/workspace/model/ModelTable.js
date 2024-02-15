@@ -210,7 +210,9 @@ function ModelTable({ data, header, refresh, highlight }) {
                     ) : (
                       <span
                         dangerouslySetInnerHTML={{
-                          __html: highlightText(cell.value),
+                          __html: highlightText(
+                            cell.value && cell.value.toString()
+                          ),
                         }}
                       />
                     )}

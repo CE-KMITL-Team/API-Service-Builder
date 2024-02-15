@@ -51,7 +51,7 @@ function ModelMenu({ refresh }) {
   const fileterData = () => {
     return models.filter((item) => {
       const firstKeyword = searchTerm.toLowerCase().split()[0];
-      return item.name.toString().toLowerCase().includes(firstKeyword);
+      return item.name?.toString().toLowerCase().includes(firstKeyword);
     });
   };
 
