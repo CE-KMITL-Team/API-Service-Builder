@@ -6,18 +6,50 @@ const { Op } = require("sequelize");
 
 // Get Flow from workspace_id
 router.get("/get", async (req, res) => {
-  const { workspaceid } = req.query;
-  try {
-    const result = await flowModel.findAll({
-      attributes: ["id", "name", "description", "API", "markdown", "status"],
-      where: { workspace_id: workspaceid },
-    });
-    return res.status(200).send({ status: true, data: result });
-  } catch (err) {
-    console.error("Error get Flow:", err);
-    return res.status(500).send({ msg: "Error get Flow", status: false });
-  }
+	const { workspaceid } = req.query;
+	try {
+		const result = await flowModel.findAll({
+			attributes: ["id", "name", "description", "API", "status"],
+			where: { workspace_id: workspaceid },
+		});
+		return res.status(200).send({ status: true, data: result });
+	} catch (err) {
+		console.error("Error get Flow:", err);
+		return res.status(500).send({ msg: "Error get Flow", status: false });
+	}
 });
+// Get Markdown By Name
+router.get("/getMarkdownByName", async (req, res) => {
+	const { flow_name } = req.query;
+	try {
+		const result = await flowModel.findOne({
+			attributes: ["markdown"],
+			where: { name: flow_name },
+		});
+
+		console.log(result);
+
+		if (result) {
+			const markdown = JSON.parse(result.dataValues.markdown);
+
+			return res.status(200).send({
+				status: true,
+				data: {
+					property: markdown.property,
+					flowObj: markdown.flowObj,
+				},
+			});
+		} else {
+			return res
+				.status(500)
+				.send({ msg: "Can't get flow detail", status: false });
+		}
+	} catch (err) {
+		console.error("Error get Flow:", err);
+		return res.status(500).send({ msg: "Error get Flow", status: false });
+	}
+});
+
 // Get Flow Detail By ID
 router.get("/getFlowDetailByName", async (req, res) => {
   const { flow_name } = req.query;
@@ -132,6 +164,50 @@ router.delete("/delete", async (req, res) => {
     console.error("Internal server error:", err);
     return res.status(500).send("Internal Server Error");
   }
+});
+
+/* Save Flows Markdown */
+router.post("/saveMarkdown", async (req, res) => {
+	try {
+		const { flow_name, markdown } = req.body;
+
+		const check = await flowModel.findOne({
+			where: {
+				name: flow_name,
+			},
+		});
+
+		if (!check) {
+			return res
+				.status(200)
+				.send({ status: false, msg: "Flow id is not found" });
+		}
+
+		await flowModel
+			.update(
+				{
+					markdown: markdown,
+				},
+				{
+					where: {
+						name: flow_name,
+					},
+				}
+			)
+
+			.then(async (result) => {
+				return res
+					.status(200)
+					.send({ status: true, msg: "Edit markdown success !" });
+			})
+			.catch((err) => {
+				console.error("Internal Server Error:", err);
+				return res.status(500).send("Internal Server Error");
+			});
+	} catch (err) {
+		console.error("Internal Server Error:", err);
+		return res.status(500).send("Internal Server Error");
+	}
 });
 
 /* Edit Flows */

@@ -1,11 +1,15 @@
 import { icon } from "@fortawesome/fontawesome-svg-core/import.macro";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import FlowNode from "./FlowNode";
 import nodeListJson from "./FlowNodeJson";
+import { fetchGetModelWorkspace } from "../../../../../actions/modelActions";
+import { useDispatch } from "react-redux";
+import workspaceUtils from "../../../../../utils/workspaceUtils";
+import { useLocation } from "react-router-dom";
 
 function FlowNodeFrame() {
-	const nodeList = nodeListJson;
+	const [nodeList, setNodeList] = useState(nodeListJson);
 
 	const [isResized, setIsResized] = useState(false);
 	const [isHidden, setIsHidden] = useState(false);
@@ -26,6 +30,41 @@ function FlowNodeFrame() {
 			prevVisibleList.map((value, i) => (i === index ? !value : value))
 		);
 	};
+
+	const dispatch = useDispatch();
+	async function initState() {
+		const data = await dispatch(
+			fetchGetModelWorkspace(workspaceUtils.getID())
+		);
+		if (data.status === true) {
+			const modelList = data.data.map((inputJson) => ({
+				name: inputJson.name,
+				type: "default",
+				ref: "database",
+				model: inputJson.name.toLowerCase(),
+				icon: icon({ name: "database", style: "solid" }),
+			}));
+
+			const updatedNodeList = nodeList.map((section) => {
+				if (section.head === "Model") {
+					return {
+						...section,
+						nodes: [section.nodes[0], ...modelList],
+					};
+				}
+				return section;
+			});
+
+			setNodeList(updatedNodeList);
+		} else {
+			setNodeList([]);
+		}
+	}
+
+	const location = useLocation();
+	useEffect(() => {
+		initState();
+	}, [location]);
 
 	return (
 		<div
@@ -92,6 +131,7 @@ function FlowNodeFrame() {
 									reference={node.ref}
 									type={node.type}
 									icon={node.icon}
+									model={node?.model ?? ""}
 								/>
 							))}
 						</div>

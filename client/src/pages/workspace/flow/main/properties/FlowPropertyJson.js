@@ -42,8 +42,8 @@ const FlowPropertyJson = [
 	{
 		node: "database",
 		menu: {
-			Function: <Property_Model_Function></Property_Model_Function>,
 			Settings: <Property_Model_Settings></Property_Model_Settings>,
+			Function: <Property_Model_Function></Property_Model_Function>,
 		},
 	},
 	{

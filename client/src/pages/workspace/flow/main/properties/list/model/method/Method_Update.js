@@ -1,13 +1,51 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { saveProperty } from "../../../../../../../../actions/flowActions";
 import { Tab } from "@headlessui/react";
 import InputCondition from "../../../inputs/InputCondition";
 import InputText from "../../../inputs/InputText";
 
-export default function Method_Update() {
-	const [value1, setValue1] = useState("$");
-	const [value2, setValue2] = useState("$");
-	const [value3, setValue3] = useState("$");
-	const [value4, setValue4] = useState("$");
+const defaultColumns = ["id", "Firstname", "Lastname", "Password"];
+const defaultValueConditions = [];
+
+export default function Method_Update({columnList}) {
+	const dispatch = useDispatch();
+
+	const nodeStore = useSelector((state) => state.focusNode.flowProperty);
+	const currentID = useSelector(
+		(state) => state.focusNode?.currentNode?.id ?? 0
+	);
+
+	// Input for Conditions
+	const [conditions, setConditions] = useState(defaultValueConditions);
+	useEffect(() => {
+		dispatch(saveProperty({ updateConditions: conditions }));
+	}, [conditions]);
+
+	// Input for Update Column
+	const [columns, setColumns] = useState(
+		defaultColumns.reduce((obj, columnName) => {
+			obj[columnName.toLowerCase()] = `$${columnName}`;
+			return obj;
+		}, {})
+	);
+	useEffect(() => {
+		dispatch(saveProperty({ updateColumns: columns }));
+	}, [columns]);
+
+	// Load Default Data
+	useEffect(() => {
+		const { updateColumns, updateConditions } =
+			nodeStore[currentID]?.property || {};
+		setColumns(
+			updateColumns ??
+				defaultColumns.reduce((obj, columnName) => {
+					obj[columnName.toLowerCase()] = `$${columnName}`;
+					return obj;
+				}, {})
+		);
+		setConditions(updateConditions || defaultValueConditions);
+	}, [currentID]);
 
 	return (
 		<>
@@ -36,46 +74,43 @@ export default function Method_Update() {
 					{/* Data Panel */}
 					<Tab.Panel>
 						<>
-							<InputText
-								title="Update Column"
-								description={
-									<div className="font-bold">id</div>
-								}
-								placeholder="value"
-								defaultValue={value1}
-								controller={setValue1}
-							></InputText>
-							<InputText
-								description={
-									<div className="font-bold">Firstname</div>
-								}
-								placeholder="value"
-								defaultValue={value2}
-								controller={setValue2}
-							></InputText>
-							<InputText
-								description={
-									<div className="font-bold">Lastname</div>
-								}
-								placeholder="value"
-								defaultValue={value3}
-								controller={setValue3}
-							></InputText>
-							<InputText
-								description={
-									<div className="font-bold">Password</div>
-								}
-								placeholder="value"
-								defaultValue={value4}
-								controller={setValue4}
-								underline={true}
-							></InputText>
+							<div className="title text-lg text-primary-900 font-bold">
+								Update Column
+							</div>
+							{Object.entries(columns).map(
+								([columnName, defaultValue], index) => (
+									<InputText
+										key={index}
+										description={
+											<div className="font-bold">
+												{columnName}
+											</div>
+										}
+										placeholder="value"
+										defaultValue={defaultValue}
+										controller={(value) => {
+											setColumns((prevColumns) => ({
+												...prevColumns,
+												[columnName]: value,
+											}));
+										}}
+										underline={
+											index !==
+											Object.keys(columns).length - 1
+										}
+									></InputText>
+								)
+							)}
 						</>
 					</Tab.Panel>
 
 					{/* Conditon Panel */}
 					<Tab.Panel>
-						<InputCondition title="Update Condition"></InputCondition>
+						<InputCondition
+							title="Update Condition"
+							controller={setConditions}
+							defaultValue={conditions}
+						></InputCondition>
 					</Tab.Panel>
 				</Tab.Panels>
 			</Tab.Group>

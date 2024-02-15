@@ -128,7 +128,7 @@ function ModelEdit() {
         <hr className="w-full border-gray-400 ml-5" />
       </div>
       <div className="field-list">
-        {/* {modelFields}asd */}
+        {/* {modelFields} */}
         <form onSubmit={handleAddField}>
           <table className="w-full border border-collapse mt-2">
             <thead>

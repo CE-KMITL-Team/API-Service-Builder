@@ -150,15 +150,30 @@ async function getAllTablesStructure(databaseName) {
 }
 
 router.get("/getModelDetail", async (req, res) => {
-	const { model_id } = req.query;
+	const { model_id, model_name, workspace_id } = req.query;
 
 	try {
-		const modelDetailsResult = await getDBName_From_ModelID(model_id);
-		const model = await modelModel.findOne({
-			where: {
-				id: model_id,
-			},
-		});
+		let modelDetailsResult = {};
+		let model = {};
+
+		if (model_name) {
+			model = await modelModel.findOne({
+				where: {
+					name: model_name,
+					workspace_id: workspace_id,
+				},
+			});
+
+			modelDetailsResult = await getDBName_From_ModelID(model.id);
+		} else {
+			modelDetailsResult = await getDBName_From_ModelID(model_id);
+
+			model = await modelModel.findOne({
+				where: {
+					id: model_id,
+				},
+			});
+		}
 
 		if (model) {
 			const allTablesData = await getAllTablesStructure(

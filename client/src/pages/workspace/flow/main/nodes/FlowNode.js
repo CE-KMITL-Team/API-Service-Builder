@@ -9,6 +9,7 @@ function FlowNode({
 	name,
 	type,
 	reference,
+	model,
 	icon,
 	using = false,
 	allowDrag = true,
@@ -20,7 +21,15 @@ function FlowNode({
 	const [{ isDragging }, drag, preview] = useDrag(() => ({
 		type: "FLOW_NODE",
 		canDrag: allowDrag,
-		item: { name, type, ref: reference, icon },
+		item: {
+			name,
+			type,
+			ref: reference,
+			icon,
+			...(model !== "" &&
+				model !== undefined &&
+				model !== null && { model: model }),
+		},
 		collect: (monitor) => ({
 			isDragging: !!monitor.isDragging(),
 		}),
@@ -33,6 +42,9 @@ function FlowNode({
 				name,
 				type,
 				ref: reference,
+				...(model !== "" &&
+					model !== undefined &&
+					model !== null && { model: model }),
 			})
 		);
 	};

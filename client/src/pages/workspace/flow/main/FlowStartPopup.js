@@ -8,7 +8,7 @@ import { useDispatch } from "react-redux";
 import {
 	fetchAddFlow,
 	fetchEditDataFlows,
-	fetchGetModelDetail,
+	fetchGetFlowDetailByName,
 } from "../../../../actions/flowActions";
 
 function FlowStartPopup({ isOpen, onRequestClose }) {
@@ -26,7 +26,7 @@ function FlowStartPopup({ isOpen, onRequestClose }) {
 	const dispatch = useDispatch();
 
 	const getFlowDetail = async () => {
-		const response = await dispatch(fetchGetModelDetail(activeFlow));
+		const response = await dispatch(fetchGetFlowDetailByName(activeFlow));
 
 		if (response.status) {
 			setIdFlow(response.data.id)

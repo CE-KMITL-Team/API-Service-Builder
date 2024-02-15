@@ -61,3 +61,23 @@ export function editDataFlows(id, columns) {
 			return response;
 		});
 }
+export function saveFlowMarkdown(flow_name, markdown) {
+	return api
+		.post(apiMap.SAVE_MARKDOWN, {
+			flow_name: flow_name,
+			markdown: JSON.stringify(markdown),
+		})
+		.then((response) => {
+			return response;
+		});
+}
+
+export function getFlowMarkdownByName(flow_name) {
+	return api
+		.get(apiMap.GET_MARKDOWN_BY_NAME, {
+			params: { flow_name: flow_name },
+		})
+		.then((response) => {
+			return response;
+		});
+}

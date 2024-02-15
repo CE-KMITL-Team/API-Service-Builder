@@ -7,14 +7,14 @@ export default function Loading() {
 	return (
 		<>
 			{isLoading && (
-				<div class="bg-black/80 fixed top-0 left-0 w-screen h-screen items-center block z-50">
+				<div className="bg-black/80 fixed top-0 left-0 w-screen h-screen items-center block z-50">
 					<div
 						role="status"
-						class="absolute -translate-x-1/2 -translate-y-1/2 top-2/4 left-1/2"
+						className="absolute -translate-x-1/2 -translate-y-1/2 top-2/4 left-1/2"
 					>
 						<svg
 							aria-hidden="true"
-							class="w-24 h-24 text-gray-200 animate-spin dark:text-gray-600 fill-primary-700"
+							className="w-24 h-24 text-gray-200 animate-spin dark:text-gray-600 fill-primary-700"
 							viewBox="0 0 100 101"
 							fill="none"
 							xmlns="http://www.w3.org/2000/svg"

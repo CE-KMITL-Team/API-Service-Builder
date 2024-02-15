@@ -1,4 +1,8 @@
-import { FOCUS_NODE, SAVE_PROPERTY } from "../actions/flowActions";
+import {
+	DELETE_NODE_PROPERTY,
+	FOCUS_NODE,
+	SAVE_PROPERTY,
+} from "../actions/flowActions";
 
 const initialState = {
 	currentNode: null,
@@ -13,22 +17,33 @@ export const flowReducer = (state = initialState, action) => {
 				currentNode: action.payload,
 			};
 		case SAVE_PROPERTY:
-			const { property } = action.payload;
+			const { property, force } = action.payload;
 
-			const id = state.currentNode.id;
+			if (force) {
+				return {
+					...state,
+					flowProperty: property,
+				};
+			}
+
+			const saveId = state.currentNode.id;
 			const type = state.currentNode.data.ref;
+			const model = state.currentNode.data?.model ?? undefined;
 
-			if (state.flowProperty[id]) {
-				const { [id]: oldData, ...rest } = state.flowProperty;
+			if (state.flowProperty[saveId]) {
+				const { [saveId]: oldData, ...rest } = state.flowProperty;
 
 				return {
 					...state,
 					flowProperty: {
 						...rest,
-						[id]: {
+						[saveId]: {
 							type,
+							...(model !== "" &&
+								model !== undefined &&
+								model !== null && { model: model }),
 							property: {
-								...state.flowProperty[id].property,
+								...state.flowProperty[saveId].property,
 								...property,
 							},
 						},
@@ -39,13 +54,29 @@ export const flowReducer = (state = initialState, action) => {
 					...state,
 					flowProperty: {
 						...state.flowProperty,
-						[id]: {
+						[saveId]: {
 							type,
 							property,
 						},
 					},
 				};
 			}
+
+		case DELETE_NODE_PROPERTY:
+			const { id } = action.payload;
+			const newState = { ...state };
+
+			if (newState.flowProperty[id]) {
+				const { [id]: deletedNode, ...remainingFlowProperty } =
+					newState.flowProperty;
+
+				newState.flowProperty = remainingFlowProperty;
+
+				return newState;
+			}
+
+			return state;
+
 		default:
 			return state;
 	}

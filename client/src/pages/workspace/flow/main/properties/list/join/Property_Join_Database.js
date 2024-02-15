@@ -11,13 +11,7 @@ const defaultValue_groupBy = "";
 const defaultValue_limit = "";
 const defaultValue_noLimit = true;
 const defaultValue_createSumColumn = "";
-const defaultValue_whereConditions = [
-	{
-		left: "",
-		right: "",
-		condition: "",
-	},
-];
+const defaultValue_whereConditions = [];
 
 export default function Property_Join_Database() {
 	const dispatch = useDispatch();

@@ -40,24 +40,6 @@ const nodeListJson = [
 				ref: "join",
 				icon: icon({ name: "link", style: "solid" }),
 			},
-			{
-				name: "User",
-				type: "default",
-				ref: "database",
-				icon: icon({ name: "database", style: "solid" }),
-			},
-			{
-				name: "Book",
-				type: "default",
-				ref: "database",
-				icon: icon({ name: "database", style: "solid" }),
-			},
-			{
-				name: "Category",
-				type: "default",
-				ref: "database",
-				icon: icon({ name: "database", style: "solid" }),
-			},
 		],
 	},
 ];

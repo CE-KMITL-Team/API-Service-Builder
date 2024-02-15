@@ -29,7 +29,7 @@ export default function InputText({
 					setValue(e.target.value);
 					controller(e.target.value);
 				}}
-				value={value}
+				value={type !== "number" ? value : parseInt(value ?? 0)}
 			/>
 			{underline && <hr className="my-5 w-full border-gray-400 py-0" />}
 		</div>
