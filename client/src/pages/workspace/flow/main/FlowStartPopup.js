@@ -61,14 +61,14 @@ function FlowStartPopup({ isOpen, onRequestClose }) {
 			name: name,
 			description: description,
 			API: path,
+			workspace_id: workspaceUtils.getID(),
 		};
-		console.log(editedData)
-		console.log("asdasdas", activeFlow)
+
 		try {
 			await dispatch(fetchEditDataFlows(idFlow, editedData));
 			console.log("test", idFlow, editedData)
 			onRequestClose();
-			navigate(`/workspace/${projectName}/flows/${activeFlow}`);
+			navigate(`/workspace/${projectName}/flows/${name}`);
 		} catch (error) {
 			console.error("Error editing data:", error);
 		}

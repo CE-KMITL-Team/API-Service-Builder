@@ -91,7 +91,7 @@ function FlowList() {
 				fetchDeleteFlows(workspaceUtils.getID(), flow_id)
 			);
 			initialState()
-			console.log("asdasd", workspaceUtils.getID(), flow_id)
+			
 
 		} catch (error) {
 			console.error("Error deleting data:", error);
