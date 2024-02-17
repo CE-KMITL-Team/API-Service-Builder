@@ -5,14 +5,14 @@ import { useDispatch } from "react-redux";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import {
   fetchGetModelDetail,
-  ferchEditModel,
+  fetchEditModel,
 } from "../../../actions/modelActions";
+
 import modelUtils from "../../../utils/modelUtils";
 import workspaceUtils from "../../../utils/workspaceUtils";
 
 function ModelEdit() {
   const [modelFields, setModelFields] = useState([]);
-  const [editingModel, setEditingModel] = useState(null);
 
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
@@ -39,6 +39,7 @@ function ModelEdit() {
   // Add a new empty field to the modelFields
   const handleAddField = (e) => {
     e.preventDefault();
+
     const newName = e.target.elements.name.value;
     const newType = e.target.elements.type.value;
     const newLength = e.target.elements.lengths.value;
@@ -52,7 +53,7 @@ function ModelEdit() {
 
     const newField = {
       name: newName,
-      type: newType,
+      type: newType === "int" ? "number" : newType,
       length: newLength || null,
       default_value: newDefaultValue || null,
       auto_increment: newAutoIncrement,
@@ -61,57 +62,53 @@ function ModelEdit() {
     setModelFields([...modelFields, newField]);
   };
 
-  // Edit the field
-  // const handleEditField = (index) => {
-  //   setEditingModel(modelFields[index]);
-  //   // console.log("Edit field at index:", index);
+  // const handleCheckboxChange = (method) => {
+  //   // Check if the method is already selected
+  //   if (selectedMethods.includes(method)) {
+  //     // If selected, remove it from the list
+  //     setSelectedMethods(selectedMethods.filter((m) => m !== method));
+  //   } else {
+  //     // If not selected, add it to the list
+  //     setSelectedMethods([...selectedMethods, method]);
+  //   }
   // };
 
-  const handleCheckboxChange = (method) => {
-    // Check if the method is already selected
-    if (selectedMethods.includes(method)) {
-      // If selected, remove it from the list
-      setSelectedMethods(selectedMethods.filter((m) => m !== method));
-    } else {
-      // If not selected, add it to the list
-      setSelectedMethods([...selectedMethods, method]);
-    }
-  };
-
   const handleEditField = (id) => {
-    const fieldToEdit = modelFields.find((field) => field.id === id);
+    const fieldToEdit = modelFields.find((field) => field.name === id);
     if (fieldToEdit) {
       setEditIndex(id);
       setEditName(fieldToEdit.name);
-      setEditType(fieldToEdit.type);
-      setEditLength(fieldToEdit.length || null);
-      setEditDefaultValue(fieldToEdit.default_value || null);
+      setEditType(fieldToEdit.type === "int" ? "number" : fieldToEdit.type);
+      setEditLength(fieldToEdit.length || "");
+      setEditDefaultValue(fieldToEdit.default_value || "");
       setEditAutoIncrement(fieldToEdit.auto_increment);
     }
   };
 
   const handleSaveEditField = () => {
-    const index = modelFields.findIndex((field) => field.id === editIndex);
+    const index = modelFields.findIndex((field) => field.name === editIndex);
     if (index !== -1) {
+      const updatedFields = [...modelFields]; // คัดลอก state เพื่อป้องกันการอัปเดตโดยตรง
       const newField = {
         id: editIndex,
         name: editName,
-        type: editType,
+        type: editType === "int" ? "number" : editType,
         length: editLength || null,
         default_value: editDefaultValue || null,
         auto_increment: editAutoIncrement,
       };
-      modelFields[index] = newField;
-      resetEditState();
+      updatedFields[index] = newField; // อัปเดตข้อมูลของฟิลด์ที่ถูกแก้ไข
+      setModelFields(updatedFields); // ปรับปรุง state ของ modelFields
+      resetEditState(); // รีเซ็ตสถานะการแก้ไข
     }
   };
 
   const resetEditState = () => {
     setEditIndex(null);
-    setEditName(null);
-    setEditType(null);
-    setEditLength(null);
-    setEditDefaultValue(null);
+    setEditName("");
+    setEditType("");
+    setEditLength("");
+    setEditDefaultValue("");
     setEditAutoIncrement(false);
   };
 
@@ -133,31 +130,31 @@ function ModelEdit() {
     });
 
     const response = await dispatch(
-      ferchEditModel(
+      fetchEditModel(
         workspaceUtils.getID(),
-        name,
+        name === "" ? modelUtils.getCurrentName() : name,
         description,
         cleanedModelFields,
         selectedMethods
       )
     );
-    if (response) {
-      navigate(`/workspace/${projectName}/model/${name}`);
+
+    if (response.status === true) {
+      navigate(
+        `/workspace/${projectName}/model/${
+          name !== "" ? name : modelUtils.getCurrentName()
+        }`
+      );
     } else {
       alert("Can't add model.");
     }
   };
 
   // Remove the field
-  const handleDeleteField = (index) => {
-    const updatedFields = [...modelFields];
-    updatedFields.splice(index, 1);
-    setModelFields(updatedFields);
-  };
-
-  const handleEditFieldChange = (e, index, fieldKey) => {
-    const updatedFields = [...modelFields];
-    updatedFields[index][fieldKey] = e.target.value;
+  const handleDeleteField = (fieldName) => {
+    const updatedFields = modelFields.filter(
+      (field) => field.name !== fieldName
+    );
     setModelFields(updatedFields);
   };
 
@@ -166,7 +163,17 @@ function ModelEdit() {
       const data = await dispatch(fetchGetModelDetail(id));
 
       if (data.status === true) {
-        setModelFields(data.data.tables);
+        const changeType = data.data.tables.map((field) => {
+          if (field.type === "int") {
+            return {
+              ...field,
+              type: "number",
+            };
+          } else {
+            return field;
+          }
+        });
+        setModelFields(changeType);
       } else {
         setModelFields([]);
       }
@@ -174,36 +181,15 @@ function ModelEdit() {
       console.error("Error fetching data:", error);
     }
   }
-
-  // const handleSaveField = async (index) => {
-  //   const newData = { ...modelFields[index], ...editingModel };
-  //   try {
-  //     await dispatch(ferchEditModel(idParam, newData));
-  //     console.log("Save field at index:", idParam, newData);
-  //     setEditingModel(null);
-  //   } catch (error) {
-  //     console.error("Error editing data:", error);
-  //   }
-  // };
-
-  // const handleEditSubmit = async (e) => {
-  //   e.preventDefault();
-  //   try {
-  //     await Promise.all(
-  //       modelFields.map((field, index) => handleSaveField(index))
-  //     );
-  //     console.log("Edit submitted successfully");
-  //   } catch (error) {
-  //     console.error("Error submitting edit:", error);
-  //   }
-  // };
-
+  console.log("modelUtils.getCurrentName()", modelUtils.getCurrentName());
   useEffect(() => {
     const urlParams = new URLSearchParams(window.location.search);
     const id = urlParams.get("id");
 
     initState(id);
     setIdParam(id);
+
+    console.log("modelFields", modelFields);
   }, [location]);
 
   return (
@@ -235,8 +221,10 @@ function ModelEdit() {
             type="text"
             id="model_name"
             className="bg-gray-50 border border-gray-300 text-gray-900 text-md rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
-            placeholder="User"
+            placeholder={modelUtils.getCurrentName()}
             required
+            value={name ?? ""}
+            onChange={(e) => setName(e.target.value)}
           />
         </div>
         <div className="group w-full">
@@ -250,8 +238,10 @@ function ModelEdit() {
             type="text"
             id="description"
             className="bg-gray-50 border border-gray-300 text-gray-900 text-md rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
-            placeholder="This model for user data"
+            placeholder={modelUtils.getCurrentDescription()}
             required
+            value={description ?? ""}
+            onChange={(e) => setDescription(e.target.value)}
           />
         </div>
       </div>
@@ -280,7 +270,7 @@ function ModelEdit() {
               {modelFields.map((field, index) => (
                 <tr key={index} className="border-t">
                   <td className="p-2 border">
-                    {editIndex === field.id  ? (
+                    {editIndex === field.name ? (
                       <input
                         type="text"
                         className="bg-gray-50 border border-gray-300 text-gray-900 text-md rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
@@ -294,24 +284,30 @@ function ModelEdit() {
                     )}
                   </td>
                   <td className="p-2 border">
-                    {editIndex === field.id ? (
+                    {editIndex === field.name ? (
                       <select
                         name="type"
                         className="w-full bg-gray-50 border border-gray-300 text-gray-900 text-md rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5"
-                        defaultValue={editType}
-                        onChange={(e) => setEditType(e.target.value)}
+                        defaultValue={editType === "int" ? "number" : editType}
+                        onChange={(e) =>
+                          setEditType(
+                            e.target.value === "int" ? "number" : e.target.value
+                          )
+                        }
                       >
                         <option value="string">string</option>
                         <option value="number">number</option>
                         <option value="float">float</option>
                         <option value="date">date</option>
                       </select>
+                    ) : field.type === "int" ? (
+                      "number"
                     ) : (
                       field.type
                     )}
                   </td>
                   <td className="p-2 border">
-                    {editIndex === field.id  ? (
+                    {editIndex === field.name ? (
                       <input
                         type="number"
                         className="bg-gray-50 border border-gray-300 text-gray-900 text-md rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
@@ -324,7 +320,7 @@ function ModelEdit() {
                     )}
                   </td>
                   <td className="p-2 border">
-                    {editIndex === field.id  ? (
+                    {editIndex === field.name ? (
                       <input
                         type="text"
                         className="bg-gray-50 border border-gray-300 text-gray-900 text-md rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
@@ -337,7 +333,7 @@ function ModelEdit() {
                     )}
                   </td>
                   <td className="p-2 border">
-                    {editIndex === field.id  ? (
+                    {editIndex === field.name ? (
                       <input
                         type="checkbox"
                         className="bg-gray-50 border border-gray-300 text-gray-900 text-md rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
@@ -372,7 +368,7 @@ function ModelEdit() {
                   </td> */}
                   <td className="p-2">
                     <div className="flex justify-evenly">
-                      {editIndex === field.id  ? (
+                      {editIndex === field.name ? (
                         <>
                           <FontAwesomeIcon
                             icon={icon({
@@ -398,7 +394,7 @@ function ModelEdit() {
                               name: "pen-to-square",
                               style: "solid",
                             })}
-                            onClick={() => handleEditField(field.id)}
+                            onClick={() => handleEditField(field.name)}
                             className="scale-105 ml-2 opacity-90 cursor-pointer duration-75 text-orange-500 hover:text-orange-700"
                           />
                           <FontAwesomeIcon
@@ -406,7 +402,7 @@ function ModelEdit() {
                               name: "trash",
                               style: "solid",
                             })}
-                            onClick={() => handleDeleteField(field.id)}
+                            onClick={() => handleDeleteField(field.name)}
                             className="scale-105 ml-2 opacity-90 cursor-pointer duration-75 text-red-500 hover:text-red-700"
                           />
                         </>

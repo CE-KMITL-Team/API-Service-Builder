@@ -8,7 +8,7 @@ import { fetchGetModelWorkspace } from "../../../actions/modelActions";
 import workspaceUtils from "../../../utils/workspaceUtils";
 import modelUtils from "../../../utils/modelUtils";
 
-function ModelMenu({ refresh }) {
+function ModelMenu() {
   const [isResized, setIsResized] = useState(false);
   const [isHidden, setIsHidden] = useState(false);
   const [models, setModel] = useState([]);
@@ -57,7 +57,7 @@ function ModelMenu({ refresh }) {
 
   useEffect(() => {
     initState();
-  }, [location]);
+  }, [location, projectName]);
 
   return (
     <div

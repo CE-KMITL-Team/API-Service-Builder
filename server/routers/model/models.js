@@ -11,7 +11,7 @@ const generateModel = (schemaName, modelName, fieldList) => {
 	const attributes = {};
 	fieldList.forEach((field) => {
 		const { name, type, length, default_value, auto_increment } = field;
-
+		console.log(type);
 		attributes[name] = {
 			type:
 				type === "number"

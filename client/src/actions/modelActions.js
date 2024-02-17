@@ -124,7 +124,7 @@ export function fetchDeleteModel(workspace_id, model_id) {
     }
   };
 }
-export function ferchEditModel(
+export function fetchEditModel(
   workspace_id,
   model_name,
   model_desc,

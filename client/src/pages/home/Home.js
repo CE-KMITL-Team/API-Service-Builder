@@ -90,7 +90,7 @@ function Home() {
 					<div className="flex max-w-xl flex-col justify-between shadow-lg rounded-md w-full">
 						<iframe
 							className="w-full h-96 rounded-md"
-							src="https://www.youtube.com/embed/LQLf8BuiK68"
+							src="https://www.youtube.com/embed/3oIyxRO9O3k"
 							allowFullScreen
 							title="YouTube Video"
 						></iframe>

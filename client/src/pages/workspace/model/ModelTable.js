@@ -9,7 +9,6 @@ import {
   fetchDeleteDataModels,
 } from "../../../actions/dataModelActions";
 import modelUtils from "../../../utils/modelUtils";
-import { text } from "@fortawesome/fontawesome-svg-core";
 import { fetchGetModelDetail } from "../../../actions/modelActions";
 import { useLocation } from "react-router-dom";
 
