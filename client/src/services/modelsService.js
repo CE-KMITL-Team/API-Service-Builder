@@ -21,6 +21,19 @@ export function createModel(
 		});
 }
 
+export function editModel(workspace_id, model_name, model_desc, field_list) {
+  return api
+    .put(apiMap.EDIT_MODEL, {
+      workspace_id: workspace_id,
+      model_name: model_name,
+      model_desc: model_desc,
+      field_list: field_list,
+    })
+    .then((response) => {
+      return response;
+    });
+}
+
 export function getModelWorkspace(workspace_id) {
 	return api
 		.get(apiMap.GET_MODELWORKSPACE, {

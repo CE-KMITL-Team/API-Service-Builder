@@ -202,7 +202,7 @@ function ModelAdd() {
                 <th className="bg-primary-900 text-white p-2 border">
                   Default Value
                 </th>
-                <th className="bg-primary-900 text-white p-2 border">AI</th>
+                <th className="bg-primary-900 text-white p-2 border">PK</th>
                 <th className="bg-primary-900 text-white p-2 border">Action</th>
               </tr>
             </thead>

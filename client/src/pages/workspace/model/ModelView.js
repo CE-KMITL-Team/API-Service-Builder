@@ -63,7 +63,7 @@ function ModelView() {
 
   useEffect(() => {
     initState();
-    
+
     const handleKeyDown = (event) => {
       if ((event.ctrlKey || event.metaKey) && event.key === "k") {
         event.preventDefault();
@@ -144,14 +144,13 @@ function ModelView() {
           highlight={searchTerm}
         />
         <button className="bg-primary-900 text-white hover:bg-primary-700 rounded-md px-3 py-2 flex ml-auto shadow-sm items-center gap-x-3 mt-2 ">
-          <FontAwesomeIcon
-            icon={icon({
-              name: "file-excel",
-              style: "solid",
-            })}
-            className="scale-105"
-          />
-          <div className="text-md">Import</div>
+          <div className="text-md flex items-center">
+            <img
+              className="h-5 mr-2"
+              src="https://upload.wikimedia.org/wikipedia/commons/thumb/7/73/Microsoft_Excel_2013-2019_logo.svg/2170px-Microsoft_Excel_2013-2019_logo.svg.png"
+            />
+            Import
+          </div>
         </button>
       </div>
     </div>
