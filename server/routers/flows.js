@@ -73,21 +73,37 @@ router.get("/getFlowDetailByName", async (req, res) => {
 router.post("/add", async (req, res) => {
   const { name, description, API, markdown, status, workspace_id } = req.body;
   try {
-    const checkName = await flowModel.findOne({ where: { name } });
-    const checkAPI = await flowModel.findOne({ where: { API: API } });
+    // const checkName = await flowModel.findOne({ where: { name } });
+    // const checkAPI = await flowModel.findOne({ where: { API: API } });
 
-    if (checkName) {
+    // if (checkName) {
+    //   return res.status(200).send({
+    //     status: false,
+    //     msg: "Flow name is already used !",
+    //   });
+    // }
+    // if (checkAPI) {
+    //   return res.status(200).send({
+    //     status: false,
+    //     msg: "Flow path is already used !",
+    //   });
+    // }
+
+    const checkDuplicate = await flowModel.findAll({
+      where: {
+        [Op.or]: [{ name: name }, { API: API }],
+        [Op.and]: [{ workspace_id: workspace_id }],
+      },
+    });
+
+    console.log("check",checkDuplicate)
+    if (checkDuplicate.length != 0) {
       return res.status(200).send({
         status: false,
-        msg: "Flow name is already used !",
+        msg: "Flow name or API-Path is already used !",
       });
     }
-    if (checkAPI) {
-      return res.status(200).send({
-        status: false,
-        msg: "Flow path is already used !",
-      });
-    }
+
 
     const newFlow = await flowModel.create({
       name: name,
