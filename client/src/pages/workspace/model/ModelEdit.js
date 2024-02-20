@@ -41,6 +41,12 @@ function ModelEdit() {
     e.preventDefault();
 
     const newName = e.target.elements.name.value;
+
+    if (modelFields.some((field) => field.name === newName)) {
+      alert("Field name already exists. Please choose a different name.");
+      return;
+    }
+
     const newType = e.target.elements.type.value;
     const newLength = e.target.elements.lengths.value;
     const newDefaultValue = e.target.elements.defaultValue.value;
@@ -53,46 +59,45 @@ function ModelEdit() {
 
     const newField = {
       name: newName,
-      type: newType === "int" ? "number" : newType,
+      type: newType,
       length: newLength || null,
       default_value: newDefaultValue || null,
       auto_increment: newAutoIncrement,
     };
 
     setModelFields([...modelFields, newField]);
+    e.target.reset();
   };
 
-  // const handleCheckboxChange = (method) => {
-  //   // Check if the method is already selected
-  //   if (selectedMethods.includes(method)) {
-  //     // If selected, remove it from the list
-  //     setSelectedMethods(selectedMethods.filter((m) => m !== method));
-  //   } else {
-  //     // If not selected, add it to the list
-  //     setSelectedMethods([...selectedMethods, method]);
-  //   }
-  // };
-
   const handleEditField = (id) => {
-    const fieldToEdit = modelFields.find((field) => field.name === id);
-    if (fieldToEdit) {
-      setEditIndex(id);
-      setEditName(fieldToEdit.name);
-      setEditType(fieldToEdit.type === "int" ? "number" : fieldToEdit.type);
-      setEditLength(fieldToEdit.length || "");
-      setEditDefaultValue(fieldToEdit.default_value || "");
-      setEditAutoIncrement(fieldToEdit.auto_increment);
+    if (id !== "id") {
+      const fieldToEdit = modelFields.find((field) => field.name === id);
+      if (fieldToEdit) {
+        setEditIndex(id);
+        setEditName(fieldToEdit.name);
+        setEditType(fieldToEdit.type);
+        setEditLength(fieldToEdit.length || "");
+        setEditDefaultValue(fieldToEdit.default_value || "");
+        setEditAutoIncrement(fieldToEdit.auto_increment);
+      }
     }
   };
 
   const handleSaveEditField = () => {
     const index = modelFields.findIndex((field) => field.name === editIndex);
     if (index !== -1) {
+      const newName = editName;
+      if (
+        modelFields.some((field, i) => i !== index && field.name === newName)
+      ) {
+        alert("Field name already exists. Please choose a different name.");
+        return;
+      }
       const updatedFields = [...modelFields]; // คัดลอก state เพื่อป้องกันการอัปเดตโดยตรง
       const newField = {
         id: editIndex,
         name: editName,
-        type: editType === "int" ? "number" : editType,
+        type: editType,
         length: editLength || null,
         default_value: editDefaultValue || null,
         auto_increment: editAutoIncrement,
@@ -288,20 +293,14 @@ function ModelEdit() {
                       <select
                         name="type"
                         className="w-full bg-gray-50 border border-gray-300 text-gray-900 text-md rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5"
-                        defaultValue={editType === "int" ? "number" : editType}
-                        onChange={(e) =>
-                          setEditType(
-                            e.target.value === "int" ? "number" : e.target.value
-                          )
-                        }
+                        defaultValue={editType}
+                        onChange={(e) => setEditType(e.target.value)}
                       >
                         <option value="string">string</option>
                         <option value="number">number</option>
-                        <option value="float">float</option>
+                        <option value="double">double</option>
                         <option value="date">date</option>
                       </select>
-                    ) : field.type === "int" ? (
-                      "number"
                     ) : (
                       field.type
                     )}
@@ -321,13 +320,23 @@ function ModelEdit() {
                   </td>
                   <td className="p-2 border">
                     {editIndex === field.name ? (
-                      <input
-                        type="text"
-                        className="bg-gray-50 border border-gray-300 text-gray-900 text-md rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
-                        name="edit-defaultValue"
-                        value={editDefaultValue || ""}
-                        onChange={(e) => setEditDefaultValue(e.target.value)}
-                      />
+                      field.type === "date" ? (
+                        <input
+                          type="date"
+                          className="bg-gray-50 border border-gray-300 text-gray-900 text-md rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+                          name="edit-defaultValue"
+                          value={editDefaultValue || ""}
+                          onChange={(e) => setEditDefaultValue(e.target.value)}
+                        />
+                      ) : (
+                        <input
+                          type={field.type === "number" ? "number" : "text"}
+                          className="bg-gray-50 border border-gray-300 text-gray-900 text-md rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+                          name="edit-defaultValue"
+                          value={editDefaultValue || ""}
+                          onChange={(e) => setEditDefaultValue(e.target.value)}
+                        />
+                      )
                     ) : (
                       field.default_value
                     )}
@@ -353,82 +362,53 @@ function ModelEdit() {
                       />
                     )}
                   </td>
-
-                  {/* <td className="p-2 border">{field.name}</td>
-                  <td className="p-2 border">{field.type}</td>
-                  <td className="p-2 border">{field.length || "-"}</td>
-                  <td className="p-2 border">{field.default_value || "-"}</td>
-                  <td className="p-2 border">
-                    <input
-                      type="checkbox"
-                      className="bg-gray-50 border border-gray-300 text-gray-900 text-md rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
-                      defaultChecked={field.auto_increment}
-                      disabled
-                    />
-                  </td> */}
                   <td className="p-2">
                     <div className="flex justify-evenly">
-                      {editIndex === field.name ? (
+                      {field.name !== "id" && ( // เพิ่มเงื่อนไขเช็คว่าชื่อ Field ไม่ใช่ "id" ก่อนที่จะแสดงตัวเลือกการแก้ไขและลบ
                         <>
-                          <FontAwesomeIcon
-                            icon={icon({
-                              name: "save",
-                              style: "solid",
-                            })}
-                            className="scale-110 ml-2 opacity-90 cursor-pointer duration-75 text-primary-700 hover:text-primary-900"
-                            onClick={() => handleSaveEditField()}
-                          />
-                          <FontAwesomeIcon
-                            icon={icon({
-                              name: "xmark",
-                              style: "solid",
-                            })}
-                            className="scale-125 ml-2 opacity-90 cursor-pointer duration-75 text-red-500 hover:text-red-700"
-                            onClick={() => handleCancelEdit()}
-                          />
-                        </>
-                      ) : (
-                        <>
-                          <FontAwesomeIcon
-                            icon={icon({
-                              name: "pen-to-square",
-                              style: "solid",
-                            })}
-                            onClick={() => handleEditField(field.name)}
-                            className="scale-105 ml-2 opacity-90 cursor-pointer duration-75 text-orange-500 hover:text-orange-700"
-                          />
-                          <FontAwesomeIcon
-                            icon={icon({
-                              name: "trash",
-                              style: "solid",
-                            })}
-                            onClick={() => handleDeleteField(field.name)}
-                            className="scale-105 ml-2 opacity-90 cursor-pointer duration-75 text-red-500 hover:text-red-700"
-                          />
+                          {editIndex === field.name ? (
+                            <>
+                              <FontAwesomeIcon
+                                icon={icon({
+                                  name: "save",
+                                  style: "solid",
+                                })}
+                                className="scale-110 ml-2 opacity-90 cursor-pointer duration-75 text-primary-700 hover:text-primary-900"
+                                onClick={() => handleSaveEditField()}
+                              />
+                              <FontAwesomeIcon
+                                icon={icon({
+                                  name: "xmark",
+                                  style: "solid",
+                                })}
+                                className="scale-125 ml-2 opacity-90 cursor-pointer duration-75 text-red-500 hover:text-red-700"
+                                onClick={() => handleCancelEdit()}
+                              />
+                            </>
+                          ) : (
+                            <>
+                              <FontAwesomeIcon
+                                icon={icon({
+                                  name: "pen-to-square",
+                                  style: "solid",
+                                })}
+                                onClick={() => handleEditField(field.name)}
+                                className="scale-105 ml-2 opacity-90 cursor-pointer duration-75 text-orange-500 hover:text-orange-700"
+                              />
+                              <FontAwesomeIcon
+                                icon={icon({
+                                  name: "trash",
+                                  style: "solid",
+                                })}
+                                onClick={() => handleDeleteField(field.name)}
+                                className="scale-105 ml-2 opacity-90 cursor-pointer duration-75 text-red-500 hover:text-red-700"
+                              />
+                            </>
+                          )}
                         </>
                       )}
                     </div>
                   </td>
-                  {/* <td className="p-2">
-                    <div className="flex justify-evenly">
-                      <FontAwesomeIcon
-                        icon={icon({
-                          name: "pen-to-square",
-                          style: "solid",
-                        })}
-                        className="scale-105 ml-2 opacity-90 cursor-pointer duration-75 text-orange-500 hover:text-orange-700"
-                        onClick={() => handleEditField(index)}
-                      />
-                      <FontAwesomeIcon
-                        icon={icon({
-                          name: "trash",
-                          style: "solid",
-                        })}
-                        className="scale-105 ml-2 opacity-90 cursor-pointer duration-75 text-red-500 hover:text-red-700"
-                        onClick={() => handleDeleteField(index)}
-                      />
-                    </div>
-                  </td> */}
                 </tr>
               ))}
               <tr className="border-t">
@@ -448,7 +428,7 @@ function ModelEdit() {
                   >
                     <option value="string">string</option>
                     <option value="number">number</option>
-                    <option value="float">float</option>
+                    <option value="double">double</option>
                     <option value="date">date</option>
                   </select>
                 </td>

@@ -76,7 +76,7 @@ function ModelView() {
     return () => {
       window.removeEventListener("keydown", handleKeyDown);
     };
-  }, [location]);
+  }, [location, modelUtils]);
 
   return (
     <div className="p-5 pl-10 pr-20 flex-1 flex flex-col h-screen">

@@ -1,11 +1,10 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { icon } from "@fortawesome/fontawesome-svg-core/import.macro";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useDispatch } from "react-redux";
-import { fetchCreateModel, } from "../../../actions/modelActions";
+import { fetchCreateModel } from "../../../actions/modelActions";
 import { useParams, useNavigate } from "react-router-dom";
 import workspaceUtils from "../../../utils/workspaceUtils";
-import modelUtils from "../../../utils/modelUtils";
 
 function ModelAdd() {
   // Input
@@ -16,6 +15,7 @@ function ModelAdd() {
   const [editIndex, setEditIndex] = useState(null);
   const [editName, setEditName] = useState();
   const [editType, setEditType] = useState();
+  const [addType, setAddType] = useState();
   const [editLength, setEditLength] = useState();
   const [editDefaultValue, setEditDefaultValue] = useState();
   const [editAutoIncrement, setEditAutoIncrement] = useState();
@@ -41,11 +41,21 @@ function ModelAdd() {
     e.preventDefault();
     const { name, type, lengths, defaultValue, autoIncrement } =
       e.target.elements;
+
+    const isNewFieldNameUnique = !modelFields.some(
+      (field) => field.name === name.value.trim()
+    );
+
+    if (!isNewFieldNameUnique) {
+      alert("Field name must be unique.");
+      return;
+    }
+
     const newField = {
       id: modelFields.length,
       name: name.value,
       type: type.value,
-      length: lengths.value || null,
+      length: lengths.value,
       default_value: defaultValue.value || null,
       auto_increment: autoIncrement.checked,
     };
@@ -68,6 +78,15 @@ function ModelAdd() {
   const handleSaveEditField = () => {
     const index = modelFields.findIndex((field) => field.id === editIndex);
     if (index !== -1) {
+      const newName = editName;
+
+      if (
+        modelFields.some((field, i) => i !== index && field.name === newName)
+      ) {
+        alert("Field name already exists. Please choose a different name.");
+        return;
+      }
+
       const newField = {
         id: editIndex,
         name: editName,
@@ -105,11 +124,13 @@ function ModelAdd() {
   };
 
   const handleSaveModel = async () => {
+    if (name.trim() === "") {
+      alert("Please enter a model name.");
+      return;
+    }
     const cleanedModelFields = modelFields.map((field) => {
-      // Use object destructuring to create a copy of the field without the "id" key
       const { id, ...cleanedField } = field;
 
-      // Use Object.fromEntries to filter out keys with null values
       const filteredField = Object.fromEntries(
         Object.entries(cleanedField).filter(([_, value]) => value !== null)
       );
@@ -232,7 +253,7 @@ function ModelAdd() {
                       >
                         <option value="string">string</option>
                         <option value="number">number</option>
-                        <option value="float">float</option>
+                        <option value="double">double</option>
                         <option value="date">date</option>
                       </select>
                     ) : (
@@ -256,7 +277,13 @@ function ModelAdd() {
                     {`${editIndex}` === `${field.id}` ? (
                       <input
                         name="edit-defaultValue"
-                        type="text"
+                        type={
+                          editType === "date"
+                            ? "date"
+                            : editType === "number" || editType === "double"
+                            ? "number"
+                            : "text"
+                        }
                         className="bg-gray-50 border border-gray-300 text-gray-900 text-md rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
                         value={editDefaultValue || ""}
                         onChange={(e) => setEditDefaultValue(e.target.value)}
@@ -344,10 +371,11 @@ function ModelAdd() {
                   <select
                     name="type"
                     className="w-full bg-gray-50 border border-gray-300 text-gray-900 text-md rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5"
+                    onChange={(e) => setAddType(e.target.value)}
                   >
                     <option value="string">string</option>
                     <option value="number">number</option>
-                    <option value="float">float</option>
+                    <option value="double">double</option>
                     <option value="date">date</option>
                   </select>
                 </td>
@@ -361,7 +389,7 @@ function ModelAdd() {
                 </td>
                 <td className="p-2 border">
                   <input
-                    type="text"
+                    type={addType === "date" ? "date" : "text"}
                     className="bg-gray-50 border border-gray-300 text-gray-900 text-md rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
                     placeholder="Default Value"
                     name="defaultValue"

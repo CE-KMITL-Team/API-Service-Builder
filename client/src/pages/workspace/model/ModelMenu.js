@@ -133,7 +133,11 @@ function ModelMenu() {
         <div className="list flex flex-col gap-x-5">
           {fileterData().map((val) => (
             <div key={val.id}>
-              <ModelMenuCard data={val} />
+              <ModelMenuCard
+                allModel={fileterData()}
+                data={val}
+                refresh={initState}
+              />
               <hr className="my-2 border-gray-400" />
             </div>
           ))}

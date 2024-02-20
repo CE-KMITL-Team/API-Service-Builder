@@ -105,8 +105,9 @@ function ModelTable({ data, header, refresh, highlight }) {
         const tableData = data.data.tables.map((table) => ({
           Header: table.name,
           accessor: table.name,
+          type: table.type,
         }));
-
+        console.log(data.data.tables);
         setTableHeader(tableData);
       }
     } catch (error) {
@@ -118,6 +119,16 @@ function ModelTable({ data, header, refresh, highlight }) {
   useEffect(() => {
     loadDefaulHeader();
   }, [location]);
+
+  function formatDateToYYYYMMDD(dateString) {
+    const date = new Date(dateString);
+
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, "0");
+    const day = String(date.getDate()).padStart(2, "0");
+
+    return `${year}-${month}-${day}`;
+  }
 
   return (
     <form onSubmit={handleAddField}>
@@ -158,7 +169,18 @@ function ModelTable({ data, header, refresh, highlight }) {
               <td className="p-2 border" key={val.accessor}>
                 {val.accessor !== "id" && (
                   <input
-                    type="text"
+                    type={
+                      val.type === "date"
+                        ? "date"
+                        : val.type === "int"
+                        ? "number"
+                        : "text"
+                    }
+                    // value={
+                    //   val.type !== "date"
+                    //     ? inputValues[val.accessor]
+                    //     : formatDateToYYYYMMDD(inputValues[val.accessor])
+                    // }
                     className="bg-gray-50 border border-gray-300 text-gray-900 text-md rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
                     placeholder={val.Header}
                     required
@@ -198,11 +220,23 @@ function ModelTable({ data, header, refresh, highlight }) {
                     {cell.column.id !== "id" && isEditing ? (
                       <input
                         className="bg-gray-50 border border-gray-300 text-gray-900 text-md rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
-                        type="text"
+                        type={
+                          tableHeader[cellIndex].type === "date"
+                            ? "date"
+                            : tableHeader[cellIndex].type === "int"
+                            ? "number"
+                            : "text"
+                        }
                         value={
-                          inputValues[cell.column.id] !== undefined
-                            ? inputValues[cell.column.id]
-                            : cell.value
+                          tableHeader[cellIndex].type !== "date"
+                            ? inputValues[cell.column.id] !== undefined
+                              ? inputValues[cell.column.id]
+                              : cell.value
+                            : inputValues[cell.column.id] !== undefined
+                            ? formatDateToYYYYMMDD(inputValues[cell.column.id])
+                            : formatDateToYYYYMMDD(
+                                cell.value === null ? "" : cell.value
+                              )
                         }
                         onChange={(e) => handleInputChange(e, cell.column.id)}
                       />

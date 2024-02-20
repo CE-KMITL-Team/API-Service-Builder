@@ -7,7 +7,7 @@ import { fetchDeleteModel } from "../../../actions/modelActions";
 import { useDispatch } from "react-redux";
 import workspaceUtils from "../../../utils/workspaceUtils";
 
-function ModelMenuCard({ data }) {
+function ModelMenuCard({ allModel, data, refresh }) {
   const [idParam, setIdParam] = useState(null);
 
   const { projectName, activeModel } = useParams();
@@ -27,11 +27,19 @@ function ModelMenuCard({ data }) {
     navigate(`/workspace/${projectName}/editModel?id=${modelID}`);
   };
 
-  const handleDeleteModel = async () => {
+  const handleDeleteModel = async (modelData) => {
     try {
-      await dispatch(
-        fetchDeleteModel(workspaceUtils.getID(), modelUtils.getCurrentID())
-      );
+      await dispatch(fetchDeleteModel(workspaceUtils.getID(), modelData.id));
+
+      if (allModel?.length || 0 > 0) {
+        if (modelData.name.toLowerCase() === activeModel.toLowerCase()) {
+          handleModelLinkClick(allModel[0].name);
+          modelUtils.setCurrent(allModel[0]);
+        }
+      } else {
+        navigate(`/workspace/${projectName}/addmodel`);
+      }
+      refresh();
     } catch (error) {
       console.error("Error deleting data:", error);
     }
@@ -71,7 +79,7 @@ function ModelMenuCard({ data }) {
             className="scale-105 opacity-90 cursor-pointer duration-75 text-orange-500 hover:text-orange-700"
           />
         </div>
-        <div onClick={handleDeleteModel}>
+        <div onClick={() => handleDeleteModel(data)}>
           <FontAwesomeIcon
             icon={icon({
               name: "trash",
