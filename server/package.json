@@ -25,10 +25,17 @@
 	"description": "",
 	"devDependencies": {
 		"jest": "^29.7.0",
+		"jest-html-reporter": "^3.10.2",
 		"supertest": "^6.3.4"
-	} ,
+	},
 	"jest": {
 		"testEnvironment": "node",
-		"testRegex": "(/unitTest/.*|(\\.|/)(test|spec))\\.(js)$"
-	  }
+		"testRegex": "(/unitTest/.*|(\\.|/)(test|spec))\\.(js)$",
+		"reporters": [
+			"default",
+			["./node_modules/jest-html-reporter", {
+				"pageTitle": "Test Report"
+			}]
+		]
+	}
 }

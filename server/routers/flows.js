@@ -50,7 +50,7 @@ router.get("/getMarkdownByName", async (req, res) => {
   }
 });
 
-// Get Flow Detail By ID
+// Get Flow Detail By name
 router.get("/getFlowDetailByName", async (req, res) => {
   const { flow_name } = req.query;
   try {
