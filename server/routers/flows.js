@@ -73,21 +73,6 @@ router.get("/getFlowDetailByName", async (req, res) => {
 router.post("/add", async (req, res) => {
   const { name, description, API, markdown, status, workspace_id } = req.body;
   try {
-    // const checkName = await flowModel.findOne({ where: { name } });
-    // const checkAPI = await flowModel.findOne({ where: { API: API } });
-
-    // if (checkName) {
-    //   return res.status(200).send({
-    //     status: false,
-    //     msg: "Flow name is already used !",
-    //   });
-    // }
-    // if (checkAPI) {
-    //   return res.status(200).send({
-    //     status: false,
-    //     msg: "Flow path is already used !",
-    //   });
-    // }
 
     const checkDuplicate = await flowModel.findAll({
       where: {

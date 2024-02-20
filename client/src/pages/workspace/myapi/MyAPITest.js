@@ -1,8 +1,58 @@
 import { icon } from "@fortawesome/fontawesome-svg-core/import.macro";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import React from "react";
+import React, { useEffect, useState } from "react";
+import axios from "axios";
 
-function MyAPITest() {
+function MyAPITest({focusValue}) {
+	const [api, setApi] = useState("")
+	console.log("api", api)
+	const [paramData, setParam] = useState("")
+	const [rawAPI, setRawAPI] = useState("")
+	const [focusData, setFocusData] = useState("")
+
+	console.log("njkhjj", paramData)
+	useEffect(() => {
+		setApi(focusData)
+	}, [focusData,focusValue])
+	
+	
+	
+	const onChangData = (e) => {
+		setApi(e.target.value)
+		setlink(e.target.value)
+	}
+	console.log(onChangData)
+	const setlink = (link) => {
+		setRawAPI(link)
+	}
+
+	useEffect(() => {
+	}, [rawAPI])
+
+	useEffect(() => { setFocusData(focusValue)
+	}, [])
+
+	const handleRunClick = async () => {
+		console.log(rawAPI)
+		try {
+
+			await axios.post(`${rawAPI}`, {
+				email: "mosmoth04@gmail.com",
+				password: "1234"
+			})
+				.then((res) => {
+					console.log(res.data)
+					
+				})
+		} catch (error) {
+			console.error("Error fetching data:", error);
+			
+		}
+	}
+
+
+	// const handleOnchangAPIPath = (e) => {
+	// console.log(e)
 	return (
 		<div className="test-section h-full flex flex-col">
 			<div className="group">
@@ -27,13 +77,16 @@ function MyAPITest() {
 					</label>
 					<input
 						type="text"
+						value={focusValue}
+						// onChange={(e)=>  setApi(e.target.value)}
+						onChange={onChangData}
 						id="api-path"
 						className="bg-gray-50 border border-gray-300 text-gray-900 text-md rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
-						placeholder="/user/3"
+						placeholder="value"
 						required
 					/>
 				</div>
-				<button className="bg-primary-900 text-white hover:bg-primary-800 rounded-md py-2 text-lg shadow-md px-8 w-fit mt-3 max-w-lg flex items-center gap-x-3">
+				<button className="bg-primary-900 text-white hover:bg-primary-800 rounded-md py-2 text-lg shadow-md px-8 w-fit mt-3 max-w-lg flex items-center gap-x-3" onClick={handleRunClick}>
 					<FontAwesomeIcon
 						icon={icon({
 							name: "play",
@@ -55,6 +108,8 @@ function MyAPITest() {
 
 				<div className="group flex-1">
 					<textarea
+						onChange={(e) => setParam(e.target.value)}
+						value={paramData}
 						id="Parameter"
 						className="resize-none h-full p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500"
 					></textarea>

@@ -10,6 +10,7 @@ const workspace = require("./routers/workspace");
 const cors = require("cors");
 const app = express();
 const port = 3200;
+
 app.use(cors());
 
 //Setting Json Body
@@ -25,5 +26,14 @@ app.use("/workspace", workspace);
 app.listen(port, () => {
 	console.log(`Server is running on http://localhost:${port}`);
 });
+
+// const httpServer = app.listen(port, () => {
+// 	console.log(`Server is running on http://localhost:${port}`);
+
+// });
+
+// setTimeout(function () {
+// 	httpServer.close();
+// }, 3000);
 
 module.exports = app;

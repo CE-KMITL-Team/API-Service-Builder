@@ -168,6 +168,7 @@ router.get("/get/workspaceDetailByID", async (req, res) => {
 		console.error("Error fetching workspaces:", error);
 		return res.status(500).send({ error: "Internal Server Error" });
 	}
+
 });
 
 module.exports = router;

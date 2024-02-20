@@ -7,7 +7,7 @@ import workspaceUtils from "../../../utils/workspaceUtils";
 import { useDispatch } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
 
-function MyAPICard({ data, reload }) {
+function MyAPICard({ data, reload, handleClickApiCard }) {
 	const menuItems = [
 		{
 			label: (
@@ -45,6 +45,7 @@ function MyAPICard({ data, reload }) {
 		navigate(`/workspace/${projectName}/flows/${data.name}`);
 	}
 	const dispatch = useDispatch();
+
 	async function onDelete() {
 		try {
 			await dispatch(
@@ -63,6 +64,7 @@ function MyAPICard({ data, reload }) {
 			<div className="detail flex gap-x-7 items-center">
 				<div className="path font-bold">{data.API}</div>
 				<div className="path text-gray-400">{data.description}</div>
+				
 			</div>
 			<div className="group relative tools">
 

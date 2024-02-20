@@ -7,12 +7,13 @@ import { useDispatch } from "react-redux";
 import MyAPITest from "./MyAPITest";
 import workspaceUtils from "../../../utils/workspaceUtils";
 import { fetchGetFlows, fetchDeleteFlows } from "../../../actions/flowActions";
-
+import axios from "axios";
 
 function MyAPI() {
 	// ];
 	const [flowLists, setFlowlist] = useState([]);
 	const dispatch = useDispatch();
+	const [focusData, setFocusData] = useState("")
 
 	async function initialState() {
 		try {
@@ -38,6 +39,14 @@ function MyAPI() {
 	useEffect(() => {
 		initialState()
 	}, [])
+	const handleClickApiCard = (val) => {
+		console.log(val.API)
+		setFocusData(val.API)
+
+	}
+	useEffect(() => {
+		console.log(focusData)
+	}, [focusData])
 
 
 	return (
@@ -59,15 +68,18 @@ function MyAPI() {
 					<div className="list mt-3 flex flex-col gap-y-5">
 						{flowLists.length !== 0 ? (
 							flowLists.map((val) => (
-								<MyAPICard data={val} reload={() => initialState()}></MyAPICard>
+								<div onClick={() => handleClickApiCard(val)}>
+									<MyAPICard data={val} reload={() => initialState()} ></MyAPICard>
+								</div>
 							))
 						) : (
-							<div className="ml-11 text-gray-700">You need to create api first . . .</div>
+							<div className="ml-11 text-gray-700" >You need to create api first . . .</div>
 						)}
 					</div>
 				</div>
 				<div className="test w-1/2 bg-grey p-5 border-solid border-l-2 border-gray-400 h-full">
-					<MyAPITest />
+					<MyAPITest focusValue={focusData}/>
+
 				</div>
 			</div>
 		</div>
