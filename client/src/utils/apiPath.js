@@ -34,4 +34,5 @@ export const apiMap = {
 	ADD_DATA_MODELS: (modelID) => `/models/${modelID}/add`,
 	EDIT_DATA_MODELS: (modelID) => `/models/${modelID}/edit`,
 	DELETE_DATA_MODELS: (modelID) => `/models/${modelID}/delete`,
+	ADD_EXCEL_DATA: (modelID) => `/models/${modelID}/addExcel`,
 };

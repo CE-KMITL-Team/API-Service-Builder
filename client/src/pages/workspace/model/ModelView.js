@@ -1,11 +1,13 @@
-import { icon } from "@fortawesome/fontawesome-svg-core/import.macro";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React, { useState, useEffect, useRef } from "react";
 import ModelTable from "./ModelTable";
 import { useDispatch } from "react-redux";
-import { fetchGetDataModels } from "../../../actions/dataModelActions";
+import {
+  fetchGetDataModels,
+  fetchAddExcel,
+} from "../../../actions/dataModelActions";
 import { useLocation } from "react-router-dom";
 import modelUtils from "../../../utils/modelUtils";
+import * as XLSX from "xlsx";
 
 function ModelView() {
   const [data, setData] = useState([]);
@@ -15,17 +17,18 @@ function ModelView() {
   const dispatch = useDispatch();
   const location = useLocation();
   const searchRef = useRef(null);
+  const fileInputRef = useRef(null);
 
   async function initState() {
     try {
-      const data = await dispatch(
+      const response = await dispatch(
         fetchGetDataModels(modelUtils.getCurrentID())
       );
-      if (data.status === true) {
-        setData(data.data);
+      if (response.status === true) {
+        setData(response.data);
 
         setTransformedArray(
-          Object.keys(data.data[0] || {}).map((key) => ({
+          Object.keys(response.data[0] || {}).map((key) => ({
             Header: key,
             accessor: key,
           }))
@@ -38,20 +41,20 @@ function ModelView() {
     }
   }
 
-  const fileterData = () => {
+  const filterData = () => {
     return data.filter((item) => {
       return (
         (selectedHeader === "- All -" ||
-          item[selectedHeader]
-            ?.toString()
-            .toLowerCase()
-            .includes(searchTerm.toLowerCase())) &&
-        Object.keys(item).some((key) => {
-          return item[key]
-            ?.toString()
-            .toLowerCase()
-            .includes(searchTerm.toLowerCase());
-        })
+          (item[selectedHeader] &&
+            item[selectedHeader]
+              .toString()
+              .toLowerCase()
+              .includes(searchTerm.toLowerCase()))) &&
+        Object.values(item).some(
+          (value) =>
+            value &&
+            value.toString().toLowerCase().includes(searchTerm.toLowerCase())
+        )
       );
     });
   };
@@ -59,6 +62,47 @@ function ModelView() {
   const handleChange = (event) => {
     const selectedValue = event.target.value;
     setSelectedHeader(selectedValue);
+  };
+
+  const handleFileUpload = async (e) => {
+    const file = e.target.files[0];
+    const reader = new FileReader();
+    reader.onload = async (evt) => {
+      const binaryString = evt.target.result;
+      const workbook = XLSX.read(binaryString, { type: "binary" });
+      const sheetName = workbook.SheetNames[0];
+      const worksheet = workbook.Sheets[sheetName];
+      const excelData = XLSX.utils.sheet_to_json(worksheet, { header: 1 });
+
+      //check header match
+      const excelHeaders = excelData[0];
+      const existingHeaders = Object.keys(data[0] || {});
+      const headersMatch = excelHeaders.every((header) =>
+        existingHeaders.includes(header)
+      );
+
+      if (!headersMatch) {
+        alert("Imported data does not match existing headers!");
+        return;
+      }
+
+      // call API to add Excel data
+      try {
+        const addExcelResponse = await dispatch(
+          fetchAddExcel(modelUtils.getCurrentID(), excelData)
+        );
+        if (addExcelResponse.status === true) {
+          window.location.reload();
+        } else {
+          console.error("Error adding Excel data:", addExcelResponse.error);
+        }
+      } catch (error) {
+        console.error("Error adding Excel data:", error);
+      }
+
+      setData(excelData);
+    };
+    reader.readAsBinaryString(file);
   };
 
   useEffect(() => {
@@ -129,25 +173,34 @@ function ModelView() {
             />
             <div className="absolute inset-y-0 right-0 flex items-center text-gray-500">
               <p className="pr-4">
-                Ctrl
-                <span className="font-medium">+ K</span>
+                Ctrl<span className="font-medium">+ K</span>
               </p>
             </div>
           </div>
         </div>
       </div>
       <div className="data mt-5 flex-1 overflow-auto w-full">
+        <input
+          type="file"
+          ref={fileInputRef}
+          onChange={handleFileUpload}
+          style={{ display: "none" }}
+        />
         <ModelTable
-          data={fileterData()}
+          data={filterData()}
           header={transformedArray}
           refresh={initState}
           highlight={searchTerm}
         />
-        <button className="bg-primary-900 text-white hover:bg-primary-700 rounded-md px-3 py-2 flex ml-auto shadow-sm items-center gap-x-3 mt-2 ">
+        <button
+          className="bg-primary-900 text-white hover:bg-primary-700 rounded-md px-3 py-2 flex ml-auto shadow-sm items-center gap-x-3 mt-2 "
+          onClick={() => fileInputRef.current.click()}
+        >
           <div className="text-md flex items-center">
             <img
               className="h-5 mr-2"
               src="https://upload.wikimedia.org/wikipedia/commons/thumb/7/73/Microsoft_Excel_2013-2019_logo.svg/2170px-Microsoft_Excel_2013-2019_logo.svg.png"
+              alt="Excel Logo"
             />
             Import
           </div>

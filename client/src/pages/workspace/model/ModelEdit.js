@@ -186,15 +186,13 @@ function ModelEdit() {
       console.error("Error fetching data:", error);
     }
   }
-  console.log("modelUtils.getCurrentName()", modelUtils.getCurrentName());
+
   useEffect(() => {
     const urlParams = new URLSearchParams(window.location.search);
     const id = urlParams.get("id");
 
     initState(id);
     setIdParam(id);
-
-    console.log("modelFields", modelFields);
   }, [location]);
 
   return (
@@ -358,6 +356,9 @@ function ModelEdit() {
                         type="checkbox"
                         className="bg-gray-50 border border-gray-300 text-gray-900 text-md rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
                         defaultChecked={field.auto_increment}
+                        style={{
+                          display: field.name === "id" ? "block" : "none",
+                        }}
                         disabled
                       />
                     )}
@@ -452,6 +453,7 @@ function ModelEdit() {
                   <input
                     type="checkbox"
                     className="bg-gray-50 border border-gray-300 text-gray-900 text-md rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+                    style={{ display: "none" }}
                     name="autoIncrement"
                   />
                 </td>

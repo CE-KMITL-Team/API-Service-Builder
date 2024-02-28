@@ -223,7 +223,12 @@ function ModelAdd() {
                 <th className="bg-primary-900 text-white p-2 border">
                   Default Value
                 </th>
-                <th className="bg-primary-900 text-white p-2 border">PK</th>
+                <th
+                  className="bg-primary-900 text-white p-2 border"
+                  style={{ display: "none" }}
+                >
+                  PK
+                </th>
                 <th className="bg-primary-900 text-white p-2 border">Action</th>
               </tr>
             </thead>
@@ -292,7 +297,7 @@ function ModelAdd() {
                       field.default_value || "-"
                     )}
                   </td>
-                  <td className="p-2 border">
+                  <td className="p-2 border" style={{ display: "none" }}>
                     {`${editIndex}` === `${field.id}` ? (
                       <input
                         name="edit-auto_increment"
@@ -395,7 +400,7 @@ function ModelAdd() {
                     name="defaultValue"
                   />
                 </td>
-                <td className="p-2 border">
+                <td className="p-2 border" style={{ display: "none" }}>
                   <input
                     type="checkbox"
                     className="bg-gray-50 border border-gray-300 text-gray-900 text-md rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"

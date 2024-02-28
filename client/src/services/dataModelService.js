@@ -30,3 +30,11 @@ export function deleteDataModels(modelID, id) {
       return response;
     });
 }
+
+export function addExcel(modelID, excelData) {
+  return api
+    .post(apiMap.ADD_EXCEL_DATA(modelID), { data: excelData })
+    .then((response) => {
+      return response;
+    });
+}

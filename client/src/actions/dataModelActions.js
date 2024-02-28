@@ -3,6 +3,7 @@ import {
   addDataModels,
   editDataModels,
   deleteDataModels,
+  addExcel,
 } from "../services/dataModelService";
 import { endFetch, errorFetch, startFetch } from "./loadingActions";
 
@@ -78,6 +79,28 @@ export function fetchDeleteDataModels(modelID, id) {
       dispatch(startFetch());
 
       const data = await deleteDataModels(modelID, id);
+
+      if (data) {
+        dispatch(endFetch());
+        dispatch(errorFetch(null));
+
+        return Promise.resolve(data);
+      }
+    } catch (error) {
+      console.log(error);
+      dispatch(errorFetch(error));
+
+      return Promise.resolve(false);
+    }
+  };
+}
+
+export function fetchAddExcel(modelID, excelData) {
+  return async (dispatch) => {
+    try {
+      dispatch(startFetch());
+
+      const data = await addExcel(modelID, excelData);
 
       if (data) {
         dispatch(endFetch());

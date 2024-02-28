@@ -230,10 +230,6 @@ router.delete("/delete", async (req, res) => {
 
     const schemaName = `${workspace.owner_id}-${workspace.name.toLowerCase()}`;
 
-    // const modelExists = await customSequelize(schemaName)
-    //   .getQueryInterface()
-    //   .showAllTables();
-
     const tableExist = await modelModel.findOne({
       where: {
         workspace_id: workspace_id,
@@ -278,7 +274,7 @@ router.delete("/delete", async (req, res) => {
 });
 
 router.put("/edit", async (req, res) => {
-  const { workspace_id, model_name, field_list } = req.body;
+  const { workspace_id, model_name, description, field_list } = req.body;
 
   try {
     const workspace = await workspaceModel.findByPk(workspace_id);
@@ -299,6 +295,7 @@ router.put("/edit", async (req, res) => {
         .status(200)
         .send({ msg: "Model/table not found", status: false });
     }
+
     const updataedModel = generateModel(schemaName, model_name, field_list);
     await updataedModel.sync({ alter: true });
     return res.status(200).send({ status: true });

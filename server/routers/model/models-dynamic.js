@@ -1,8 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const { Sequelize } = require("sequelize");
-const workspaceModel = require("../../models/workspaceModel");
-const modelModel = require("../../models/modelModel");
+
 const { customSequelize } = require("../../services/database");
 const { getDBName_From_ModelID } = require("./modelDetail");
 
@@ -158,6 +157,51 @@ router.put("/:modelID/edit", async (req, res) => {
         .status(500)
         .json({ msg: "Internal server error", status: false });
     });
+});
+
+function generateSQLInsert(tableName, dataList) {
+  if (!dataList || dataList.length === 0) {
+    throw new Error("Data list is empty.");
+  }
+
+  const columns = dataList[0];
+  const values = dataList
+    .slice(1)
+    .map((row) => `(${row.map((value) => `"${value}"`).join(",")})`)
+    .join(",");
+
+  return `INSERT INTO \`${tableName}\`(${columns
+    .map((col) => `\`${col}\``)
+    .join(",")}) VALUES ${values}`;
+}
+
+router.post("/:modelID/addExcel", async (req, res) => {
+  const { modelID } = req.params;
+  const { data } = req.body;
+
+  const modelDetailsResult = await getDBName_From_ModelID(modelID);
+
+  if (!modelDetailsResult) {
+    return res.status(404).json({
+      msg: "Model not found or invalid workspace details",
+      status: false,
+    });
+  }
+
+  const { modelDetails, schemaName } = modelDetailsResult;
+
+  const sequelizeInstance = customSequelize(schemaName);
+
+  try {
+    const sql = generateSQLInsert(modelDetails.name, data);
+
+    await sequelizeInstance.query(sql);
+
+    return res.status(200).json({ status: true, data: sql });
+  } catch (error) {
+    console.error("Internal server error", error);
+    return res.status(500).json({ msg: "Can't insert data", status: false });
+  }
 });
 
 module.exports = router;

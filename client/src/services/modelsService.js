@@ -71,3 +71,5 @@ export function deleteModel(workspace_id, model_id) {
 			return response;
 		});
 }
+
+
