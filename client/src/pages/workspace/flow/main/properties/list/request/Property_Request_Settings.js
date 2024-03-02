@@ -21,6 +21,11 @@ export default function Property_Request_Settings() {
 		setOutput(output ?? defaultValue_output);
 	}, []);
 
+	// Save Default Property
+	useEffect(() => {
+		dispatch(saveProperty({ output: output }));
+	}, []);
+
 	return (
 		<>
 			<InputText

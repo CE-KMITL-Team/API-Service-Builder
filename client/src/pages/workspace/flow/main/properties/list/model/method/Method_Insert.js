@@ -3,9 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { saveProperty } from "../../../../../../../../actions/flowActions";
 import InputText from "../../../inputs/InputText";
 
-const defaultColumns = ["id", "Firstname", "Lastname", "Password"];
-
-export default function Method_Insert({columnList}) {
+export default function Method_Insert({ columnList }) {
 	const dispatch = useDispatch();
 
 	const nodeStore = useSelector((state) => state.focusNode.flowProperty);
@@ -14,51 +12,68 @@ export default function Method_Insert({columnList}) {
 	);
 
 	// Columns for Insert
-	const [columns, setColumns] = useState(
-		defaultColumns.reduce((obj, columnName) => {
-			obj[columnName.toLowerCase()] = columnName;
-			return obj;
-		}, {})
-	);
-	useEffect(() => {
-		dispatch(saveProperty({ insertColumns: columns }));
-	}, [columns]);
+	const [columns, setColumns] = useState({});
 
-	// Load Default Data
 	useEffect(() => {
 		const { insertColumns } = nodeStore[currentID]?.property || {};
 		setColumns(
 			insertColumns ??
-				defaultColumns.reduce((obj, columnName) => {
-					obj[columnName.toLowerCase()] = columnName;
+				columnList.reduce((obj, column) => {
+					const { name, default_value } = column;
+					obj[name.toLowerCase()] = `${default_value}`;
 					return obj;
 				}, {})
 		);
-	}, [currentID]);
+	}, [currentID, columnList]);
+
+	useEffect(() => {
+		dispatch(saveProperty({ insertColumns: columns }));
+	}, [columns, dispatch]);
 
 	return (
 		<>
 			<div className="title text-lg text-primary-900 font-bold">
 				Insert Column
 			</div>
-			{Object.entries(columns).map(
-				([columnName, defaultValue], index) => (
-					<InputText
-						key={index}
-						description={
-							<div className="font-bold">{columnName}</div>
-						}
-						placeholder="value"
-						defaultValue={defaultValue}
-						controller={(value) => {
-							setColumns((prevColumns) => ({
-								...prevColumns,
-								[columnName]: value,
-							}));
-						}}
-						underline={index !== Object.keys(columns).length - 1}
-					></InputText>
-				)
+			{Object.entries(columnList).map(
+				([columnIndex, columnInfo], index) => {
+					const columnName =
+						columnList[columnIndex].name.toLowerCase();
+
+					if (columnName === "id") {
+						return "";
+					}
+
+					const loadDefault = nodeStore[currentID]?.property
+						?.insertColumns
+						? nodeStore[currentID].property.insertColumns[
+								columnName
+						  ]
+							? nodeStore[currentID].property.insertColumns[
+									columnName
+							  ]
+							: ""
+						: "";
+					return (
+						<InputText
+							key={index}
+							description={
+								<div className="font-bold">{columnName}</div>
+							}
+							placeholder="value"
+							defaultValue={loadDefault}
+							controller={(value) => {
+								setColumns((prevColumns) => ({
+									...prevColumns,
+									[columnName]: value,
+								}));
+							}}
+							underline={
+								index !== Object.keys(columnList).length - 1
+							}
+						></InputText>
+					);
+				}
 			)}
 		</>
 	);

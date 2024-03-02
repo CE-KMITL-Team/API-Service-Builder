@@ -22,6 +22,11 @@ export default function Property_Condition_Settings() {
 		setConditionValue(condition ?? []);
 	}, [currentID]);
 
+	// Save Default Property
+	useEffect(() => {
+		dispatch(saveProperty({ condition: conditionValue }));
+	}, []);
+
 	return (
 		<InputCondition
 			title="Condition List"

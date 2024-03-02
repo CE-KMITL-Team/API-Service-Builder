@@ -63,6 +63,11 @@ export default function Property_Request_Parameter() {
 		setColumns(requestColumn ?? []);
 	}, []);
 
+	// Save Default Property
+	useEffect(() => {
+		dispatch(saveProperty({ requestColumn: columns }));
+	}, []);
+
 	return (
 		<>
 			<InputText

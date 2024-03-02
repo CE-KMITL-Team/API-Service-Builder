@@ -67,6 +67,17 @@ export default function Property_Join_Database() {
 		dispatch(saveProperty({ whereConditions }));
 	}, [whereConditions]);
 
+	// Save Default Property
+	useEffect(() => {
+		dispatch(saveProperty({ orderBy }));
+		dispatch(saveProperty({ direction }));
+		dispatch(saveProperty({ groupBy }));
+		dispatch(saveProperty({ limit }));
+		dispatch(saveProperty({ noLimit }));
+		dispatch(saveProperty({ createSumColumn }));
+		dispatch(saveProperty({ whereConditions }));
+	}, []);
+
 	// Load Default Data
 	useEffect(() => {
 		const {

@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import InputText from "../../inputs/InputText";
 import InputSelect from "../../inputs/InputSelect";
 import { saveProperty } from "../../../../../../../actions/flowActions";
+import InputTextArea from "../../inputs/InputTextArea";
 
 const defaultValue_output = "$response";
 const defaultValue_statusCode = "200 OK";
@@ -37,13 +38,13 @@ export default function Property_Return_Settings() {
 	return (
 		<>
 			{/* InputText for Output */}
-			<InputText
+			<InputTextArea
 				title="Output"
 				description="Response Value"
 				placeholder="variable"
 				defaultValue={output}
 				controller={setOutput}
-			></InputText>
+			></InputTextArea>
 
 			{/* InputSelect for Status Code */}
 			<InputSelect

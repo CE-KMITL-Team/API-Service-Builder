@@ -25,6 +25,11 @@ export default function Property_Join_Settings() {
 		setResultTable(resultTable ?? defaultValue_resultTable);
 	}, [currentID]);
 
+	// Save Default Property
+	useEffect(() => {
+		dispatch(saveProperty({ resultTable }));
+	}, []);
+
 	return (
 		<>
 			{/* InputText for Result Table */}

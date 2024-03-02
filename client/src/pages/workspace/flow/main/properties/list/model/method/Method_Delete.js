@@ -5,7 +5,7 @@ import { saveProperty } from "../../../../../../../../actions/flowActions"; // R
 
 const defaultValue_conditions = [];
 
-export default function Method_Delete({columnList}) {
+export default function Method_Delete({ columnList }) {
 	const dispatch = useDispatch();
 
 	const nodeStore = useSelector((state) => state.focusNode.flowProperty);
@@ -24,6 +24,11 @@ export default function Method_Delete({columnList}) {
 		const { deleteConditions } = nodeStore[currentID]?.property || {};
 		setConditions(deleteConditions || defaultValue_conditions);
 	}, [currentID]);
+
+	// Save Default Property
+	useEffect(() => {
+		dispatch(saveProperty({ deleteConditions: conditions }));
+	}, []);
 
 	return (
 		<>

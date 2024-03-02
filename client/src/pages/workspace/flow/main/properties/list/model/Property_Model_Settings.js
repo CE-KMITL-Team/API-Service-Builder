@@ -25,6 +25,11 @@ export default function Property_Model_Settings() {
 		setOutput(output ?? defaultValue_output);
 	}, [currentID]);
 
+	// Save Default Property
+	useEffect(() => {
+		dispatch(saveProperty({ output }));
+	}, []);
+
 	return (
 		<>
 			{/* InputText for Output */}

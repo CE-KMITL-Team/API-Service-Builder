@@ -20,6 +20,10 @@ import {
 } from "../../../../actions/flowActions";
 import ConditionNode from "../main/nodes/ConditionNode";
 import { useLocation, useParams } from "react-router-dom";
+import FlowSpaceTest from "./FlowSpaceTest";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { icon } from "@fortawesome/fontawesome-svg-core/import.macro";
+import FlowStartPopup from "./FlowStartPopup";
 
 const nodeTypes = {
 	condition: ConditionNode,
@@ -39,6 +43,7 @@ const FlowSpace = () => {
 
 	const [focusedNodeId, setFocusedNodeId] = useState(null);
 	const [reactFlowInstance, setReactFlowInstance] = useState(null);
+	const [autoSave, setAutoSave] = useState(false);
 	const { setViewport } = useReactFlow();
 
 	const [nodes, setNodes, onNodesChange] = useNodesState([]);
@@ -111,6 +116,8 @@ const FlowSpace = () => {
 		let timeoutId;
 
 		const saveFlowMarkdown = async () => {
+			setAutoSave(true);
+
 			const flowObj = reactFlowInstance?.toObject();
 			if (flowObj) {
 				dispatch(
@@ -169,6 +176,8 @@ const FlowSpace = () => {
 						item.model !== null && { model: item.model }),
 				},
 			};
+
+			setAutoSave(false);
 
 			setNodes((nds) => {
 				const nodeTempList = nds.concat(newNode);
@@ -246,58 +255,115 @@ const FlowSpace = () => {
 		edgeUpdateSuccessful.current = true;
 	}, []);
 
+	const [isPopupOpen, setIsPopupOpen] = useState(false);
+
+	const openPopup = () => {
+		setIsPopupOpen(true);
+	};
+
+	const closePopup = () => {
+		setIsPopupOpen(false);
+	};
+
 	return (
-		<ReactFlow
-			ref={(el) => {
-				reactFlowWrapper.current = el;
-				drop(el);
-			}}
-			nodes={nodes}
-			edges={edges}
-			onNodesChange={onNodesChange}
-			onEdgesChange={onEdgesChange}
-			onEdgeUpdate={onEdgeUpdate}
-			onEdgeUpdateStart={onEdgeUpdateStart}
-			onEdgeUpdateEnd={onEdgeUpdateEnd}
-			onConnect={onConnect}
-			onInit={setReactFlowInstance}
-			onDragOver={onDragOver}
-			onNodeClick={onNodeClick}
-			onNodeDragStart={onNodeClick}
-			elementsSelectable={false}
-			selectNodesOnDrag={false}
-			onKeyDown={handleKeyDown}
-			nodeTypes={nodeTypes}
-			fitView
-		>
-			<MiniMap
-				nodeStrokeColor={(node) => {
-					switch (node.type) {
-						case "input":
-							return "#374151";
-						case "output":
-							return "#ea580c";
-						default:
-							return "#2EA6B0";
-					}
-				}}
-				nodeColor={(node) => {
-					switch (node.type) {
-						case "input":
-							return "#6b7280";
-						case "output":
-							return "#f97316";
-						default:
-							return "#3DBCC7";
-					}
-				}}
-				nodeBorderRadius={2}
-				maskColor="#3030301D"
-				position="top-right"
-			/>
-			<Controls />
-			<Background color="#aaa" gap={16} />
-		</ReactFlow>
+		<>
+			<FlowStartPopup isOpen={isPopupOpen} onRequestClose={closePopup} />
+			<div className="flex flex-col h-full w-full relative">
+				<ReactFlow
+					ref={(el) => {
+						reactFlowWrapper.current = el;
+						drop(el);
+					}}
+					nodes={nodes}
+					edges={edges}
+					onNodesChange={onNodesChange}
+					onEdgesChange={onEdgesChange}
+					onEdgeUpdate={onEdgeUpdate}
+					onEdgeUpdateStart={onEdgeUpdateStart}
+					onEdgeUpdateEnd={onEdgeUpdateEnd}
+					onConnect={onConnect}
+					onInit={setReactFlowInstance}
+					onDragOver={onDragOver}
+					onNodeClick={onNodeClick}
+					onNodeDragStart={onNodeClick}
+					elementsSelectable={false}
+					selectNodesOnDrag={false}
+					onKeyDown={handleKeyDown}
+					nodeTypes={nodeTypes}
+					fitView
+				>
+					<MiniMap
+						nodeStrokeColor={(node) => {
+							switch (node.type) {
+								case "input":
+									return "#374151";
+								case "output":
+									return "#ea580c";
+								default:
+									return "#2EA6B0";
+							}
+						}}
+						nodeColor={(node) => {
+							switch (node.type) {
+								case "input":
+									return "#6b7280";
+								case "output":
+									return "#f97316";
+								default:
+									return "#3DBCC7";
+							}
+						}}
+						nodeBorderRadius={2}
+						maskColor="#3030301D"
+						position="top-right"
+					/>
+					<Controls />
+					<Background color="#aaa" gap={16} />
+				</ReactFlow>
+				<div className="action flex flex-col gap-y-4 items-start absolute left-8 top-5">
+					<div className="tools cursor-pointer text-gray-500 flex items-center gap-x-3 hover:text-primary-700 hover:scale-110 duration-100">
+						{autoSave ? (
+							<FontAwesomeIcon
+								icon={icon({
+									name: "save",
+									style: "solid",
+								})}
+								className="scale-125 text-lime-500"
+							/>
+						) : (
+							<FontAwesomeIcon
+								icon={icon({
+									name: "spinner",
+									style: "solid",
+								})}
+								className="scale-125 text-red-500 fa-spin"
+							/>
+						)}
+						<div
+							className={
+								autoSave ? "text-lime-500" : "text-red-500"
+							}
+						>
+							{autoSave ? "Saved" : "Saving. . ."}
+						</div>
+					</div>
+					<div
+						className="tools cursor-pointer text-gray-500 flex items-center gap-x-3 hover:text-primary-700 hover:scale-110 duration-100"
+						onClick={openPopup}
+					>
+						<FontAwesomeIcon
+							icon={icon({
+								name: "cog",
+								style: "solid",
+							})}
+							className="scale-125"
+						/>
+						<div className="text">Settings</div>
+					</div>
+				</div>
+				<FlowSpaceTest />
+			</div>
+		</>
 	);
 };
 

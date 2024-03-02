@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { saveProperty } from "../../../../../../../actions/flowActions";
 
 const defaultValue_count = "";
-const defaultValue_output = "$response";
+const defaultValue_output = "$count";
 
 export default function Property_Count_Settings() {
 	const dispatch = useDispatch();
@@ -35,6 +35,16 @@ export default function Property_Count_Settings() {
 		setCountData(count ?? defaultValue_count);
 		setOutputValue(output ?? defaultValue_output);
 	}, [currentID]);
+
+	// Save Default Property
+	useEffect(() => {
+		dispatch(saveProperty({ output: outputValue }));
+		dispatch(
+			saveProperty({
+				count: countData,
+			})
+		);
+	}, []);
 
 	return (
 		<>

@@ -5,10 +5,7 @@ import { Tab } from "@headlessui/react";
 import InputCondition from "../../../inputs/InputCondition";
 import InputText from "../../../inputs/InputText";
 
-const defaultColumns = ["id", "Firstname", "Lastname", "Password"];
-const defaultValueConditions = [];
-
-export default function Method_Update({columnList}) {
+export default function Method_Update({ columnList }) {
 	const dispatch = useDispatch();
 
 	const nodeStore = useSelector((state) => state.focusNode.flowProperty);
@@ -17,18 +14,13 @@ export default function Method_Update({columnList}) {
 	);
 
 	// Input for Conditions
-	const [conditions, setConditions] = useState(defaultValueConditions);
+	const [conditions, setConditions] = useState([]);
 	useEffect(() => {
 		dispatch(saveProperty({ updateConditions: conditions }));
 	}, [conditions]);
 
 	// Input for Update Column
-	const [columns, setColumns] = useState(
-		defaultColumns.reduce((obj, columnName) => {
-			obj[columnName.toLowerCase()] = `$${columnName}`;
-			return obj;
-		}, {})
-	);
+	const [columns, setColumns] = useState({});
 	useEffect(() => {
 		dispatch(saveProperty({ updateColumns: columns }));
 	}, [columns]);
@@ -37,15 +29,24 @@ export default function Method_Update({columnList}) {
 	useEffect(() => {
 		const { updateColumns, updateConditions } =
 			nodeStore[currentID]?.property || {};
+
 		setColumns(
 			updateColumns ??
-				defaultColumns.reduce((obj, columnName) => {
-					obj[columnName.toLowerCase()] = `$${columnName}`;
+				columnList.reduce((obj, column) => {
+					const { name, default_value } = column;
+					obj[name.toLowerCase()] = `${default_value}`;
 					return obj;
 				}, {})
 		);
-		setConditions(updateConditions || defaultValueConditions);
-	}, [currentID]);
+
+		setConditions(updateConditions || []);
+	}, [currentID, columnList]);
+
+	// Save Default Property
+	useEffect(() => {
+		dispatch(saveProperty({ updateConditions: conditions }));
+		dispatch(saveProperty({ updateColumns: columns }));
+	}, [conditions, columns, dispatch]);
 
 	return (
 		<>
@@ -77,34 +78,55 @@ export default function Method_Update({columnList}) {
 							<div className="title text-lg text-primary-900 font-bold">
 								Update Column
 							</div>
-							{Object.entries(columns).map(
-								([columnName, defaultValue], index) => (
-									<InputText
-										key={index}
-										description={
-											<div className="font-bold">
-												{columnName}
-											</div>
-										}
-										placeholder="value"
-										defaultValue={defaultValue}
-										controller={(value) => {
-											setColumns((prevColumns) => ({
-												...prevColumns,
-												[columnName]: value,
-											}));
-										}}
-										underline={
-											index !==
-											Object.keys(columns).length - 1
-										}
-									></InputText>
-								)
+							{Object.entries(columnList).map(
+								([columnIndex, columnInfo], index) => {
+									const columnName =
+										columnList[
+											columnIndex
+										].name.toLowerCase();
+
+									if (columnName === "id") {
+										return "";
+									}
+
+									const loadDefault = nodeStore[currentID]
+										?.property?.updateColumns
+										? nodeStore[currentID].property
+												.updateColumns[columnName]
+											? nodeStore[currentID].property
+													.updateColumns[columnName]
+											: ""
+										: "";
+
+									return (
+										<InputText
+											key={index}
+											description={
+												<div className="font-bold">
+													{columnName}
+												</div>
+											}
+											placeholder="value"
+											defaultValue={loadDefault}
+											controller={(value) => {
+												setColumns((prevColumns) => ({
+													...prevColumns,
+													[columnName]: value,
+												}));
+											}}
+											underline={
+												index !==
+												Object.keys(columnList).length -
+													1
+											}
+										></InputText>
+									);
+								}
 							)}
 						</>
 					</Tab.Panel>
 
-					{/* Conditon Panel */}
+					{/* Condition Panel */}
 					<Tab.Panel>
 						<InputCondition
 							title="Update Condition"

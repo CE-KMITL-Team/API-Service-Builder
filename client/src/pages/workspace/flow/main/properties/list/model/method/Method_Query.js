@@ -64,6 +64,15 @@ export default function Method_Query({ columnList }) {
 		setQueryConditions(queryConditions || []);
 	}, [currentID]);
 
+	// Save Default Property
+	useEffect(() => {
+		dispatch(saveProperty({ queryOrderBy: orderBy }));
+		dispatch(saveProperty({ queryDirection: direction }));
+		dispatch(saveProperty({ queryLimit: limit }));
+		dispatch(saveProperty({ queryNoLimit: noLimit }));
+		dispatch(saveProperty({ queryConditions: queryConditions }));
+	}, []);
+
 	return (
 		<>
 			{/* InputSelect for Order By */}

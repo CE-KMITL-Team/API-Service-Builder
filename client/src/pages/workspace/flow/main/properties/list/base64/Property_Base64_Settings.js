@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { saveProperty } from "../../../../../../../actions/flowActions";
 
 const defaultValue_type = "Encode";
-const defaultValue_encodeField = "Request.name";
+const defaultValue_encodeField = "";
 const defaultValue_outputVariable = "$imageBase64";
 
 export default function Property_Base64_Settings() {
@@ -45,6 +45,13 @@ export default function Property_Base64_Settings() {
 		setOutputVariable(outputVariable ?? defaultValue_outputVariable);
 	}, [currentID]);
 
+	// Save Default Property
+	useEffect(() => {
+		dispatch(saveProperty({ type }));
+		dispatch(saveProperty({ encodeField }));
+		dispatch(saveProperty({ outputVariable }));
+	}, []);
+
 	return (
 		<>
 			<InputSelect
@@ -54,13 +61,13 @@ export default function Property_Base64_Settings() {
 				controller={setType}
 				defaultValue={type}
 			></InputSelect>
-			<InputSelect
+			<InputText
 				description="Encode Field"
-				items={["Request.name", "Request.image"]}
+				placeholder="$imageBase64"
 				underline={true}
 				controller={setEncodeField}
 				defaultValue={encodeField}
-			></InputSelect>
+			></InputText>
 			<InputText
 				title="Output"
 				description="Output variable"

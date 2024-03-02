@@ -27,6 +27,11 @@ export default function Property_Join_Condition() {
 		setJoinConditions(joinConditions ?? defaultValue_conditions);
 	}, [currentID]);
 
+	// Save Default Property
+	useEffect(() => {
+		dispatch(saveProperty({ joinConditions }));
+	}, []);
+
 	return (
 		<InputCondition
 			title="Join Condition"

@@ -62,7 +62,9 @@ export default function Property_Model_Function() {
 		setMethod(method ?? defaultValue_method);
 	}, [currentID]);
 
+	// Save Default Property
 	useEffect(() => {
+		dispatch(saveProperty({ method }));
 		initState();
 	}, []);
 

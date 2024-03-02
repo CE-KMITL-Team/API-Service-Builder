@@ -30,7 +30,7 @@ const ConditionNode = memo(({ data }) => {
 			<Handle
 				type="source"
 				position={Position.Bottom}
-				id="a"
+				id="true"
 				style={{
 					right: "auto",
 					left: "25%",
@@ -40,7 +40,7 @@ const ConditionNode = memo(({ data }) => {
 			<Handle
 				type="source"
 				position={Position.Bottom}
-				id="b"
+				id="false"
 				style={{
 					right: "25%",
 					left: "auto",
