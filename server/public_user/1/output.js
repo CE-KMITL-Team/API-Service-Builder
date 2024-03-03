@@ -1,20 +1,20 @@
-request
-count
-encode-base64
-database
-count
-if (true) {
-    count
-    if (true) {
-        count
-        encode-base64
-        return-response
+$1
+$2
+$3
+$4
+$2
+if ($7) {
+    $2
+    if ($7) {
+        $2
+        $3
+        $6
     } else {
-        return-response
+        $6
     }
 } else {
-    encode-base64
-    database
-    database
-    return-response
+    $3
+    $4
+    $4
+    $6
 }

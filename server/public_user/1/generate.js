@@ -1,4 +1,5 @@
 const fs = require("fs");
+const matchWithCode = require("./matchWithCode.js");
 
 class FlowToCode {
 	constructor(data) {
@@ -41,15 +42,13 @@ class FlowToCode {
 					if (!visited.has(nextNode.target)) {
 						dfs(
 							nextNode.target,
-							path.concat(
-								`(${nodeType}-${nextNode.sourceHandle})`
-							)
+							path.concat(`${nodeType}-${nextNode.sourceHandle}`)
 						);
 					}
 				});
 			} else {
 				// For other nodes, proceed as usual
-				path.push(nodeTypes[node]);
+				path.push(node);
 
 				if (!nodes.has(node)) {
 					allPaths.push(path.join(" -> "));
@@ -111,7 +110,11 @@ class FlowToCode {
 
 				if (savePath[i][j]?.includes("-true") ?? false) {
 					if (!startCondi) {
-						codeBox.push(`${"    ".repeat(addTap)}if (true) {`);
+						codeBox.push(
+							`${"    ".repeat(addTap)}if (${matchWithCode(
+								this.data.property[savePath[i][j].split("-")[0]]
+							)}) {`
+						);
 						check = true;
 						startCondi = true;
 						codeBox.push(
@@ -149,7 +152,9 @@ class FlowToCode {
 			}
 			if (check) {
 				codeBox.push(
-					`${"    ".repeat(addTap)}${savePath[lastSelect][j]}`
+					`${"    ".repeat(addTap)}${matchWithCode(
+						this.data.property[savePath[lastSelect][j]]
+					)}`
 				);
 			}
 		}
