@@ -21,6 +21,11 @@
 		"dev": "nodemon app.js",
 		"start": "nodemon app.js"
 	},
+	"nodemonConfig": {
+		"ignore": [
+			"public_user/*"
+		]
+	},
 	"keywords": [],
 	"author": "",
 	"license": "ISC",

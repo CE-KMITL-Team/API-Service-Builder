@@ -2,10 +2,12 @@ const fs = require("fs");
 const matchWithCode = require("./matchWithCode.js");
 
 class FlowToCode {
-  constructor(name, path, data) {
+  constructor(name, path, data, userID, projectName) {
     this.name = name;
     this.path = path;
     this.data = data;
+    this.userID = userID;
+    this.projectName = projectName;
   }
 
   findNodeConnections() {
@@ -161,52 +163,87 @@ class FlowToCode {
   }
 
   convertToAPI(baseCode) {
-    return `
-	//Start: ${this.name}
+    return `//Start: ${this.name}
 	app.post("${this.path}", BearerTokenAuth, async (req, res) => {
 		${baseCode}
 	});
-	//End: ${this.name}`;
+//End: ${this.name}`;
   }
 
-  generateFile(textContent) {
+  generateFile(apiContent) {
     // Read the content of index.js
-    fs.readFile("./index.js", "utf8", (err, data) => {
-      if (err) {
-        console.error("Error reading file:", err);
-        return;
+    fs.readFile(
+      `./public_user/${this.userID}/${this.projectName}/index.js`,
+      "utf8",
+      (err, data) => {
+        if (err) {
+          console.error("Error reading file:", err);
+          return;
+        }
+
+        // Once the file is read, you can search for the match
+        const regex = new RegExp(
+          `\/\/Start: ${this.name}\\b([\\s\\S]*?)\/\/End: ${this.name}`
+        );
+
+        let content = "";
+
+        const match = data.match(regex);
+        const checkMatch = match ? match[1] : null;
+
+        if (checkMatch === null) {
+          const addFlowRegex = new RegExp(`\/\/API List`);
+          content = data.replace(addFlowRegex, "//API List\n" + apiContent);
+        } else {
+          content = data.replace(regex, apiContent);
+        }
+
+        const checkDuplicates = data.match(regex);
+        if (
+          (checkDuplicates?.length ?? 0) === 0 ||
+          apiContent !== checkDuplicates[0]
+        ) {
+          const fileName = `./public_user/${this.userID}/${this.projectName}/index.js`;
+          fs.writeFile(fileName, content, (err) => {
+            if (err) {
+              console.error("Error writing file:", err);
+            } else {
+              console.log(`File '${fileName}' has been created successfully.`);
+            }
+          });
+        }
       }
-
-      // Once the file is read, you can search for the match
-      const match = data.match(/\/\/Test([\s\S]*?)\/\/End: Test/);
-      const apiContent = match ? match[1] : null;
-
-      // Now you have the content between //Test and //End: Test
-      console.log(apiContent);
-    });
-
-    // const fileName = "output.js";
-    // fs.writeFile(fileName, textContent, (err) => {
-    //   if (err) {
-    //     console.error("Error writing file:", err);
-    //   } else {
-    //     console.log(`File '${fileName}' has been created successfully.`);
-    //   }
-    // });
+    );
   }
 
   compile() {
-    const paths = this.findNodeConnections();
-    const textContent = this.convertToCode(paths);
-    const api = this.convertToAPI(textContent);
+    let api = "";
+    if (this.data !== "") {
+      const paths = this.findNodeConnections();
+      const textContent =
+        "try {\n" +
+        this.convertToCode(paths) +
+        "\n    } catch (error) {\n        console.error('Error:', error);\n    }";
+      api = this.convertToAPI(textContent);
+    }
     this.generateFile(api);
   }
 }
 
 // Example usage
-const testJson = require("./test.json");
-const name = "Test";
-const path = "/Test";
+function saveCode(name, path, property, userID, projectName) {
+  try {
+    const flow = new FlowToCode(
+      name,
+      path,
+      JSON.parse(property),
+      userID,
+      projectName
+    );
+    flow.compile();
+  } catch (error) {
+    console.error("Error compiling code:", error);
+  }
+}
 
-const flow = new FlowToCode(name, path, testJson);
-flow.compile();
+module.exports = saveCode;

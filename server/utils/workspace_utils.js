@@ -43,11 +43,8 @@ const db = mysql.createPool({
 	database: "${dbName}",
 });
 
-//Test API
-app.post("/Test", BearerTokenAuth, async (req, res) => {
-    console.log("Test ${userID} | ${dbName}");
-    res.status(200).send({data: "Test ${userID} | ${dbName}"});
-});
+//API List
+
 
 app.listen(port, () => {
 	console.log(\`${dbName} | User: ${userID} | Running on http://localhost:\${port}\`);

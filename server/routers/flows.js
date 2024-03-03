@@ -2,6 +2,7 @@ const express = require("express");
 const router = express.Router();
 const flowModel = require("../models/flowModel");
 const { Op } = require("sequelize");
+const saveCode = require("../utils/generate");
 // const workspaceModel = require("../../models/workspaceModel");
 
 // Get Flow from workspace_id
@@ -184,7 +185,8 @@ router.delete("/delete", async (req, res) => {
 /* Save Flows Markdown */
 router.post("/saveMarkdown", async (req, res) => {
   try {
-    const { flow_name, markdown } = req.body;
+    const { flow_name, markdown, user_id, workspace_name, workspace_id } =
+      req.body;
 
     const check = await flowModel.findOne({
       where: {
@@ -206,11 +208,26 @@ router.post("/saveMarkdown", async (req, res) => {
         {
           where: {
             name: flow_name,
+            workspace_id: workspace_id,
           },
         }
       )
-
       .then(async (result) => {
+        const flowData = await flowModel.findOne({
+          where: {
+            name: flow_name,
+            workspace_id: workspace_id,
+          },
+        });
+
+        saveCode(
+          flow_name,
+          flowData.dataValues.API,
+          markdown,
+          user_id,
+          workspace_name
+        );
+
         return res
           .status(200)
           .send({ status: true, msg: "Edit markdown success !" });

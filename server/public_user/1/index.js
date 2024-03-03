@@ -20,7 +20,9 @@ const db = mysql.createPool({
 	database: "2-book-store",
 });
 
-//Test
+//API List
+
+//Start: Test
 app.post("/Test", async (req, res) => {
 	try {
 		let sql = "";
@@ -91,6 +93,7 @@ app.post("/Test", async (req, res) => {
 		res.status(500).send("Internal Server Error");
 	}
 });
+//End: Test
 
 app.listen(port, () => {
 	console.log(`Server is running on http://localhost:${port}`);

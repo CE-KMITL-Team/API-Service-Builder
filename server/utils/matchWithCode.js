@@ -10,7 +10,7 @@ function rmDollarSign(text, removeAll = false) {
 function dbCondition(conditions) {
   let code = "";
   if (conditions.length === 0) {
-    code += '1"';
+    code += '1`';
   } else {
     let text = "";
     conditions.forEach((condition, index) => {
@@ -132,7 +132,7 @@ function matchWithCode(node) {
     default:
       break;
   }
-  console.log(node);
+  
   return "//Not-Found";
 }
 
