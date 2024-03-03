@@ -1,8 +1,14 @@
+const fs = require("fs");
+const path = require("path");
+
 const express = require("express");
+const nodemon = require("nodemon");
 const router = express.Router();
 const { customSequelize } = require("../services/database");
 const workspaceModel = require("../models/workspaceModel");
 const templateModel = require("../models/templateModel");
+const { getUserIndexFileContent } = require("../utils/workspace_utils");
+const userModel = require("../models/userModel");
 
 /* Build new database in MySQL */
 router.post("/create", async (req, res) => {
@@ -53,6 +59,42 @@ router.post("/create", async (req, res) => {
 			name: `${project_name}`,
 			status: 0,
 			owner_id: user_id,
+		});
+
+		const userData = await userModel.findOne({ where: { id: user_id } });
+
+		const baseDirectory = "./public_user";
+		const folderStructure = `${user_id}/${project_name}`;
+		const fileName = "index.js";
+		const fileContent = getUserIndexFileContent(
+			parseInt(user_id),
+			`${user_id}-${project_name}`,
+			userData.dataValues.api_key
+		);
+
+		// Create folder structure
+		const fullFolderPath = path.join(baseDirectory, folderStructure);
+		fs.mkdir(fullFolderPath, { recursive: true }, (err) => {
+			if (err) {
+				console.error("Error creating folder structure:", err);
+			} else {
+				console.log(
+					`Folder structure '${fullFolderPath}' created successfully.`
+				);
+
+				// Create file inside the folder structure
+				const filePath = path.join(fullFolderPath, fileName);
+
+				fs.writeFile(filePath, fileContent, (err) => {
+					if (err) {
+						console.error("Error creating file:", err);
+					} else {
+						console.log(
+							`File '${fileName}' created inside folder structure '${fullFolderPath}' with content: ${fileContent}`
+						);
+					}
+				});
+			}
 		});
 
 		return res.status(200).send({
@@ -134,7 +176,9 @@ router.get("/get/workspaceDetailByName", async (req, res) => {
 			return res.status(200).send({ status: true, data: data });
 		}
 
-		return res.status(200).send({ status: false, msg: "Not have workspace you finding." });
+		return res
+			.status(200)
+			.send({ status: false, msg: "Not have workspace you finding." });
 	} catch (error) {
 		console.error("Error fetching workspaces:", error);
 		return res.status(500).send({ error: "Internal Server Error" });
@@ -163,10 +207,65 @@ router.get("/get/workspaceDetailByID", async (req, res) => {
 			return res.status(200).send({ status: true, data: data });
 		}
 
-		return res.status(200).send({ status: false, msg: "Not have workspace you finding." });
+		return res
+			.status(200)
+			.send({ status: false, msg: "Not have workspace you finding." });
 	} catch (error) {
 		console.error("Error fetching workspaces:", error);
 		return res.status(500).send({ error: "Internal Server Error" });
+	}
+});
+
+//Make Project Online
+let nodemonInstance = null;
+router.post("/toggleOnline", async (req, res) => {
+	const { projectID, projectName, userID, status } = req.body;
+	workspaceModel.update({ status: status }, { where: { id: projectID } });
+
+	const projectPath = `./public_user/${userID}/${projectName}`;
+	const entryFile = "index.js";
+
+	if (status === 0) {
+		// If nodemon process is running, stop it
+		if (nodemonInstance) {
+			nodemonInstance.emit("quit");
+			nodemonInstance = null;
+		}
+		res.status(200).json({
+			status: true,
+			message: "Stopping the project...",
+		});
+	} else if (status === 1) {
+		// If nodemon process is not running, start it
+		if (nodemonInstance === null) {
+			const options = {
+				script: `${projectPath}/${entryFile}`,
+				watch: [projectPath],
+			};
+
+			nodemonInstance = nodemon(options);
+
+			nodemonInstance.on("start", () => {
+				console.log("Nodemon started");
+			});
+
+			nodemonInstance.on("restart", (files) => {
+				console.log(`Nodemon restarted due to: ${files}`);
+			});
+
+			nodemonInstance.on("quit", () => {
+				console.log("Nodemon quit");
+			});
+
+			nodemonInstance.on("error", (err) => {
+				console.error(`Error in nodemon: ${err}`);
+			});
+		}
+
+		res.status(200).json({
+			status: true,
+			message: "Starting the project...",
+		});
 	}
 });
 
