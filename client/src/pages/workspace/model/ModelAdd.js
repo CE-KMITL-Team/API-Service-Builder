@@ -187,7 +187,18 @@ function ModelAdd() {
             placeholder="User"
             required
             value={name}
-            onChange={(e) => setName(e.target.value)}
+            onChange={(e) => {
+              const newValue = e.target.value
+                .replace(/[^a-zA-Z_]+/g, "")
+                .toLowerCase();
+              setName(newValue.replace(/ /g, "_"));
+            }}
+            onKeyDown={(e) => {
+              if (e.key === " ") {
+                e.preventDefault();
+                setName((prevName) => prevName + "_");
+              }
+            }}
           />
         </div>
         <div className="group w-full">

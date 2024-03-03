@@ -75,11 +75,13 @@ function ModelTable({ data, header, refresh, highlight }) {
   };
 
   const handleDeleteRow = async (index) => {
-    try {
-      await dispatch(fetchDeleteDataModels(modelUtils.getCurrentID(), index));
-      refresh();
-    } catch (error) {
-      console.error("Error deleting data:", error);
+    if (window.confirm("Do you want to delete data?") == true) {
+      try {
+        await dispatch(fetchDeleteDataModels(modelUtils.getCurrentID(), index));
+        refresh();
+      } catch (error) {
+        console.error("Error deleting data:", error);
+      }
     }
   };
 
@@ -176,7 +178,6 @@ function ModelTable({ data, header, refresh, highlight }) {
                         ? "number"
                         : "text"
                     }
-                    
                     className="bg-gray-50 border border-gray-300 text-gray-900 text-md rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
                     placeholder={val.Header}
                     required

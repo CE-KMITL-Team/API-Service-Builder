@@ -216,6 +216,8 @@ router.get("/get/workspaceDetailByID", async (req, res) => {
 	}
 });
 
+//Online: status = 1
+//Offline: status = 0
 //Make Project Online
 let nodemonInstance = null;
 router.post("/toggleOnline", async (req, res) => {

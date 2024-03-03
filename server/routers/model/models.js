@@ -31,8 +31,7 @@ const generateModel = (schemaName, modelName, fieldList) => {
 
 //Create Table
 router.post("/create", async (req, res) => {
-  const { workspace_id, model_name, model_desc, field_list, GenerateAPI } =
-    req.body;
+  const { workspace_id, model_name, model_desc, field_list } = req.body;
 
   try {
     //Check Workspace exist
@@ -274,7 +273,8 @@ router.delete("/delete", async (req, res) => {
 });
 
 router.put("/edit", async (req, res) => {
-  const { workspace_id, model_name, description, field_list } = req.body;
+  const { workspace_id, model_name, model_desc, model_id, field_list } =
+    req.body;
 
   try {
     const workspace = await workspaceModel.findByPk(workspace_id);
@@ -296,9 +296,40 @@ router.put("/edit", async (req, res) => {
         .send({ msg: "Model/table not found", status: false });
     }
 
-    const updataedModel = generateModel(schemaName, model_name, field_list);
+    const updatedModelName = field_list.includes(model_name)
+      ? model_name
+      : model_name.toLowerCase();
+
+    console.log("ddddddddddddddd", updatedModelName);
+
+    await modelModel
+      .update(
+        {
+          name: updatedModelName,
+          description: model_desc,
+        },
+        {
+          where: {
+            id: model_id,
+          },
+        }
+      )
+      .then(() => {
+        return res.status(200).send({ status: true });
+      })
+      .catch((err) => {
+        console.log(err);
+        return res
+          .status(200)
+          .send({ status: false, msg: "Internal Server Error" });
+      });
+
+    const updataedModel = generateModel(
+      schemaName,
+      updatedModelName,
+      field_list
+    );
     await updataedModel.sync({ alter: true });
-    return res.status(200).send({ status: true });
   } catch (err) {
     console.error("Internal server not found:", err);
     return res

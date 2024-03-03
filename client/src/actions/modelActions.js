@@ -128,6 +128,7 @@ export function fetchEditModel(
   workspace_id,
   model_name,
   model_desc,
+  model_id,
   field_list
 ) {
   return async (dispatch) => {
@@ -138,6 +139,7 @@ export function fetchEditModel(
         workspace_id,
         model_name,
         model_desc,
+        model_id,
         field_list
       );
 

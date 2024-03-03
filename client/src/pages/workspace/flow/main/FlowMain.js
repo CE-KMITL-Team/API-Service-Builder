@@ -13,10 +13,7 @@ import { useParams } from "react-router-dom";
 function FlowMain() {
   const { projectName, activeFlow } = useParams();
 
-  const [isPopupOpen, setIsPopupOpen] = useState(
-    // activeFlow === "unnamedFlow"
-    true
-  );
+  const [isPopupOpen, setIsPopupOpen] = useState(activeFlow === "unnamedFlow");
 
   const [toggleHidden, setToggleHidden] = useState(false);
 
@@ -38,7 +35,7 @@ function FlowMain() {
           <div className="relative">
             <FlowPropertyFrame toggleHidden={toggleHidden} />
             <div
-              className="resize-btn cursor-pointer absolute w-2 rounded-l-lg h-fit bg-primary-700 hover:bg-primary-900 px-2 py-3 flex items-center justify-center -left-4 top-1/2 -translate-y-1/2"
+              className="hidden resize-btn cursor-pointer absolute w-2 rounded-l-lg h-fit bg-primary-700 hover:bg-primary-900 px-2 py-3 flex items-center justify-center -left-4 top-1/2 -translate-y-1/2"
               // onClick={handleResizeClick}
             >
               <FontAwesomeIcon

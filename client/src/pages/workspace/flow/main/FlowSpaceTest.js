@@ -1,10 +1,66 @@
 import { icon } from "@fortawesome/fontawesome-svg-core/import.macro";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import React, { useState } from "react";
+import axios from "axios";
+import React, { useEffect, useState } from "react";
+import userUtils from "../../../../utils/userUtils";
+import { API_HOST } from "../../../../utils/apiPath";
+import { useDispatch } from "react-redux";
+import { useNavigate, useParams } from "react-router-dom";
+import { fetchGetFlowDetailByName } from "../../../../actions/flowActions";
 
 function FlowSpaceTest() {
   const [isResized, setIsResized] = useState(true);
   const [isHidden, setIsHidden] = useState(true);
+
+  const [paramData, setParam] = useState("");
+  const [resData, setResData] = useState({});
+
+  const [path, setPath] = useState("");
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  const { projectName, activeFlow } = useParams();
+
+  const getFlowDetail = async () => {
+    const response = await dispatch(fetchGetFlowDetailByName(activeFlow));
+
+    if (response.status) {
+      setPath(response.data.API);
+    } else {
+      if (activeFlow !== "unnamedFlow") {
+        navigate(`/workspace/${projectName}/flows`);
+      }
+    }
+  };
+
+  useEffect(() => {
+    getFlowDetail();
+  }, []);
+
+  const handleRunClick = async () => {
+    try {
+      let parsedParamData = "";
+      if (paramData !== "") {
+        parsedParamData = JSON.parse(paramData);
+      }
+
+      await axios
+        .post(
+          `${API_HOST.split("3200")[0]}${3200 + userUtils.getID()}${path}`,
+          parsedParamData,
+          {
+            headers: {
+              Authorization: `Bearer ${userUtils.getApiKey()}`,
+            },
+          }
+        )
+        .then((res) => {
+          setResData(res);
+        });
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+  };
 
   const handleResizeClick = () => {
     setTimeout(() => {
@@ -51,7 +107,10 @@ function FlowSpaceTest() {
               >
                 Parameter
               </label>
-              <div className="tools cursor-pointer text-gray-500 flex items-center gap-x-2 hover:text-primary-700 hover:scale-110 duration-100">
+              <div
+                onClick={handleRunClick}
+                className="tools cursor-pointer text-gray-500 flex items-center gap-x-2 hover:text-primary-700 hover:scale-110 duration-100"
+              >
                 <div className="text">Run</div>
                 <FontAwesomeIcon
                   icon={icon({
@@ -64,6 +123,17 @@ function FlowSpaceTest() {
 
             <div className="group flex-1">
               <textarea
+                value={paramData}
+                onChange={(e) => {
+                  const inputValue = e.target.value;
+                  setParam(inputValue);
+                  try {
+                    JSON.parse(inputValue); // ลองแปลง JSON ดู ถ้ามี SyntaxError จะเกิดขึ้นที่นี่
+                    setParam(inputValue);
+                  } catch (error) {
+                    console.error("Invalid JSON:", error);
+                  }
+                }}
                 id="Parameter"
                 className="resize-none h-full p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500"
               ></textarea>
@@ -74,14 +144,22 @@ function FlowSpaceTest() {
               htmlFor="Response"
               className="mb-2 text-md font-bold text-gray-900"
             >
-              Response
+              Response{" "}
+              <span className="text-primary-900">
+                {resData.status !== undefined
+                  ? `(${resData?.status} ${resData?.statusText})`
+                  : ""}
+              </span>
             </label>
 
             <div className="group flex-1">
-              <textarea
+              <div
+                disabled
                 id="Response"
                 className="resize-none h-full p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500"
-              ></textarea>
+              >
+                <pre>{JSON.stringify(resData.data, null, 2)}</pre>
+              </div>
             </div>
           </div>
         </div>

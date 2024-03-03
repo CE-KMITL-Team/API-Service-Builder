@@ -7,6 +7,7 @@ import { useParams, useNavigate } from "react-router-dom";
 import MenuFooter from "./MenuFooter";
 import { useDispatch } from "react-redux";
 import { fetchGetModelWorkspace } from "../../../actions/modelActions";
+import { fetchToggleOnline } from "../../../actions/workspaceActions";
 import workspaceUtils from "../../../utils/workspaceUtils";
 import modelUtils from "../../../utils/modelUtils";
 import { fetchGetFlows } from "../../../actions/flowActions";
@@ -31,9 +32,17 @@ function WorkspaceMenu() {
 
   const linkToAddModel = () => navigate(`/workspace/${projectName}/addmodel`);
 
-  const toggleOnline = () => {
-    setOnline(!isOnline);
-    setIsPopupOpen(!isOnline);
+  const toggleOnline = async () => {
+    try {
+      await dispatch(
+        fetchToggleOnline(workspaceUtils.getID(), projectName, isOnline ? 0 : 1)
+      );
+
+      setOnline(!isOnline);
+      setIsPopupOpen(!isOnline);
+    } catch (error) {
+      console.error("Error toggling online status:", error);
+    }
   };
 
   async function initState() {
@@ -59,6 +68,7 @@ function WorkspaceMenu() {
   }
 
   useEffect(() => {
+    setOnline(workspaceUtils.isOnline());
     initState();
   }, [location]);
 

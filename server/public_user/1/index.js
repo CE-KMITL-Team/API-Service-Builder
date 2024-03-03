@@ -20,7 +20,6 @@ const db = mysql.createPool({
 	database: "2-book-store",
 });
 
-//TestAllNode
 //Test
 app.post("/Test", async (req, res) => {
 	try {

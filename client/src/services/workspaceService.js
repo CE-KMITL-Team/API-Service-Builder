@@ -46,3 +46,16 @@ export function getWorkspaceDetailByID(workspace_id) {
 			return response;
 		});
 }
+
+export function toggleOnline(projectID, projectName, userID, status) {
+	return api
+		.post(apiMap.TOGGLE_ONLINE, {
+			projectID: projectID,
+			projectName: projectName,
+			userID: userID,
+			status: status,
+		})
+		.then((response) => {
+			return response;
+		});
+}

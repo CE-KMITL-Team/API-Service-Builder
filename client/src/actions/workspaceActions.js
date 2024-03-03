@@ -1,4 +1,8 @@
-import { createWorkspace, getWorkspaces } from "../services/workspaceService";
+import {
+  createWorkspace,
+  getWorkspaces,
+  toggleOnline,
+} from "../services/workspaceService";
 import userUtils from "../utils/userUtils";
 import { endFetch, errorFetch, startFetch } from "./loadingActions";
 
@@ -36,6 +40,28 @@ export function fetchGetWorkspace() {
 
       const data = await getWorkspaces(userID);
       console.log(data);
+      if (data) {
+        dispatch(endFetch());
+        dispatch(errorFetch(null));
+
+        return Promise.resolve(data);
+      }
+    } catch (error) {
+      dispatch(errorFetch(error));
+
+      return Promise.resolve(false);
+    }
+  };
+}
+
+export function fetchToggleOnline(projectID, projectName, status) {
+  return async (dispatch, getState) => {
+    try {
+      dispatch(startFetch());
+      const userID = userUtils.getID(getState);
+
+      const data = await toggleOnline(projectID, projectName, userID, status);
+
       if (data) {
         dispatch(endFetch());
         dispatch(errorFetch(null));

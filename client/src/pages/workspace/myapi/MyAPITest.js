@@ -3,6 +3,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { API_HOST } from "../../../utils/apiPath";
+import userUtils from "../../../utils/userUtils";
 
 function MyAPITest({ focusValue }) {
   const [api, setApi] = useState("");
@@ -12,14 +13,24 @@ function MyAPITest({ focusValue }) {
 
   const handleRunClick = async () => {
     try {
-      const parsedParamData = JSON.parse(paramData);
-      if (parsedParamData) {
-        await axios.post(`${API_HOST}${api}`, parsedParamData).then((res) => {
-          setResData(res.data.userData);
-        });
-      } else {
-        console.error("Invalid JSON format");
+      let parsedParamData = "";
+      if (paramData !== "") {
+        parsedParamData = JSON.parse(paramData);
       }
+
+      await axios
+        .post(
+          `${API_HOST.split("3200")[0]}${3200 + userUtils.getID()}${api}`,
+          parsedParamData,
+          {
+            headers: {
+              Authorization: `Bearer ${userUtils.getApiKey()}`,
+            },
+          }
+        )
+        .then((res) => {
+          setResData(res);
+        });
     } catch (error) {
       console.error("Error fetching data:", error);
     }
@@ -91,6 +102,7 @@ function MyAPITest({ focusValue }) {
             value={paramData}
             onChange={(e) => {
               const inputValue = e.target.value;
+              setParam(inputValue);
               try {
                 JSON.parse(inputValue); // ลองแปลง JSON ดู ถ้ามี SyntaxError จะเกิดขึ้นที่นี่
                 setParam(inputValue);
@@ -107,14 +119,18 @@ function MyAPITest({ focusValue }) {
           htmlFor="Response"
           className="mb-2 text-md font-bold text-gray-900"
         >
-          Response: <span className="text-green-500">200 OK</span>
+          Response:{" "}
+          <span className="text-primary-900">
+          {resData.status !== undefined ? 
+             `(${resData?.status} ${resData?.statusText})`  : "" }
+          </span>
         </label>
         <div className="group flex-1">
           <div
             id="Response"
             className="resize-none h-full p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500"
           >
-            <pre>{JSON.stringify(resData, null, 2)}</pre>
+            <pre>{JSON.stringify(resData.data, null, 2)}</pre>
           </div>
         </div>
       </div>

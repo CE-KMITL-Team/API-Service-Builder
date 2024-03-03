@@ -2,7 +2,10 @@
 	"property": {
 		"node_17091090180002": {
 			"type": "count",
-			"property": { "output": "$count", "count": "$response.name" }
+			"property": {
+				"output": "$count",
+				"count": "$response.name"
+			}
 		},
 		"node_17091090190843": {
 			"type": "encode-base64",
@@ -33,7 +36,10 @@
 		},
 		"node_17091090664835": {
 			"type": "count",
-			"property": { "output": "$queryCount", "count": "$queryData" }
+			"property": {
+				"output": "$queryCount",
+				"count": "$queryData"
+			}
 		},
 		"node_17091090818438": {
 			"type": "count",
@@ -82,10 +88,26 @@
 			"property": {
 				"output": "$response",
 				"requestColumn": [
-					{ "name": "name", "type": "string", "null": false },
-					{ "name": "description", "type": "string", "null": false },
-					{ "name": "author", "type": "string", "null": false },
-					{ "name": "price", "type": "int", "null": false }
+					{
+						"name": "name",
+						"type": "string",
+						"null": false
+					},
+					{
+						"name": "description",
+						"type": "string",
+						"null": false
+					},
+					{
+						"name": "author",
+						"type": "string",
+						"null": false
+					},
+					{
+						"name": "price",
+						"type": "int",
+						"null": false
+					}
 				]
 			}
 		},
@@ -123,7 +145,29 @@
 		"node_17091355104812": {
 			"type": "database",
 			"model": "user",
-			"property": { "output": "$queryData" }
+			"property": {
+				"output": "$queryData",
+				"method": "Delete",
+				"deleteColumns": {
+					"id": "",
+					"name": "123",
+					"price": "213",
+					"author": "123"
+				},
+				"deleteConditions": [
+					{
+						"left": "a",
+						"right": "b",
+						"condition": "equal (==)",
+						"next": "or"
+					},
+					{
+						"left": "c",
+						"right": "$d",
+						"condition": "equal (==)"
+					}
+				]
+			}
 		},
 		"node_17091090783086": {
 			"type": "return-response",
@@ -134,11 +178,16 @@
 		},
 		"node_17091355708213": {
 			"type": "count",
-			"property": { "output": "$count", "count": "" }
+			"property": {
+				"output": "$count",
+				"count": "$response.name"
+			}
 		},
 		"node_17091355730144": {
 			"type": "condition",
-			"property": { "condition": [] }
+			"property": {
+				"condition": []
+			}
 		},
 		"node_17091355760695": {
 			"type": "encode-base64",
@@ -150,7 +199,10 @@
 		},
 		"node_17091355782256": {
 			"type": "return-response",
-			"property": { "output": "$response", "statusCode": "200 OK" }
+			"property": {
+				"output": "$response",
+				"statusCode": "200 OK"
+			}
 		}
 	},
 	"flowObj": {
@@ -160,7 +212,10 @@
 				"height": 36,
 				"id": "node_0",
 				"type": "input",
-				"data": { "label": "Request", "ref": "request" },
+				"data": {
+					"label": "Request",
+					"ref": "request"
+				},
 				"position": {
 					"x": -23.09753955386452,
 					"y": -186.47926186615933
@@ -181,7 +236,10 @@
 					"x": -11.880066947575529,
 					"y": 287.09484388183927
 				},
-				"data": { "label": "Condition", "ref": "condition" },
+				"data": {
+					"label": "Condition",
+					"ref": "condition"
+				},
 				"selected": false,
 				"positionAbsolute": {
 					"x": -11.880066947575529,
@@ -194,10 +252,19 @@
 				"height": 36,
 				"id": "node_17091090180002",
 				"type": "default",
-				"position": { "x": -20.671875, "y": -92.5 },
-				"data": { "label": "Count", "ref": "count" },
+				"position": {
+					"x": -20.671875,
+					"y": -92.5
+				},
+				"data": {
+					"label": "Count",
+					"ref": "count"
+				},
 				"selected": false,
-				"positionAbsolute": { "x": -20.671875, "y": -92.5 },
+				"positionAbsolute": {
+					"x": -20.671875,
+					"y": -92.5
+				},
 				"dragging": false
 			},
 			{
@@ -205,8 +272,14 @@
 				"height": 36,
 				"id": "node_17091090190843",
 				"type": "default",
-				"position": { "x": -17.171875, "y": 0.8402460446135507 },
-				"data": { "label": "Encode Base64", "ref": "encode-base64" },
+				"position": {
+					"x": -17.171875,
+					"y": 0.8402460446135507
+				},
+				"data": {
+					"label": "Encode Base64",
+					"ref": "encode-base64"
+				},
 				"selected": false,
 				"positionAbsolute": {
 					"x": -17.171875,
@@ -219,10 +292,20 @@
 				"height": 36,
 				"id": "node_17091090467394",
 				"type": "default",
-				"position": { "x": -16.671875, "y": 96.5 },
-				"data": { "label": "Book", "ref": "database", "model": "book" },
+				"position": {
+					"x": -16.671875,
+					"y": 96.5
+				},
+				"data": {
+					"label": "Book",
+					"ref": "database",
+					"model": "book"
+				},
 				"selected": false,
-				"positionAbsolute": { "x": -16.671875, "y": 96.5 },
+				"positionAbsolute": {
+					"x": -16.671875,
+					"y": 96.5
+				},
 				"dragging": false
 			},
 			{
@@ -234,7 +317,10 @@
 					"x": -15.007080219576665,
 					"y": 193.0971085411533
 				},
-				"data": { "label": "Count", "ref": "count" },
+				"data": {
+					"label": "Count",
+					"ref": "count"
+				},
 				"selected": false,
 				"positionAbsolute": {
 					"x": -15.007080219576665,
@@ -247,7 +333,10 @@
 				"height": 36,
 				"id": "node_17091090783086",
 				"type": "output",
-				"position": { "x": -157.39119361236817, "y": 632.247314811057 },
+				"position": {
+					"x": -157.39119361236817,
+					"y": 632.247314811057
+				},
 				"data": {
 					"label": "Return Response",
 					"ref": "return-response"
@@ -264,7 +353,10 @@
 				"height": 36,
 				"id": "node_17091090793867",
 				"type": "output",
-				"position": { "x": 106.64578548185108, "y": 724.9547442263571 },
+				"position": {
+					"x": 106.64578548185108,
+					"y": 724.9547442263571
+				},
 				"data": {
 					"label": "Return Response",
 					"ref": "return-response"
@@ -285,7 +377,10 @@
 					"x": -130.6470252371804,
 					"y": 389.45129973355455
 				},
-				"data": { "label": "Count", "ref": "count" },
+				"data": {
+					"label": "Count",
+					"ref": "count"
+				},
 				"selected": false,
 				"positionAbsolute": {
 					"x": -130.6470252371804,
@@ -298,8 +393,14 @@
 				"height": 36,
 				"id": "node_17091133216399",
 				"type": "default",
-				"position": { "x": 77.82812500000011, "y": 386.34024604461354 },
-				"data": { "label": "Encode Base64", "ref": "encode-base64" },
+				"position": {
+					"x": 77.82812500000011,
+					"y": 386.34024604461354
+				},
+				"data": {
+					"label": "Encode Base64",
+					"ref": "encode-base64"
+				},
 				"selected": false,
 				"positionAbsolute": {
 					"x": 77.82812500000011,
@@ -312,8 +413,15 @@
 				"height": 36,
 				"id": "node_170911389105810",
 				"type": "default",
-				"position": { "x": 93.74795178574198, "y": 484.41067408211006 },
-				"data": { "label": "Book", "ref": "database", "model": "book" },
+				"position": {
+					"x": 93.74795178574198,
+					"y": 484.41067408211006
+				},
+				"data": {
+					"label": "Book",
+					"ref": "database",
+					"model": "book"
+				},
 				"selected": false,
 				"dragging": false,
 				"positionAbsolute": {
@@ -326,8 +434,15 @@
 				"height": 36,
 				"id": "node_17091355104812",
 				"type": "default",
-				"position": { "x": 75.76489782774092, "y": 601.9225386758201 },
-				"data": { "label": "User", "ref": "database", "model": "user" },
+				"position": {
+					"x": 75.76489782774092,
+					"y": 601.9225386758201
+				},
+				"data": {
+					"label": "User",
+					"ref": "database",
+					"model": "user"
+				},
 				"selected": false,
 				"positionAbsolute": {
 					"x": 75.76489782774092,
@@ -340,8 +455,14 @@
 				"height": 36,
 				"id": "node_17091355708213",
 				"type": "default",
-				"position": { "x": -325.3655070472188, "y": 590.0469674788641 },
-				"data": { "label": "Count", "ref": "count" },
+				"position": {
+					"x": -325.3655070472188,
+					"y": 590.0469674788641
+				},
+				"data": {
+					"label": "Count",
+					"ref": "count"
+				},
 				"positionAbsolute": {
 					"x": -325.3655070472188,
 					"y": 590.0469674788641
@@ -356,7 +477,10 @@
 					"x": -217.16585836384147,
 					"y": 484.4863346170325
 				},
-				"data": { "label": "Condition", "ref": "condition" },
+				"data": {
+					"label": "Condition",
+					"ref": "condition"
+				},
 				"positionAbsolute": {
 					"x": -217.16585836384147,
 					"y": 484.4863346170325
@@ -371,7 +495,10 @@
 					"x": -298.31559487637446,
 					"y": 715.4002190022891
 				},
-				"data": { "label": "Encode Base64", "ref": "encode-base64" },
+				"data": {
+					"label": "Encode Base64",
+					"ref": "encode-base64"
+				},
 				"positionAbsolute": {
 					"x": -298.31559487637446,
 					"y": 715.4002190022891
@@ -382,7 +509,10 @@
 				"height": 36,
 				"id": "node_17091355782256",
 				"type": "output",
-				"position": { "x": -267.3071589732114, "y": 798.5292173809813 },
+				"position": {
+					"x": -267.3071589732114,
+					"y": 798.5292173809813
+				},
 				"data": {
 					"label": "Return Response",
 					"ref": "return-response"
@@ -400,7 +530,10 @@
 				"target": "node_17091090180002",
 				"targetHandle": null,
 				"type": "smoothstep",
-				"markerEnd": { "strokeWidth": 2, "type": "arrow" },
+				"markerEnd": {
+					"strokeWidth": 2,
+					"type": "arrow"
+				},
 				"id": "reactflow__edge-node_0-node_17091090180002",
 				"selected": false
 			},
@@ -410,7 +543,10 @@
 				"target": "node_17091090190843",
 				"targetHandle": null,
 				"type": "smoothstep",
-				"markerEnd": { "strokeWidth": 2, "type": "arrow" },
+				"markerEnd": {
+					"strokeWidth": 2,
+					"type": "arrow"
+				},
 				"id": "reactflow__edge-node_17091090180002-node_17091090190843",
 				"selected": false
 			},
@@ -420,7 +556,10 @@
 				"target": "node_17091090467394",
 				"targetHandle": null,
 				"type": "smoothstep",
-				"markerEnd": { "strokeWidth": 2, "type": "arrow" },
+				"markerEnd": {
+					"strokeWidth": 2,
+					"type": "arrow"
+				},
 				"id": "reactflow__edge-node_17091090190843-node_17091090467394",
 				"selected": false
 			},
@@ -430,7 +569,10 @@
 				"target": "node_17091090664835",
 				"targetHandle": null,
 				"type": "smoothstep",
-				"markerEnd": { "strokeWidth": 2, "type": "arrow" },
+				"markerEnd": {
+					"strokeWidth": 2,
+					"type": "arrow"
+				},
 				"id": "reactflow__edge-node_17091090467394-node_17091090664835",
 				"selected": false
 			},
@@ -440,7 +582,10 @@
 				"target": "node_17091090158231",
 				"targetHandle": null,
 				"type": "smoothstep",
-				"markerEnd": { "strokeWidth": 2, "type": "arrow" },
+				"markerEnd": {
+					"strokeWidth": 2,
+					"type": "arrow"
+				},
 				"id": "reactflow__edge-node_17091090664835-node_17091090158231",
 				"selected": false
 			},
@@ -450,7 +595,10 @@
 				"target": "node_17091090818438",
 				"targetHandle": null,
 				"type": "smoothstep",
-				"markerEnd": { "strokeWidth": 2, "type": "arrow" },
+				"markerEnd": {
+					"strokeWidth": 2,
+					"type": "arrow"
+				},
 				"id": "reactflow__edge-node_17091090158231a-node_17091090818438",
 				"selected": false
 			},
@@ -460,7 +608,10 @@
 				"target": "node_17091133216399",
 				"targetHandle": null,
 				"type": "smoothstep",
-				"markerEnd": { "strokeWidth": 2, "type": "arrow" },
+				"markerEnd": {
+					"strokeWidth": 2,
+					"type": "arrow"
+				},
 				"id": "reactflow__edge-node_17091090158231b-node_17091133216399",
 				"selected": false
 			},
@@ -470,7 +621,10 @@
 				"target": "node_170911389105810",
 				"targetHandle": null,
 				"type": "smoothstep",
-				"markerEnd": { "strokeWidth": 2, "type": "arrow" },
+				"markerEnd": {
+					"strokeWidth": 2,
+					"type": "arrow"
+				},
 				"id": "reactflow__edge-node_17091133216399-node_170911389105810",
 				"selected": false
 			},
@@ -480,7 +634,10 @@
 				"target": "node_17091090818438",
 				"targetHandle": null,
 				"type": "smoothstep",
-				"markerEnd": { "strokeWidth": 2, "type": "arrow" },
+				"markerEnd": {
+					"strokeWidth": 2,
+					"type": "arrow"
+				},
 				"id": "reactflow__edge-node_17091090158231true-node_17091090818438",
 				"selected": false
 			},
@@ -490,7 +647,10 @@
 				"target": "node_17091133216399",
 				"targetHandle": null,
 				"type": "smoothstep",
-				"markerEnd": { "strokeWidth": 2, "type": "arrow" },
+				"markerEnd": {
+					"strokeWidth": 2,
+					"type": "arrow"
+				},
 				"id": "reactflow__edge-node_17091090158231false-node_17091133216399",
 				"selected": false
 			},
@@ -500,7 +660,10 @@
 				"target": "node_17091355104812",
 				"targetHandle": null,
 				"type": "smoothstep",
-				"markerEnd": { "strokeWidth": 2, "type": "arrow" },
+				"markerEnd": {
+					"strokeWidth": 2,
+					"type": "arrow"
+				},
 				"id": "reactflow__edge-node_170911389105810-node_17091355104812",
 				"selected": false
 			},
@@ -510,7 +673,10 @@
 				"target": "node_17091090793867",
 				"targetHandle": null,
 				"type": "smoothstep",
-				"markerEnd": { "strokeWidth": 2, "type": "arrow" },
+				"markerEnd": {
+					"strokeWidth": 2,
+					"type": "arrow"
+				},
 				"id": "reactflow__edge-node_17091355104812-node_17091090793867",
 				"selected": false
 			},
@@ -520,7 +686,10 @@
 				"target": "node_17091355730144",
 				"targetHandle": null,
 				"type": "smoothstep",
-				"markerEnd": { "strokeWidth": 2, "type": "arrow" },
+				"markerEnd": {
+					"strokeWidth": 2,
+					"type": "arrow"
+				},
 				"id": "reactflow__edge-node_17091090818438-node_17091355730144"
 			},
 			{
@@ -529,7 +698,10 @@
 				"target": "node_17091355760695",
 				"targetHandle": null,
 				"type": "smoothstep",
-				"markerEnd": { "strokeWidth": 2, "type": "arrow" },
+				"markerEnd": {
+					"strokeWidth": 2,
+					"type": "arrow"
+				},
 				"id": "reactflow__edge-node_17091355708213-node_17091355760695"
 			},
 			{
@@ -538,7 +710,10 @@
 				"target": "node_17091355782256",
 				"targetHandle": null,
 				"type": "smoothstep",
-				"markerEnd": { "strokeWidth": 2, "type": "arrow" },
+				"markerEnd": {
+					"strokeWidth": 2,
+					"type": "arrow"
+				},
 				"id": "reactflow__edge-node_17091355760695-node_17091355782256"
 			},
 			{
@@ -547,7 +722,10 @@
 				"target": "node_17091355708213",
 				"targetHandle": null,
 				"type": "smoothstep",
-				"markerEnd": { "strokeWidth": 2, "type": "arrow" },
+				"markerEnd": {
+					"strokeWidth": 2,
+					"type": "arrow"
+				},
 				"id": "reactflow__edge-node_17091355730144true-node_17091355708213"
 			},
 			{
@@ -556,7 +734,10 @@
 				"target": "node_17091090783086",
 				"targetHandle": null,
 				"type": "smoothstep",
-				"markerEnd": { "strokeWidth": 2, "type": "arrow" },
+				"markerEnd": {
+					"strokeWidth": 2,
+					"type": "arrow"
+				},
 				"id": "reactflow__edge-node_17091355730144false-node_17091090783086"
 			}
 		],

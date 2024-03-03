@@ -19,7 +19,6 @@ function ModelEdit() {
 
   const [editIndex, setEditIndex] = useState(null);
 
-  console.log("editIndex", editIndex);
   const [editName, setEditName] = useState();
   const [editType, setEditType] = useState();
   const [editLength, setEditLength] = useState();
@@ -93,7 +92,7 @@ function ModelEdit() {
         alert("Field name already exists. Please choose a different name.");
         return;
       }
-      const updatedFields = [...modelFields]; // คัดลอก state เพื่อป้องกันการอัปเดตโดยตรง
+      const updatedFields = [...modelFields];
       const newField = {
         id: editIndex,
         name: editName,
@@ -102,9 +101,9 @@ function ModelEdit() {
         default_value: editDefaultValue || null,
         auto_increment: editAutoIncrement,
       };
-      updatedFields[index] = newField; // อัปเดตข้อมูลของฟิลด์ที่ถูกแก้ไข
-      setModelFields(updatedFields); // ปรับปรุง state ของ modelFields
-      resetEditState(); // รีเซ็ตสถานะการแก้ไข
+      updatedFields[index] = newField;
+      setModelFields(updatedFields);
+      resetEditState();
     }
   };
 
@@ -138,11 +137,13 @@ function ModelEdit() {
       fetchEditModel(
         workspaceUtils.getID(),
         name === "" ? modelUtils.getCurrentName() : name,
-        description,
+        description === "" ? modelUtils.getCurrentDescription() : description,
+        modelUtils.getCurrentID(),
         cleanedModelFields,
         selectedMethods
       )
     );
+    console.log(response);
 
     if (response.status === true) {
       navigate(
@@ -223,11 +224,22 @@ function ModelEdit() {
           <input
             type="text"
             id="model_name"
-            className="bg-gray-50 border border-gray-300 text-gray-900 text-md rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
-            placeholder={modelUtils.getCurrentName()}
+            className="bg-gray-200 border border-gray-300 text-gray-900 text-md rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
             required
-            value={name ?? ""}
-            onChange={(e) => setName(e.target.value)}
+            value={modelUtils.getCurrentName()}
+            onChange={(e) => {
+              const newValue = e.target.value
+                .replace(/[^a-zA-Z_]+/g, "")
+                .toLowerCase();
+              setName(newValue.replace(/ /g, "_"));
+            }}
+            onKeyDown={(e) => {
+              if (e.key === " ") {
+                e.preventDefault();
+                setName((prevName) => prevName + "_");
+              }
+            }}
+            disabled
           />
         </div>
         <div className="group w-full">
@@ -243,7 +255,7 @@ function ModelEdit() {
             className="bg-gray-50 border border-gray-300 text-gray-900 text-md rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
             placeholder={modelUtils.getCurrentDescription()}
             required
-            value={description ?? ""}
+            value={description}
             onChange={(e) => setDescription(e.target.value)}
           />
         </div>
