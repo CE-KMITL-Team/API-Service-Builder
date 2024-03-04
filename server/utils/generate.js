@@ -33,7 +33,7 @@ class FlowToCode {
     const allPaths = [];
 
     // Perform depth-first search to find all paths
-    function dfs(node, path) {
+    function dfs(instance, node, path) {
       visited.add(node);
       const nodeType = node;
       const nodeTypeCheck = nodeTypes[node] || node;
@@ -43,6 +43,7 @@ class FlowToCode {
         nodes.get(node).forEach((nextNode) => {
           if (!visited.has(nextNode.target)) {
             dfs(
+              instance,
               nextNode.target,
               path.concat(`${nodeType}-${nextNode.sourceHandle}`)
             );
@@ -51,20 +52,23 @@ class FlowToCode {
       } else {
         // For other nodes, proceed as usual
         path.push(node);
+        const haveNode = instance.data.property.hasOwnProperty(node);
 
         if (!nodes.has(node)) {
-          allPaths.push(path.join(" -> "));
+          if (haveNode) {
+            allPaths.push(path.join(" -> "));
+          }
         } else {
           nodes.get(node).forEach((nextNode) => {
             if (!visited.has(nextNode.target)) {
-              dfs(nextNode.target, path.slice());
+              dfs(instance, nextNode.target, path.slice());
             }
           });
         }
       }
     }
 
-    dfs("node_0", []);
+    dfs(this, "node_0", []);
 
     return allPaths;
   }

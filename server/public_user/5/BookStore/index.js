@@ -44,14 +44,23 @@ const db = mysql.createPool({
 
 //API List
 //Start: addBook
-	app.post("/book/add", BearerTokenAuth, async (req, res) => {
+	app.post("/book/addBook", BearerTokenAuth, async (req, res) => {
 		try {
 const response = req.body
-await db.promise().query(`INSERT INTO \`book\` (name, price, description) VALUES ('${response.name}', '${response.price}', '${response.description}');`);
-res.status(200).send({
+const [queryData] = await db.promise().query(`SELECT * FROM \`book\` WHERE "${response.name}" = book.name ORDER BY id ASC LIMIT 1`)
+const count = queryData?.length ?? 0
+if (count == 0) {
+    await db.promise().query(`INSERT INTO \`book\` (name, price, description) VALUES ('${response.name}', '${response.price}', '${response.description}');`);
+    res.status(200).send({
 "status": true,
-"msg": "เพิ่มข้อมูลหนังสือสำเร็จ !"
+"msg": "เพิ่มข้อมูลสำเร็จ"
 });
+} else {
+    res.status(409).send({
+"status": false,
+"msg": "เพิ่มข้อมูลไม่สำเร็จ"
+});
+}
     } catch (error) {
         console.error('Error:', error);
     }
@@ -62,9 +71,6 @@ res.status(200).send({
 		try {
 const response = req.body
 const [queryData] = await db.promise().query(`SELECT * FROM \`book\` WHERE 1`)
-res.status(200).send({
-"book": queryData
-});
     } catch (error) {
         console.error('Error:', error);
     }

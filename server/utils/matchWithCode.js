@@ -7,25 +7,39 @@ function rmDollarSign(text, removeAll = false) {
   return text;
 }
 
-function dbCondition(conditions) {
+function dbCondition(conditions, suffix = true) {
+  function checkDollar(text) {
+    if (text[0] === "$") {
+      return `"$\{${rmDollarSign(text)}}"`;
+    } else {
+      return rmDollarSign(text);
+    }
+  }
+
   let code = "";
   if (conditions.length === 0) {
-    code += '1`';
+    if (suffix) {
+      code += "1`";
+    } else {
+      code += "1";
+    }
   } else {
     let text = "";
     conditions.forEach((condition, index) => {
       const condOp = condition.condition.match(/(?<=\().*(?=\))/g)[0];
 
-      text += `$\{${rmDollarSign(condition.left)}} ${
+      text += `${checkDollar(condition.left)} ${
         condOp === "==" ? "=" : condOp
-      } $\{${rmDollarSign(condition.right)}}`;
+      } ${checkDollar(condition.right)}`;
       if (index !== conditions.length - 1) {
         operator = condition?.next ?? "";
         text += ` ${operator} `;
       }
     });
     code += text;
-    code += "`";
+    if (suffix) {
+      code += "`";
+    }
   }
 
   return code;
@@ -35,16 +49,19 @@ function matchWithCode(node) {
   // if (node.type === "count") {
   //   console.log(node);
   // }
+  if (node === undefined) {
+    return "";
+  }
 
   let code = "";
-  switch (node.type) {
+  switch (node?.type ?? "") {
     case "request":
       return `const ${rmDollarSign(node.property.output)} = req.body`;
 
     case "count":
       return `const ${rmDollarSign(node.property.output)} = ${rmDollarSign(
         node.property.count
-      )}.length`;
+      )}?.length ?? 0`;
 
     case "encode-base64":
       if (node.property.type === "Encode") {
@@ -61,7 +78,19 @@ function matchWithCode(node) {
       switch (node.property.method) {
         case "Query":
           code = `\`SELECT * FROM \\\`${node.model}\\\` WHERE `;
-          code += dbCondition(node?.property?.queryConditions);
+          code += dbCondition(node?.property?.queryConditions, false);
+          code += ` ORDER BY ${
+            node.property.queryOrderBy === ""
+              ? "id"
+              : node.property.queryOrderBy
+          }`;
+          code += ` ${node.property.queryDirection}`;
+
+          if (!node.property.queryNoLimit) {
+            code += ` LIMIT ${node?.property?.queryLimit}`;
+          }
+
+          code += "`";
 
           return `const [${rmDollarSign(
             node.property.output
@@ -117,9 +146,9 @@ function matchWithCode(node) {
       let text = "";
       if (node.property.condition.length === 0) return "true";
       node.property.condition.forEach((condition, index) => {
-        text += `${condition.left} ${
+        text += `${rmDollarSign(condition.left)} ${
           condition.condition.match(/(?<=\().*(?=\))/g)[0]
-        } ${condition.right}`;
+        } ${rmDollarSign(condition.right)}`;
         if (index !== node.property.condition.length - 1) {
           operator =
             condition?.next?.replace(/or/g, "||")?.replace(/and/g, "&&") ?? "";
@@ -132,7 +161,7 @@ function matchWithCode(node) {
     default:
       break;
   }
-  
+
   return "//Not-Found";
 }
 
