@@ -46,7 +46,8 @@ function FlowSpaceTest() {
 
       await axios
         .post(
-          `${API_HOST.split("3200")[0]}${3200 + userUtils.getID()}${path}`,
+          // `${API_HOST.split("3200")[0]}${3200 + userUtils.getID()}${path}`,
+          `${API_HOST.split("3328")[0]}3326${path}`,
           parsedParamData,
           {
             headers: {
@@ -159,7 +160,9 @@ function FlowSpaceTest() {
                 className="resize-none p-2.5 w-full h-auto text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500"
                 style={{ minHeight: "100%" }}
               >
-                <pre>{JSON.stringify(resData.data, null, 2)}</pre>
+                <pre className="text-balance">
+                  {JSON.stringify(resData.data, null, 2)}
+                </pre>
               </div>
             </div>
           </div>

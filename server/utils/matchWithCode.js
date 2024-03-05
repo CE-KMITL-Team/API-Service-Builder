@@ -17,7 +17,7 @@ function dbCondition(conditions, suffix = true) {
   }
 
   let code = "";
-  if (conditions.length === 0) {
+  if ((conditions?.length ?? 0) === 0) {
     if (suffix) {
       code += "1`";
     } else {
@@ -116,7 +116,9 @@ function matchWithCode(node) {
           }\\\` (${insertColumns.join(", ")}) VALUES (${insertValues
             .map((value) => `'$\{${rmDollarSign(value)}}'`)
             .join(", ")});`;
-          return `await db.promise().query(\`${insertSql}\`);`;
+          return `const ${rmDollarSign(
+            node?.property?.output
+          )} = await db.promise().query(\`${insertSql}\`);`;
 
         case "Update":
           const updateColumns = Object.keys(node.property.updateColumns).filter(
@@ -143,7 +145,7 @@ function matchWithCode(node) {
 
     case "return-response":
       return `res.status(${
-        node.property.statusCode.split(" ")[0]
+        node?.property?.statusCode?.split(" ")[0] ?? "200"
       }).send(${rmDollarSign(node.property.output, true)});`;
 
     case "condition":
@@ -179,8 +181,12 @@ function matchWithCode(node) {
 
       code = "";
       code = `\`SELECT *${
-        createSumColumn !== "" ? `,SUM(${createSumColumn}) AS 'sum'` : ""
-      } FROM ${model1} JOIN ${model2} ON `;
+        createSumColumn !== "" &&
+        createSumColumn !== undefined &&
+        createSumColumn !== null
+          ? `,SUM(${createSumColumn}) AS 'sum'`
+          : ""
+      } FROM \\\`${model1}\\\` JOIN \\\`${model2}\\\` ON `;
       code += dbCondition(joinConditions, false);
       code += " WHERE ";
       code += dbCondition(whereConditions, false);

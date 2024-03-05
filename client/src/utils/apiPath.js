@@ -1,4 +1,4 @@
-export const API_HOST = "http://localhost:3200";
+export const API_HOST = "http://ceproject.thddns.net:3328";
 
 export const apiMap = {
   //Authorize

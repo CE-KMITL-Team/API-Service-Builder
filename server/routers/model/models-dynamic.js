@@ -21,7 +21,7 @@ router.get("/:modelID/get", async (req, res) => {
   const { modelDetails, schemaName } = modelDetailsResult;
 
   //Query Insert Data
-  const sqlQuery = `SELECT * FROM ${modelDetails.name}`;
+  const sqlQuery = `SELECT * FROM \`${modelDetails.name}\``;
 
   customSequelize(schemaName)
     .query(sqlQuery, { type: Sequelize.QueryTypes.SELECT })
@@ -52,7 +52,7 @@ router.post("/:modelID/add", async (req, res) => {
   const { modelDetails, schemaName } = modelDetailsResult;
 
   //Query Insert Data
-  const sqlQuery = `INSERT INTO ${modelDetails.name} (${Object.keys(
+  const sqlQuery = `INSERT INTO \`${modelDetails.name}\` (${Object.keys(
     columns
   ).join(", ")}) VALUES (${Object.values(columns)
     .map((value) => `'${value}'`)
@@ -62,7 +62,7 @@ router.post("/:modelID/add", async (req, res) => {
     .query(sqlQuery, { type: Sequelize.QueryTypes.INSERT })
     .then(async (result) => {
       //Get data for return
-      const sqlSelectQuery = `SELECT * FROM ${modelDetails.name} WHERE id = ${result[0]}`;
+      const sqlSelectQuery = `SELECT * FROM \`${modelDetails.name}\` WHERE id = ${result[0]}`;
       const selectedData = await customSequelize(schemaName).query(
         sqlSelectQuery,
         {
@@ -127,15 +127,15 @@ router.put("/:modelID/edit", async (req, res) => {
   const { modelDetails, schemaName } = modelDetailsResult;
 
   //Query Update Data
-  const sqlQuery = `UPDATE ${modelDetails.name} SET ${Object.entries(columns)
-    .map(([key, value]) => `${key} = '${value}'`)
+  const sqlQuery = `UPDATE \`${modelDetails.name}\` SET ${Object.entries(columns)
+    .map(([key, value]) => `${key} = "${value}"`)
     .join(", ")} WHERE id = '${columns.id}'`;
 
   customSequelize(schemaName)
     .query(sqlQuery, { type: Sequelize.QueryTypes.UPDATE })
     .then(async (result) => {
       //Get data for return
-      const sqlSelectQuery = `SELECT * FROM ${modelDetails.name} WHERE id = ${columns.id}`;
+      const sqlSelectQuery = `SELECT * FROM \`${modelDetails.name}\` WHERE id = ${columns.id}`;
 
       const selectedData = await customSequelize(schemaName).query(
         sqlSelectQuery,

@@ -20,7 +20,8 @@ function MyAPITest({ focusValue }) {
 
       await axios
         .post(
-          `${API_HOST.split("3200")[0]}${3200 + userUtils.getID()}${api}`,
+          // `${API_HOST.split("3200")[0]}${3200 + userUtils.getID()}${api}`,
+          `${API_HOST.split("3328")[0]}3326${api}`,
           parsedParamData,
           {
             headers: {
@@ -121,8 +122,9 @@ function MyAPITest({ focusValue }) {
         >
           Response:{" "}
           <span className="text-primary-900">
-          {resData.status !== undefined ? 
-             `(${resData?.status} ${resData?.statusText})`  : "" }
+            {resData.status !== undefined
+              ? `(${resData?.status} ${resData?.statusText})`
+              : ""}
           </span>
         </label>
         <div className="group flex-1">
@@ -130,7 +132,9 @@ function MyAPITest({ focusValue }) {
             id="Response"
             className="resize-none h-full p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500"
           >
-            <pre>{JSON.stringify(resData.data, null, 2)}</pre>
+            <pre className="text-balance h-[32vh] overflow-auto">
+              {JSON.stringify(resData.data, null, 2)}
+            </pre>
           </div>
         </div>
       </div>

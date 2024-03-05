@@ -92,9 +92,7 @@ function WorkspaceMenuPopup({ isOpen, onRequestClose }) {
           ref={inputRefToken}
           type="text"
           className="mt-2 mb-2 h-full block w-full rounded-md border-0 py-2.5 px-2.5 pr-12 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 sm:text-sm sm:leading-6"
-          value={`https://www.apiservicebuilder.com:${
-            3200 + userUtils.getID()
-          }/`}
+          value={'http://ceproject.thddns.net:3326/'}
           required
           readOnly // Make the input read-only to prevent editing
         />
