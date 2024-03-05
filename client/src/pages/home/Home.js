@@ -88,12 +88,21 @@ function Home() {
 						</div>
 					</article>
 					<div className="flex max-w-xl flex-col justify-between shadow-lg rounded-md w-full">
-						<iframe
+						<img
+							src="assets/images/flow-img.png"
+							alt=""
+							style={{
+								border: "2px solid gray",
+								shadow: "5px 10px gray",
+							}}
+						/>
+						{/* <iframe
 							className="w-full h-96 rounded-md"
 							src="https://www.youtube.com/embed/BUZiRtGRHj0"
 							allowFullScreen
 							title="YouTube Video"
-						></iframe>
+							
+						></iframe> */}
 					</div>
 				</div>
 			</div>
