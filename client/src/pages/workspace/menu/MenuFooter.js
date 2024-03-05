@@ -7,21 +7,21 @@ import { useDispatch } from "react-redux";
 
 function MenuFooter() {
   const menuItems = [
-    {
-      label: (
-        <>
-          <FontAwesomeIcon
-            icon={icon({
-              name: "gear",
-              style: "solid",
-            })}
-            className="text-lg w-8 text-gray-500"
-          />
-          Edit Profile
-        </>
-      ),
-      link: "/edit-profile",
-    },
+    // {
+    //   label: (
+    //     <>
+    //       <FontAwesomeIcon
+    //         icon={icon({
+    //           name: "gear",
+    //           style: "solid",
+    //         })}
+    //         className="text-lg w-8 text-gray-500"
+    //       />
+    //       Edit Profile
+    //     </>
+    //   ),
+    //   link: "/edit-profile",
+    // },
     {
       label: (
         <>

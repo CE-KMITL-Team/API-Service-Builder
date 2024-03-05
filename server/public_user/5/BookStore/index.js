@@ -43,6 +43,38 @@ const db = mysql.createPool({
 });
 
 //API List
+
+
+
+
+
+
+
+
+//Start: updateBook
+	app.post("/book/update", BearerTokenAuth, async (req, res) => {
+		try {
+const response = req.body
+const queryData = await db.promise().query(`UPDATE \`book\` SET name = '${response.name}', price = '${response.price}', description = '${response.description}', category_id = '${response.category_id}' WHERE "${response.id}" = book.id`);
+res.status(200).send({
+"msg": "Success !"
+});
+    } catch (error) {
+        console.error('Error:', error);
+    }
+	});
+//End: updateBook
+//Start: deleteBook
+	app.post("/book/delete", BearerTokenAuth, async (req, res) => {
+		try {
+const response = req.body
+const [queryData] = await db.promise().query(`DELETE FROM \`book\` WHERE "${response.id}" = book.id`);
+res.status(200).send(queryData);
+    } catch (error) {
+        console.error('Error:', error);
+    }
+	});
+//End: deleteBook
 //Start: addBook
 	app.post("/book/addBook", BearerTokenAuth, async (req, res) => {
 		try {
@@ -70,7 +102,8 @@ if (count == 0) {
 	app.post("/book/get", BearerTokenAuth, async (req, res) => {
 		try {
 const response = req.body
-const [queryData] = await db.promise().query(`SELECT * FROM \`book\` WHERE 1`)
+const [joinTable] = await db.promise().query(`SELECT *,SUM(book.price) AS 'sum' FROM category JOIN book ON book.category_id = category.id WHERE 1 GROUP BY Book.name ORDER BY book.price DESC`)
+res.status(200).send(joinTable);
     } catch (error) {
         console.error('Error:', error);
     }

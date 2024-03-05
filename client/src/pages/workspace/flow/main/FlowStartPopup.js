@@ -40,9 +40,10 @@ function FlowStartPopup({ isOpen, onRequestClose }) {
     if (activeFlow === "unnamedFlow") {
       setIsNew(true);
     } else {
+      setIsNew(false);
       getFlowDetail();
     }
-  }, []);
+  }, [activeFlow]);
 
   const handleCancel = () => {
     onRequestClose();
@@ -179,7 +180,22 @@ function FlowStartPopup({ isOpen, onRequestClose }) {
                 placeholder="/user/login"
                 required
                 value={path}
-                onChange={(e) => setPath(e.target.value)}
+                onChange={(e) => {
+                  let newPath = e.target.value;
+                  // Replace double '/' with a single '/'
+                  newPath = newPath.replace(/\/{2,}/g, "/");
+                  // Ensure path starts with '/'
+                  if (!newPath.startsWith("/")) {
+                    newPath = "/" + newPath;
+                  }
+                  setPath(newPath);
+                }}
+                onKeyDown={(e) => {
+                  if (e.key === " ") {
+                    e.preventDefault();
+                    setPath((prevPath) => prevPath + "/");
+                  }
+                }}
               />
             </div>
           </div>

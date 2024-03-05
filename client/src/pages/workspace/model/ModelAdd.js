@@ -436,7 +436,7 @@ function ModelAdd() {
         </form>
       </div>
 
-      <div className="font-bold title flex w-full items-center mt-3">
+      {/* <div className="font-bold title flex w-full items-center mt-3">
         <h1 className="text-xl whitespace-nowrap">Generate flow</h1>
         <hr className="w-full border-gray-400 ml-5" />
       </div>
@@ -519,7 +519,7 @@ function ModelAdd() {
             </div>
           </div>
         </div>
-      </div>
+      </div> */}
       <div className="action flex gap-x-8 justify-end mb-5 mt-8">
         <button className="text-gray-500 rounded-md px-3 py-2 text-lg text-md text-center border border-gray-500 w-32 duration-100 hover:bg-gray-700 hover:text-white hover:border-gray-700">
           <span>Cancel</span>

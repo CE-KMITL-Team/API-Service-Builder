@@ -99,19 +99,21 @@ function ModelTable({ data, header, refresh, highlight }) {
 
   const loadDefaulHeader = async () => {
     try {
-      const data = await dispatch(
-        fetchGetModelDetail(modelUtils.getCurrentID())
-      );
+      setTimeout(async () => {
+        const data = await dispatch(
+          fetchGetModelDetail(modelUtils.getCurrentID())
+        );
 
-      if (data.status === true) {
-        const tableData = data.data.tables.map((table) => ({
-          Header: table.name,
-          accessor: table.name,
-          type: table.type,
-        }));
-        console.log(data.data.tables);
-        setTableHeader(tableData);
-      }
+        if (data.status === true) {
+          const tableData = data.data.tables.map((table) => ({
+            Header: table.name,
+            accessor: table.name,
+            type: table.type,
+          }));
+          console.log(data.data.tables);
+          setTableHeader(tableData);
+        }
+      }, 50);
     } catch (error) {
       console.error("Error fetching data:", error);
     }

@@ -51,24 +51,28 @@ function WorkspaceMenu() {
         fetchGetModelWorkspace(workspaceUtils.getID())
       );
 
-      const flowData = await dispatch(fetchGetFlows(workspaceUtils.getID()));
-      if (flowData.status === true) {
-        setFlows(flowData.data);
-      } else {
-        setFlows([]);
-      }
-      if (data.status === true) {
-        setModel(data.data);
-      } else {
-        setModel([]);
-      }
+      setTimeout(async () => {
+        const flowData = await dispatch(fetchGetFlows(workspaceUtils.getID()));
+        if (flowData.status === true) {
+          setFlows(flowData.data);
+        } else {
+          setFlows([]);
+        }
+        if (data.status === true) {
+          setModel(data.data);
+        } else {
+          setModel([]);
+        }
+      }, 10);
     } catch (error) {
       console.error("Error fetching data:", error);
     }
   }
 
   useEffect(() => {
-    setOnline(workspaceUtils.isOnline());
+    setTimeout(() => {
+      setOnline(workspaceUtils.isOnline());
+    }, 50);
     initState();
   }, [location]);
 

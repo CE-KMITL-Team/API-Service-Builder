@@ -58,14 +58,16 @@ function MyAPICard({ data, reload, handleClickApiCard }) {
   }
 
   return (
-    <div className="bg-dark text-white w-full rounded-lg p-3 px-5 flex justify-between">
+    <div className="cursor-pointer bg-dark text-white w-full rounded-lg p-3 px-5 flex justify-between">
       <div className="detail flex gap-x-7 items-center">
         <div className="path font-bold">{data.API}</div>
         <div className="path text-gray-400">{data.description}</div>
       </div>
       <div className="group relative tools">
         <Dropdown menu={menuItems} background="">
-          <div className="text hover:text-primary-700 hover:scale-110 duration-100 flex items-center mr-3 cursor-pointer text-primary-900 z-1">
+          <div
+            className="text hover:text-primary-700 hover:scale-110 duration-100 flex items-center mr-3 cursor-pointer text-primary-900 z-1"
+          >
             Options
           </div>
           <FontAwesomeIcon

@@ -75,6 +75,7 @@ function matchWithCode(node) {
       }
 
     case "database":
+      code = "";
       switch (node.property.method) {
         case "Query":
           code = `\`SELECT * FROM \\\`${node.model}\\\` WHERE `;
@@ -122,7 +123,8 @@ function matchWithCode(node) {
             (key) => node.property.updateColumns[key] !== ""
           );
           const updateValues = updateColumns.map(
-            (key) => `${key} = '$\{${node.property.updateColumns[key]}}'`
+            (key) =>
+              `${key} = '$\{${rmDollarSign(node.property.updateColumns[key])}}'`
           );
           let updateSql = `UPDATE \\\`${node.model}\\\` SET ${updateValues.join(
             ", "
@@ -130,7 +132,9 @@ function matchWithCode(node) {
 
           updateSql += dbCondition(node?.property?.updateConditions);
 
-          return `await db.promise().query(\`${updateSql});`;
+          return `const ${rmDollarSign(
+            node?.property?.output
+          )} = await db.promise().query(\`${updateSql});`;
 
         default:
           break;
@@ -157,6 +161,46 @@ function matchWithCode(node) {
       });
 
       return text;
+
+    case "join":
+      const {
+        model1,
+        model2,
+        orderBy,
+        direction,
+        groupBy,
+        limit,
+        noLimit,
+        createSumColumn,
+        whereConditions,
+        joinConditions,
+        resultTable,
+      } = node.property;
+
+      code = "";
+      code = `\`SELECT *${
+        createSumColumn !== "" ? `,SUM(${createSumColumn}) AS 'sum'` : ""
+      } FROM ${model1} JOIN ${model2} ON `;
+      code += dbCondition(joinConditions, false);
+      code += " WHERE ";
+      code += dbCondition(whereConditions, false);
+      if (groupBy !== "") {
+        code += ` GROUP BY ${groupBy}`;
+      }
+      if (orderBy !== "") {
+        code += ` ORDER BY ${orderBy}`;
+        code += ` ${direction}`;
+      }
+
+      if (!noLimit) {
+        code += ` LIMIT ${limit}`;
+      }
+
+      code += "`";
+
+      return `const [${rmDollarSign(
+        resultTable
+      )}] = await db.promise().query(${code})`;
 
     default:
       break;

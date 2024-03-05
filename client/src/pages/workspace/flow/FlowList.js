@@ -147,8 +147,8 @@ function FlowList() {
         <table className="w-full border border-collapse rounded-md">
           <thead>
             <tr>
-              <th className="bg-dark text-white p-2 border border-dark-600 text-center">
-                <input type="checkbox" />
+              <th className="bg-dark w-fit text-white p-2 border border-dark-600 text-center">
+                No.
               </th>
               <th className="bg-dark text-white p-2 border border-dark-600 text-left">
                 Name
@@ -165,10 +165,10 @@ function FlowList() {
             </tr>
           </thead>
           <tbody>
-            {fileterData().map((flow) => (
+            {fileterData().map((flow,index) => (
               <tr key={flow.id}>
-                <td align="center" className="border border-gray-300 p-2">
-                  <input type="checkbox" />
+                <td align="center" className="border border-gray-300 py-2 w-fit">
+                  {index + 1}
                 </td>
                 <td className="border border-gray-300 p-2">
                   <span

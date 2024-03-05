@@ -17,13 +17,15 @@ function MyAPI() {
 
   async function initialState() {
     try {
-      const data = await dispatch(fetchGetFlows(workspaceUtils.getID()));
+      setTimeout(async () => {
+        const data = await dispatch(fetchGetFlows(workspaceUtils.getID()));
 
-      if (data.status === true) {
-        setFlowlist(data.data);
-      } else {
-        setFlowlist([]);
-      }
+        if (data.status === true) {
+          setFlowlist(data.data);
+        } else {
+          setFlowlist([]);
+        }
+      }, 100);
     } catch (error) {
       console.error("Error fetching data:", error);
     }

@@ -28,20 +28,22 @@ function ModelMenuCard({ allModel, data, refresh }) {
   };
 
   const handleDeleteModel = async (modelData) => {
-    try {
-      await dispatch(fetchDeleteModel(workspaceUtils.getID(), modelData.id));
+    if (window.confirm("Do you want to delete model?") == true) {
+      try {
+        await dispatch(fetchDeleteModel(workspaceUtils.getID(), modelData.id));
 
-      if (allModel?.length || 0 > 0) {
-        if (modelData.name.toLowerCase() === activeModel.toLowerCase()) {
-          handleModelLinkClick(allModel[0].name);
-          modelUtils.setCurrent(allModel[0]);
+        if (allModel?.length || 0 > 0) {
+          if (modelData.name.toLowerCase() === activeModel.toLowerCase()) {
+            handleModelLinkClick(allModel[0].name);
+            modelUtils.setCurrent(allModel[0]);
+          }
+        } else {
+          navigate(`/workspace/${projectName}/addmodel`);
         }
-      } else {
-        navigate(`/workspace/${projectName}/addmodel`);
+        refresh();
+      } catch (error) {
+        console.error("Error deleting data:", error);
       }
-      refresh();
-    } catch (error) {
-      console.error("Error deleting data:", error);
     }
   };
 

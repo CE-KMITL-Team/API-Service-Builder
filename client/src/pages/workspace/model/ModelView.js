@@ -21,21 +21,23 @@ function ModelView() {
 
   async function initState() {
     try {
-      const response = await dispatch(
-        fetchGetDataModels(modelUtils.getCurrentID())
-      );
-      if (response.status === true) {
-        setData(response.data);
-
-        setTransformedArray(
-          Object.keys(response.data[0] || {}).map((key) => ({
-            Header: key,
-            accessor: key,
-          }))
+      setTimeout(async () => {
+        const response = await dispatch(
+          fetchGetDataModels(modelUtils.getCurrentID())
         );
-      } else {
-        setData([]);
-      }
+        if (response.status === true) {
+          setData(response.data);
+
+          setTransformedArray(
+            Object.keys(response.data[0] || {}).map((key) => ({
+              Header: key,
+              accessor: key,
+            }))
+          );
+        } else {
+          setData([]);
+        }
+      }, 50);
     } catch (error) {
       console.error("Error fetching data:", error);
     }

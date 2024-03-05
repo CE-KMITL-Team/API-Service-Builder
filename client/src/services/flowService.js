@@ -48,7 +48,12 @@ export function getFlows(workspaceid) {
 export function deleteFlows(workspace_id, flow_id) {
   return api
     .delete(apiMap.DELETE_FLOW, {
-      data: { workspace_id: workspace_id, flow_id: flow_id },
+      data: {
+        workspace_id: workspace_id,
+        flow_id: flow_id,
+        user_id: userUtils.getID(),
+        workspace_name: workspaceUtils.getName(),
+      },
     })
     .then((response) => {
       return response;

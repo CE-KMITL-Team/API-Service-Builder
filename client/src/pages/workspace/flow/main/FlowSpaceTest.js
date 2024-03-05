@@ -35,7 +35,7 @@ function FlowSpaceTest() {
 
   useEffect(() => {
     getFlowDetail();
-  }, []);
+  }, [activeFlow]);
 
   const handleRunClick = async () => {
     try {
@@ -152,11 +152,12 @@ function FlowSpaceTest() {
               </span>
             </label>
 
-            <div className="group flex-1">
+            <div className="group flex-1 overflow-auto">
               <div
                 disabled
                 id="Response"
-                className="resize-none h-full p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500"
+                className="resize-none p-2.5 w-full h-auto text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500"
+                style={{ minHeight: "100%" }}
               >
                 <pre>{JSON.stringify(resData.data, null, 2)}</pre>
               </div>

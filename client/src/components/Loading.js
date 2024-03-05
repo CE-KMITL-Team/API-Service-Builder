@@ -7,7 +7,7 @@ export default function Loading() {
   return (
     <>
       {isLoading && (
-        <div className="bg-black/80 fixed top-0 left-0 w-screen h-screen flex justify-center items-center z-50 animate-fade-in delay-1000">
+        <div className="hidden loading bg-black/80 fixed top-0 left-0 w-screen h-screen flex justify-center items-center z-50 animate-fade-in delay-1000">
           <div role="status" className="animate-fade-in delay-1000">
             <div className="animate-spin-slow">
               <svg

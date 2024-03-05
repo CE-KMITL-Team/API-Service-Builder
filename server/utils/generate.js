@@ -92,6 +92,7 @@ class FlowToCode {
   }
 
   convertToCode(paths, addTap = 0) {
+    let codeBox = [];
     if (paths.length === 0) {
       codeBox.push("}");
     }
@@ -102,7 +103,6 @@ class FlowToCode {
     }
 
     let maxItems = Math.max(...savePath.map((sublist) => sublist.length));
-    let codeBox = [];
 
     for (let j = 0; j < maxItems; j++) {
       let check = false;
@@ -226,10 +226,11 @@ class FlowToCode {
       const paths = this.findNodeConnections();
       const textContent =
         "try {\n" +
-        this.convertToCode(paths) +
+        (this.convertToCode(paths) === "}" ? "" : this.convertToCode(paths)) +
         "\n    } catch (error) {\n        console.error('Error:', error);\n    }";
       api = this.convertToAPI(textContent);
     }
+
     this.generateFile(api);
   }
 }
@@ -240,7 +241,7 @@ function saveCode(name, path, property, userID, projectName) {
     const flow = new FlowToCode(
       name,
       path,
-      JSON.parse(property),
+      property === "" ? "" : JSON.parse(property),
       userID,
       projectName
     );
