@@ -125,7 +125,7 @@ function ModelView() {
   }, [location, modelUtils]);
 
   return (
-    <div className="p-5 pl-10 pr-20 flex-1 flex flex-col h-screen">
+    <div className="p-5 pl-10 pr-20 flex-1 flex flex-col h-screen min-w-72">
       <div className="head flex items-center justify-between gap-x-10 h-12">
         <h1 className="title text-2xl font-bold">
           {modelUtils.getCurrentName()}
