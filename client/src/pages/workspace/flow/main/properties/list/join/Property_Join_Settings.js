@@ -9,6 +9,7 @@ import { fetchGetModelWorkspace } from "../../../../../../../actions/modelAction
 import workspaceUtils from "../../../../../../../utils/workspaceUtils";
 
 const defaultValue_resultTable = "$joinTable";
+const defaultValue_joinType = "JOIN";
 
 export default function Property_Join_Settings() {
   const dispatch = useDispatch();
@@ -38,6 +39,12 @@ export default function Property_Join_Settings() {
   useEffect(() => {
     dispatch(saveProperty({ model2: model2 }));
   }, [model2]);
+
+  // Input for Join Type
+  const [joinType, setJoinType] = useState(defaultValue_joinType);
+  useEffect(() => {
+    dispatch(saveProperty({ joinType: joinType }));
+  }, [joinType]);
 
   const [models, setModel] = useState([]);
   async function initState() {
@@ -80,17 +87,19 @@ export default function Property_Join_Settings() {
   useEffect(() => {
     initState();
     dispatch(saveProperty({ resultTable: resultTable }));
+    dispatch(saveProperty({ joinType: joinType }));
     dispatch(saveProperty({ model1: model1 }));
     dispatch(saveProperty({ model2: model2 }));
   }, []);
 
   // Load Default Data
   useEffect(() => {
-    const { resultTable, model1, model2 } =
+    const { joinType, resultTable, model1, model2 } =
       nodeStore[currentID]?.property || {};
     setResultTable(resultTable ?? defaultValue_resultTable);
     setModel1(model1 ?? (models[0] || ""));
     setModel2(model2 ?? (models[0] || ""));
+    setJoinType(joinType ?? defaultValue_joinType);
   }, [currentID]);
 
   return (
@@ -107,25 +116,21 @@ export default function Property_Join_Settings() {
 
       <InputSelect
         title="Join Model"
-        description="Choose model to join"
+        description="Model 1"
         items={models}
         defaultValue={model1}
         controller={setModel1}
       ></InputSelect>
 
-      <div className="text-center w-full text-lg">
-        -{" "}
-        <FontAwesomeIcon
-          icon={icon({
-            name: "link",
-            style: "solid",
-          })}
-          className="mt-5 text-sm"
-        />{" "}
-        Join -
-      </div>
+      <InputSelect
+        description="Join Type"
+        items={["JOIN", "INNER JOIN", "LEFT JOIN", "RIGHT JOIN"]}
+        defaultValue={joinType}
+        controller={setJoinType}
+      ></InputSelect>
 
       <InputSelect
+        description="Model 2"
         items={models}
         defaultValue={model2}
         controller={setModel2}

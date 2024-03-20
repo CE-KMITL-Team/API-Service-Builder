@@ -73,7 +73,7 @@ function FlowSpaceTest() {
 
   return (
     <div
-      className={`w-full bg-grey border-gray-400 border-b-0 rounded-t-lg border text-white px-${
+      className={`max-w-[51vw] w-full bg-grey border-gray-400 border-b-0 rounded-t-lg border text-white px-${
         isResized ? "0" : "6 pb-6 pt-2"
       } h-${
         isResized ? "0" : "72"
@@ -160,7 +160,7 @@ function FlowSpaceTest() {
                 className="resize-none p-2.5 w-full h-auto text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500"
                 style={{ minHeight: "100%" }}
               >
-                <pre className="text-balance">
+                <pre className="text-balance overflow-hidden max-w-lg">
                   {JSON.stringify(resData.data, null, 2)}
                 </pre>
               </div>

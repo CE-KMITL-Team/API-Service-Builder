@@ -56,7 +56,9 @@ function matchWithCode(node) {
   let code = "";
   switch (node?.type ?? "") {
     case "request":
-      return `const ${rmDollarSign(node.property.output)} = req.body`;
+      return `const ${rmDollarSign(
+        node.property.output
+      )} = Object.keys(req.body).length > 0 ? req.body : req.query`;
 
     case "count":
       return `const ${rmDollarSign(node.property.output)} = ${rmDollarSign(
@@ -177,6 +179,7 @@ function matchWithCode(node) {
         whereConditions,
         joinConditions,
         resultTable,
+        joinType
       } = node.property;
 
       code = "";
@@ -186,7 +189,7 @@ function matchWithCode(node) {
         createSumColumn !== null
           ? `,SUM(${createSumColumn}) AS 'sum'`
           : ""
-      } FROM \\\`${model1}\\\` JOIN \\\`${model2}\\\` ON `;
+      } FROM \\\`${model1}\\\` ${joinType ?? "JOIN"} \\\`${model2}\\\` ON `;
       code += dbCondition(joinConditions, false);
       code += " WHERE ";
       code += dbCondition(whereConditions, false);

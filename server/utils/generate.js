@@ -168,7 +168,7 @@ class FlowToCode {
 
   convertToAPI(baseCode) {
     return `//Start: ${this.name}
-	app.post("${this.path}", BearerTokenAuth, async (req, res) => {
+	app.all("${this.path}", BearerTokenAuth, async (req, res) => {
 		${baseCode}
 	});
 //End: ${this.name}`;
