@@ -22,8 +22,8 @@ app.use("/models", model);
 app.use("/auth", authorize);
 app.use("/workspace", workspace);
 
-app.listen(port, () => {
-	console.log(`Server is running on http://localhost:${port}`);
+app.listen(port, "0.0.0.0", () => {
+  console.log(`Server is running on http://0.0.0.0:${port}`);
 });
 
 module.exports = app;

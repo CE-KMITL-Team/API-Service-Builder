@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jan 09, 2024 at 09:13 AM
--- Server version: 10.4.24-MariaDB
--- PHP Version: 8.1.5
+-- Generation Time: Mar 21, 2024 at 08:21 PM
+-- Server version: 10.4.32-MariaDB
+-- PHP Version: 8.0.30
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -29,21 +29,13 @@ SET time_zone = "+00:00";
 
 CREATE TABLE `flow` (
   `id` int(10) NOT NULL,
-  `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `description` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `API` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `markdown` text COLLATE utf8mb4_unicode_ci NOT NULL,
+  `name` varchar(255) NOT NULL,
+  `description` varchar(255) DEFAULT NULL,
+  `API` varchar(255) NOT NULL,
+  `markdown` text NOT NULL,
   `status` int(10) NOT NULL,
   `workspace_id` int(10) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
---
--- Dumping data for table `flow`
---
-
-INSERT INTO `flow` (`id`, `name`, `description`, `API`, `markdown`, `status`, `workspace_id`) VALUES
-(0, 'login', 'use to login', '/lohin', 'dawfsdverg vergvergv', 1, 1),
-(1, 'register', 'use to register', '/register', 'fsdgvsedgverg', 0, 1);
 
 -- --------------------------------------------------------
 
@@ -53,17 +45,10 @@ INSERT INTO `flow` (`id`, `name`, `description`, `API`, `markdown`, `status`, `w
 
 CREATE TABLE `model` (
   `id` int(11) NOT NULL,
-  `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `description` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `name` varchar(255) NOT NULL,
+  `description` varchar(255) DEFAULT NULL,
   `workspace_id` int(10) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
---
--- Dumping data for table `model`
---
-
-INSERT INTO `model` (`id`, `name`, `description`, `workspace_id`) VALUES
-(5, 'Login', 'Login Model', 1);
 
 -- --------------------------------------------------------
 
@@ -88,16 +73,9 @@ CREATE TABLE `user` (
   `firstname` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
   `lastname` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
   `email` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
-  `password` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL
+  `password` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
+  `api_key` text CHARACTER SET utf8 COLLATE utf8_unicode_ci DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
---
--- Dumping data for table `user`
---
-
-INSERT INTO `user` (`id`, `firstname`, `lastname`, `email`, `password`) VALUES
-(1, 'Test', 'Account', 'Test@gmail.com', '12341234'),
-(2, 'Mini', 'Mark', 'MiniMark@gmail.com', '$2b$10$oMyZO1Rm55pbegxC60ow0O8wdTX/msv9gd7YzU/qYE58Wk2WYZN6S');
 
 -- --------------------------------------------------------
 
@@ -111,13 +89,6 @@ CREATE TABLE `workspace` (
   `status` int(10) NOT NULL,
   `owner_id` int(10) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
---
--- Dumping data for table `workspace`
---
-
-INSERT INTO `workspace` (`id`, `name`, `status`, `owner_id`) VALUES
-(1, 'Test', 0, 2);
 
 --
 -- Indexes for dumped tables
@@ -161,10 +132,16 @@ ALTER TABLE `workspace`
 --
 
 --
+-- AUTO_INCREMENT for table `flow`
+--
+ALTER TABLE `flow`
+  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=44;
+
+--
 -- AUTO_INCREMENT for table `model`
 --
 ALTER TABLE `model`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=97;
 
 --
 -- AUTO_INCREMENT for table `template`
@@ -176,13 +153,13 @@ ALTER TABLE `template`
 -- AUTO_INCREMENT for table `user`
 --
 ALTER TABLE `user`
-  MODIFY `id` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `workspace`
 --
 ALTER TABLE `workspace`
-  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- Constraints for dumped tables

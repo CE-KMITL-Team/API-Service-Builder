@@ -2,6 +2,6 @@
     "username": "root",
     "password": "",
     "database": "api-service-builder",
-    "host": "localhost",
+    "host": "database",
     "dialect": "mysql"
 }

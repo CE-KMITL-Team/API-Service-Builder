@@ -46,8 +46,8 @@ function FlowSpaceTest() {
 
       await axios
         .post(
-          // `${API_HOST.split("3200")[0]}${3200 + userUtils.getID()}${path}`,
-          `${API_HOST.split("3328")[0]}3326${path}`,
+          `${API_HOST.split("3200")[0]}${3200 + userUtils.getID()}${path}`,
+          // `${API_HOST.split("3328")[0]}3326${path}`,
           parsedParamData,
           {
             headers: {
