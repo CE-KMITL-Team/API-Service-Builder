@@ -7,19 +7,20 @@ const userModel = require("../models/userModel");
 
 // Encryption function
 function encrypt(text) {
-  const key = crypto.createSign("RSA-SHA256");
-  const cipher = crypto.createCipher("aes-256-cbc", key);
-  let encrypted = cipher.update(text, "utf8", "hex");
-  encrypted += cipher.final("hex");
+  let secretKey = "APIServicebuilder-Secret-Key";
+  const cipher = crypto.createCipher('aes-128-cbc', secretKey);
+  let encrypted = cipher.update(text, 'utf8', 'hex');
+  encrypted += cipher.final('hex');
   return encrypted;
 }
 
 // Decryption function
 function decrypt(encrypted) {
-  const key = crypto.createSign("RSA-SHA256");
-  const decipher = crypto.createDecipher("aes-256-cbc", key);
-  let decrypted = decipher.update(encrypted, "hex", "utf8");
-  decrypted += decipher.final("utf8");
+  console.log(encrypted);
+  let secretKey = "APIServicebuilder-Secret-Key";
+  const decipher = crypto.createDecipher('aes-128-cbc', secretKey);
+  let decrypted = decipher.update(encrypted, 'hex', 'utf8');
+  decrypted += decipher.final('utf8');
   return decrypted;
 }
 
@@ -39,7 +40,7 @@ router.post("/login", async (req, res) => {
     }
 
     // Check Password
-    const hashedPassword = decrypt(password);
+    const hashedPassword = encrypt(password);
 
     if (hashedPassword !== data.password) {
       return res.status(200).send(error);
