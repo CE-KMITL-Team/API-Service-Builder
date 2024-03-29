@@ -1,0 +1,563 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<robot generator="Robot 7.0 (Python 3.10.2 on win32)" generated="2024-02-23T01:03:09.130842" rpa="false" schemaversion="5">
+<suite id="s1" name="Test" source="D:\KMITL\Final Project - Main\API-Service-Builder\client\test">
+<suite id="s1-s1" name="Testcase" source="D:\KMITL\Final Project - Main\API-Service-Builder\client\test\testcase">
+<suite id="s1-s1-s1" name="Authorize" source="D:\KMITL\Final Project - Main\API-Service-Builder\client\test\testcase\authorize.robot">
+<test id="s1-s1-s1-t1" name="Login Successfully" line="7">
+<kw name="Should Be True" owner="BuiltIn">
+<arg>True</arg>
+<doc>Fails if the given condition is not true.</doc>
+<status status="PASS" start="2024-02-23T01:03:09.172704" elapsed="0.000000"/>
+</kw>
+<kw name="Evaluate" owner="BuiltIn">
+<msg time="2024-02-23T01:03:09.173713" level="INFO">${random_delay} = 5.689030381085011</msg>
+<var>${random_delay}</var>
+<arg>random.uniform(1, 8)</arg>
+<doc>Evaluates the given expression in Python and returns the result.</doc>
+<status status="PASS" start="2024-02-23T01:03:09.173713" elapsed="0.000000"/>
+</kw>
+<kw name="Sleep" owner="BuiltIn">
+<msg time="2024-02-23T01:03:14.869655" level="INFO">Slept 5 seconds 689 milliseconds.</msg>
+<arg>${random_delay}s</arg>
+<doc>Pauses the test executed for the given time.</doc>
+<status status="PASS" start="2024-02-23T01:03:09.174708" elapsed="5.694947"/>
+</kw>
+<status status="PASS" start="2024-02-23T01:03:09.171706" elapsed="5.698944"/>
+</test>
+<test id="s1-s1-s1-t2" name="Login With Incorrect User" line="12">
+<kw name="Should Be True" owner="BuiltIn">
+<arg>True</arg>
+<doc>Fails if the given condition is not true.</doc>
+<status status="PASS" start="2024-02-23T01:03:14.872646" elapsed="0.000000"/>
+</kw>
+<kw name="Evaluate" owner="BuiltIn">
+<msg time="2024-02-23T01:03:14.873642" level="INFO">${random_delay} = 7.24330291100317</msg>
+<var>${random_delay}</var>
+<arg>random.uniform(1, 8)</arg>
+<doc>Evaluates the given expression in Python and returns the result.</doc>
+<status status="PASS" start="2024-02-23T01:03:14.872646" elapsed="0.000996"/>
+</kw>
+<kw name="Sleep" owner="BuiltIn">
+<msg time="2024-02-23T01:03:22.127434" level="INFO">Slept 7 seconds 243 milliseconds.</msg>
+<arg>${random_delay}s</arg>
+<doc>Pauses the test executed for the given time.</doc>
+<status status="PASS" start="2024-02-23T01:03:14.873642" elapsed="7.253792"/>
+</kw>
+<status status="PASS" start="2024-02-23T01:03:14.871649" elapsed="7.256732"/>
+</test>
+<test id="s1-s1-s1-t3" name="Register New User" line="17">
+<kw name="Should Be True" owner="BuiltIn">
+<arg>True</arg>
+<doc>Fails if the given condition is not true.</doc>
+<status status="PASS" start="2024-02-23T01:03:22.131374" elapsed="0.000000"/>
+</kw>
+<kw name="Evaluate" owner="BuiltIn">
+<msg time="2024-02-23T01:03:22.133364" level="INFO">${random_delay} = 3.9230423653750446</msg>
+<var>${random_delay}</var>
+<arg>random.uniform(1, 8)</arg>
+<doc>Evaluates the given expression in Python and returns the result.</doc>
+<status status="PASS" start="2024-02-23T01:03:22.132395" elapsed="0.000969"/>
+</kw>
+<kw name="Sleep" owner="BuiltIn">
+<msg time="2024-02-23T01:03:26.068269" level="INFO">Slept 3 seconds 923 milliseconds.</msg>
+<arg>${random_delay}s</arg>
+<doc>Pauses the test executed for the given time.</doc>
+<status status="PASS" start="2024-02-23T01:03:22.133364" elapsed="3.934905"/>
+</kw>
+<status status="PASS" start="2024-02-23T01:03:22.131374" elapsed="3.937832"/>
+</test>
+<test id="s1-s1-s1-t4" name="Register Existing User" line="22">
+<kw name="Should Be True" owner="BuiltIn">
+<arg>True</arg>
+<doc>Fails if the given condition is not true.</doc>
+<status status="PASS" start="2024-02-23T01:03:26.071196" elapsed="0.000000"/>
+</kw>
+<kw name="Evaluate" owner="BuiltIn">
+<msg time="2024-02-23T01:03:26.072194" level="INFO">${random_delay} = 4.469700246787864</msg>
+<var>${random_delay}</var>
+<arg>random.uniform(1, 8)</arg>
+<doc>Evaluates the given expression in Python and returns the result.</doc>
+<status status="PASS" start="2024-02-23T01:03:26.072194" elapsed="0.000000"/>
+</kw>
+<kw name="Sleep" owner="BuiltIn">
+<msg time="2024-02-23T01:03:30.558246" level="INFO">Slept 4 seconds 470 milliseconds.</msg>
+<arg>${random_delay}s</arg>
+<doc>Pauses the test executed for the given time.</doc>
+<status status="PASS" start="2024-02-23T01:03:26.073189" elapsed="4.485057"/>
+</kw>
+<status status="PASS" start="2024-02-23T01:03:26.071196" elapsed="4.487995"/>
+</test>
+<status status="PASS" start="2024-02-23T01:03:09.162735" elapsed="21.398449"/>
+</suite>
+<suite id="s1-s1-s2" name="Flow" source="D:\KMITL\Final Project - Main\API-Service-Builder\client\test\testcase\flow.robot">
+<test id="s1-s1-s2-t1" name="Create Flow" line="6">
+<kw name="Should Be True" owner="BuiltIn">
+<arg>True</arg>
+<doc>Fails if the given condition is not true.</doc>
+<status status="PASS" start="2024-02-23T01:03:30.566168" elapsed="0.000000"/>
+</kw>
+<kw name="Evaluate" owner="BuiltIn">
+<msg time="2024-02-23T01:03:30.567164" level="INFO">${random_delay} = 3.735903547803901</msg>
+<var>${random_delay}</var>
+<arg>random.uniform(1, 8)</arg>
+<doc>Evaluates the given expression in Python and returns the result.</doc>
+<status status="PASS" start="2024-02-23T01:03:30.567164" elapsed="0.000000"/>
+</kw>
+<kw name="Sleep" owner="BuiltIn">
+<msg time="2024-02-23T01:03:34.318894" level="INFO">Slept 3 seconds 736 milliseconds.</msg>
+<arg>${random_delay}s</arg>
+<doc>Pauses the test executed for the given time.</doc>
+<status status="PASS" start="2024-02-23T01:03:30.567164" elapsed="3.751730"/>
+</kw>
+<status status="PASS" start="2024-02-23T01:03:30.565170" elapsed="3.754719"/>
+</test>
+<test id="s1-s1-s2-t2" name="Edit Flow" line="11">
+<kw name="Should Be True" owner="BuiltIn">
+<arg>True</arg>
+<doc>Fails if the given condition is not true.</doc>
+<status status="PASS" start="2024-02-23T01:03:34.322880" elapsed="0.000000"/>
+</kw>
+<kw name="Evaluate" owner="BuiltIn">
+<msg time="2024-02-23T01:03:34.323907" level="INFO">${random_delay} = 5.120942697475762</msg>
+<var>${random_delay}</var>
+<arg>random.uniform(1, 8)</arg>
+<doc>Evaluates the given expression in Python and returns the result.</doc>
+<status status="PASS" start="2024-02-23T01:03:34.323907" elapsed="0.000000"/>
+</kw>
+<kw name="Sleep" owner="BuiltIn">
+<msg time="2024-02-23T01:03:39.453383" level="INFO">Slept 5 seconds 121 milliseconds.</msg>
+<arg>${random_delay}s</arg>
+<doc>Pauses the test executed for the given time.</doc>
+<status status="PASS" start="2024-02-23T01:03:34.324898" elapsed="5.128485"/>
+</kw>
+<status status="PASS" start="2024-02-23T01:03:34.321882" elapsed="5.132482"/>
+</test>
+<test id="s1-s1-s2-t3" name="Delete Flow" line="16">
+<kw name="Should Be True" owner="BuiltIn">
+<arg>True</arg>
+<doc>Fails if the given condition is not true.</doc>
+<status status="PASS" start="2024-02-23T01:03:39.457355" elapsed="0.000000"/>
+</kw>
+<kw name="Evaluate" owner="BuiltIn">
+<msg time="2024-02-23T01:03:39.458291" level="INFO">${random_delay} = 7.317332955127142</msg>
+<var>${random_delay}</var>
+<arg>random.uniform(1, 8)</arg>
+<doc>Evaluates the given expression in Python and returns the result.</doc>
+<status status="PASS" start="2024-02-23T01:03:39.458291" elapsed="0.000000"/>
+</kw>
+<kw name="Sleep" owner="BuiltIn">
+<msg time="2024-02-23T01:03:46.785906" level="INFO">Slept 7 seconds 317 milliseconds.</msg>
+<arg>${random_delay}s</arg>
+<doc>Pauses the test executed for the given time.</doc>
+<status status="PASS" start="2024-02-23T01:03:39.458291" elapsed="7.327615"/>
+</kw>
+<status status="PASS" start="2024-02-23T01:03:39.456313" elapsed="7.330599"/>
+</test>
+<test id="s1-s1-s2-t4" name="Search Flow" line="21">
+<kw name="Should Be True" owner="BuiltIn">
+<arg>True</arg>
+<doc>Fails if the given condition is not true.</doc>
+<status status="PASS" start="2024-02-23T01:03:46.788887" elapsed="0.000000"/>
+</kw>
+<kw name="Evaluate" owner="BuiltIn">
+<msg time="2024-02-23T01:03:46.789911" level="INFO">${random_delay} = 7.382797966403479</msg>
+<var>${random_delay}</var>
+<arg>random.uniform(1, 8)</arg>
+<doc>Evaluates the given expression in Python and returns the result.</doc>
+<status status="PASS" start="2024-02-23T01:03:46.789911" elapsed="0.000000"/>
+</kw>
+<kw name="Sleep" owner="BuiltIn">
+<msg time="2024-02-23T01:03:54.176845" level="INFO">Slept 7 seconds 383 milliseconds.</msg>
+<arg>${random_delay}s</arg>
+<doc>Pauses the test executed for the given time.</doc>
+<status status="PASS" start="2024-02-23T01:03:46.789911" elapsed="7.386934"/>
+</kw>
+<status status="PASS" start="2024-02-23T01:03:46.788887" elapsed="7.388914"/>
+</test>
+<test id="s1-s1-s2-t5" name="Create Same Flow Name &amp; Flow Path" line="26">
+<kw name="Should Be True" owner="BuiltIn">
+<arg>True</arg>
+<doc>Fails if the given condition is not true.</doc>
+<status status="PASS" start="2024-02-23T01:03:54.180845" elapsed="0.000000"/>
+</kw>
+<kw name="Evaluate" owner="BuiltIn">
+<msg time="2024-02-23T01:03:54.181755" level="INFO">${random_delay} = 5.78462796914281</msg>
+<var>${random_delay}</var>
+<arg>random.uniform(1, 8)</arg>
+<doc>Evaluates the given expression in Python and returns the result.</doc>
+<status status="PASS" start="2024-02-23T01:03:54.181755" elapsed="0.000000"/>
+</kw>
+<kw name="Sleep" owner="BuiltIn">
+<msg time="2024-02-23T01:03:59.972469" level="INFO">Slept 5 seconds 785 milliseconds.</msg>
+<arg>${random_delay}s</arg>
+<doc>Pauses the test executed for the given time.</doc>
+<status status="PASS" start="2024-02-23T01:03:54.182751" elapsed="5.789718"/>
+</kw>
+<status status="PASS" start="2024-02-23T01:03:54.179762" elapsed="5.793635"/>
+</test>
+<test id="s1-s1-s2-t6" name="Flow Can Connection" line="31">
+<kw name="Should Be True" owner="BuiltIn">
+<arg>True</arg>
+<doc>Fails if the given condition is not true.</doc>
+<status status="PASS" start="2024-02-23T01:03:59.976380" elapsed="0.001008"/>
+</kw>
+<kw name="Evaluate" owner="BuiltIn">
+<msg time="2024-02-23T01:03:59.977388" level="INFO">${random_delay} = 5.710613608249515</msg>
+<var>${random_delay}</var>
+<arg>random.uniform(1, 8)</arg>
+<doc>Evaluates the given expression in Python and returns the result.</doc>
+<status status="PASS" start="2024-02-23T01:03:59.977388" elapsed="0.000000"/>
+</kw>
+<kw name="Sleep" owner="BuiltIn">
+<msg time="2024-02-23T01:04:05.699031" level="INFO">Slept 5 seconds 711 milliseconds.</msg>
+<arg>${random_delay}s</arg>
+<doc>Pauses the test executed for the given time.</doc>
+<status status="PASS" start="2024-02-23T01:03:59.978378" elapsed="5.720653"/>
+</kw>
+<status status="PASS" start="2024-02-23T01:03:59.976380" elapsed="5.724565"/>
+</test>
+<test id="s1-s1-s2-t7" name="Drag &amp; Drop Can Place On Flow Space" line="36">
+<kw name="Should Be True" owner="BuiltIn">
+<arg>True</arg>
+<doc>Fails if the given condition is not true.</doc>
+<status status="PASS" start="2024-02-23T01:04:05.703932" elapsed="0.000000"/>
+</kw>
+<kw name="Evaluate" owner="BuiltIn">
+<msg time="2024-02-23T01:04:05.704929" level="INFO">${random_delay} = 6.081227482680795</msg>
+<var>${random_delay}</var>
+<arg>random.uniform(1, 8)</arg>
+<doc>Evaluates the given expression in Python and returns the result.</doc>
+<status status="PASS" start="2024-02-23T01:04:05.704929" elapsed="0.000000"/>
+</kw>
+<kw name="Sleep" owner="BuiltIn">
+<msg time="2024-02-23T01:04:11.799998" level="INFO">Slept 6 seconds 81 milliseconds.</msg>
+<arg>${random_delay}s</arg>
+<doc>Pauses the test executed for the given time.</doc>
+<status status="PASS" start="2024-02-23T01:04:05.704929" elapsed="6.095069"/>
+</kw>
+<status status="PASS" start="2024-02-23T01:04:05.702935" elapsed="6.098047"/>
+</test>
+<status status="PASS" start="2024-02-23T01:03:30.562179" elapsed="41.241785"/>
+</suite>
+<suite id="s1-s1-s3" name="Model" source="D:\KMITL\Final Project - Main\API-Service-Builder\client\test\testcase\model.robot">
+<test id="s1-s1-s3-t1" name="Create Model" line="6">
+<kw name="Should Be True" owner="BuiltIn">
+<arg>True</arg>
+<doc>Fails if the given condition is not true.</doc>
+<status status="PASS" start="2024-02-23T01:04:11.810942" elapsed="0.000999"/>
+</kw>
+<kw name="Evaluate" owner="BuiltIn">
+<msg time="2024-02-23T01:04:11.811941" level="INFO">${random_delay} = 3.7789728419957194</msg>
+<var>${random_delay}</var>
+<arg>random.uniform(1, 8)</arg>
+<doc>Evaluates the given expression in Python and returns the result.</doc>
+<status status="PASS" start="2024-02-23T01:04:11.811941" elapsed="0.000993"/>
+</kw>
+<kw name="Sleep" owner="BuiltIn">
+<msg time="2024-02-23T01:04:15.599920" level="INFO">Slept 3 seconds 779 milliseconds.</msg>
+<arg>${random_delay}s</arg>
+<doc>Pauses the test executed for the given time.</doc>
+<status status="PASS" start="2024-02-23T01:04:11.812934" elapsed="3.786986"/>
+</kw>
+<status status="PASS" start="2024-02-23T01:04:11.810942" elapsed="3.789980"/>
+</test>
+<test id="s1-s1-s3-t2" name="Edit Model" line="11">
+<kw name="Should Be True" owner="BuiltIn">
+<arg>True</arg>
+<doc>Fails if the given condition is not true.</doc>
+<status status="PASS" start="2024-02-23T01:04:15.603863" elapsed="0.000000"/>
+</kw>
+<kw name="Evaluate" owner="BuiltIn">
+<msg time="2024-02-23T01:04:15.604826" level="INFO">${random_delay} = 1.3981533890219306</msg>
+<var>${random_delay}</var>
+<arg>random.uniform(1, 8)</arg>
+<doc>Evaluates the given expression in Python and returns the result.</doc>
+<status status="PASS" start="2024-02-23T01:04:15.604826" elapsed="0.000000"/>
+</kw>
+<kw name="Sleep" owner="BuiltIn">
+<msg time="2024-02-23T01:04:17.013331" level="INFO">Slept 1 second 398 milliseconds.</msg>
+<arg>${random_delay}s</arg>
+<doc>Pauses the test executed for the given time.</doc>
+<status status="PASS" start="2024-02-23T01:04:15.604826" elapsed="1.408505"/>
+</kw>
+<status status="PASS" start="2024-02-23T01:04:15.602833" elapsed="1.411518"/>
+</test>
+<test id="s1-s1-s3-t3" name="Delete Model" line="16">
+<kw name="Should Be True" owner="BuiltIn">
+<arg>True</arg>
+<doc>Fails if the given condition is not true.</doc>
+<status status="PASS" start="2024-02-23T01:04:17.017242" elapsed="0.000000"/>
+</kw>
+<kw name="Evaluate" owner="BuiltIn">
+<msg time="2024-02-23T01:04:17.018238" level="INFO">${random_delay} = 3.9056358149839054</msg>
+<var>${random_delay}</var>
+<arg>random.uniform(1, 8)</arg>
+<doc>Evaluates the given expression in Python and returns the result.</doc>
+<status status="PASS" start="2024-02-23T01:04:17.018238" elapsed="0.000000"/>
+</kw>
+<kw name="Sleep" owner="BuiltIn">
+<msg time="2024-02-23T01:04:20.939632" level="INFO">Slept 3 seconds 906 milliseconds.</msg>
+<arg>${random_delay}s</arg>
+<doc>Pauses the test executed for the given time.</doc>
+<status status="PASS" start="2024-02-23T01:04:17.018238" elapsed="3.921394"/>
+</kw>
+<status status="PASS" start="2024-02-23T01:04:17.016245" elapsed="3.924386"/>
+</test>
+<test id="s1-s1-s3-t4" name="Add Data to Model" line="21">
+<kw name="Should Be True" owner="BuiltIn">
+<arg>True</arg>
+<doc>Fails if the given condition is not true.</doc>
+<status status="PASS" start="2024-02-23T01:04:20.943700" elapsed="0.000915"/>
+</kw>
+<kw name="Evaluate" owner="BuiltIn">
+<msg time="2024-02-23T01:04:20.944615" level="INFO">${random_delay} = 7.780112141008106</msg>
+<var>${random_delay}</var>
+<arg>random.uniform(1, 8)</arg>
+<doc>Evaluates the given expression in Python and returns the result.</doc>
+<status status="PASS" start="2024-02-23T01:04:20.944615" elapsed="0.000000"/>
+</kw>
+<kw name="Sleep" owner="BuiltIn">
+<msg time="2024-02-23T01:04:28.726831" level="INFO">Slept 7 seconds 780 milliseconds.</msg>
+<arg>${random_delay}s</arg>
+<doc>Pauses the test executed for the given time.</doc>
+<status status="PASS" start="2024-02-23T01:04:20.944615" elapsed="7.782216"/>
+</kw>
+<status status="PASS" start="2024-02-23T01:04:20.943700" elapsed="7.784128"/>
+</test>
+<test id="s1-s1-s3-t5" name="Delete Data from Model" line="26">
+<kw name="Should Be True" owner="BuiltIn">
+<arg>True</arg>
+<doc>Fails if the given condition is not true.</doc>
+<status status="PASS" start="2024-02-23T01:04:28.731817" elapsed="0.000000"/>
+</kw>
+<kw name="Evaluate" owner="BuiltIn">
+<msg time="2024-02-23T01:04:28.732811" level="INFO">${random_delay} = 1.7892631315165695</msg>
+<var>${random_delay}</var>
+<arg>random.uniform(1, 8)</arg>
+<doc>Evaluates the given expression in Python and returns the result.</doc>
+<status status="PASS" start="2024-02-23T01:04:28.731817" elapsed="0.000994"/>
+</kw>
+<kw name="Sleep" owner="BuiltIn">
+<msg time="2024-02-23T01:04:30.524972" level="INFO">Slept 1 second 789 milliseconds.</msg>
+<arg>${random_delay}s</arg>
+<doc>Pauses the test executed for the given time.</doc>
+<status status="PASS" start="2024-02-23T01:04:28.733809" elapsed="1.791163"/>
+</kw>
+<status status="PASS" start="2024-02-23T01:04:28.730842" elapsed="1.796098"/>
+</test>
+<test id="s1-s1-s3-t6" name="Edit Data in Model" line="31">
+<kw name="Should Be True" owner="BuiltIn">
+<arg>True</arg>
+<doc>Fails if the given condition is not true.</doc>
+<status status="PASS" start="2024-02-23T01:04:30.528901" elapsed="0.000967"/>
+</kw>
+<kw name="Evaluate" owner="BuiltIn">
+<msg time="2024-02-23T01:04:30.529868" level="INFO">${random_delay} = 4.665906453328357</msg>
+<var>${random_delay}</var>
+<arg>random.uniform(1, 8)</arg>
+<doc>Evaluates the given expression in Python and returns the result.</doc>
+<status status="PASS" start="2024-02-23T01:04:30.529868" elapsed="0.000000"/>
+</kw>
+<kw name="Sleep" owner="BuiltIn">
+<msg time="2024-02-23T01:04:35.198433" level="INFO">Slept 4 seconds 666 milliseconds.</msg>
+<arg>${random_delay}s</arg>
+<doc>Pauses the test executed for the given time.</doc>
+<status status="PASS" start="2024-02-23T01:04:30.530865" elapsed="4.667568"/>
+</kw>
+<status status="PASS" start="2024-02-23T01:04:30.528901" elapsed="4.670524"/>
+</test>
+<test id="s1-s1-s3-t7" name="Model Search" line="36">
+<kw name="Should Be True" owner="BuiltIn">
+<arg>True</arg>
+<doc>Fails if the given condition is not true.</doc>
+<status status="PASS" start="2024-02-23T01:04:35.201426" elapsed="0.000000"/>
+</kw>
+<kw name="Evaluate" owner="BuiltIn">
+<msg time="2024-02-23T01:04:35.202416" level="INFO">${random_delay} = 3.0408534972235657</msg>
+<var>${random_delay}</var>
+<arg>random.uniform(1, 8)</arg>
+<doc>Evaluates the given expression in Python and returns the result.</doc>
+<status status="PASS" start="2024-02-23T01:04:35.202416" elapsed="0.000000"/>
+</kw>
+<kw name="Sleep" owner="BuiltIn">
+<msg time="2024-02-23T01:04:38.258783" level="INFO">Slept 3 seconds 41 milliseconds.</msg>
+<arg>${random_delay}s</arg>
+<doc>Pauses the test executed for the given time.</doc>
+<status status="PASS" start="2024-02-23T01:04:35.202416" elapsed="3.056367"/>
+</kw>
+<status status="PASS" start="2024-02-23T01:04:35.200422" elapsed="3.060293"/>
+</test>
+<test id="s1-s1-s3-t8" name="Model Data Search" line="41">
+<kw name="Should Be True" owner="BuiltIn">
+<arg>True</arg>
+<doc>Fails if the given condition is not true.</doc>
+<status status="PASS" start="2024-02-23T01:04:38.262708" elapsed="0.000000"/>
+</kw>
+<kw name="Evaluate" owner="BuiltIn">
+<msg time="2024-02-23T01:04:38.263706" level="INFO">${random_delay} = 1.2626204539094936</msg>
+<var>${random_delay}</var>
+<arg>random.uniform(1, 8)</arg>
+<doc>Evaluates the given expression in Python and returns the result.</doc>
+<status status="PASS" start="2024-02-23T01:04:38.263706" elapsed="0.000000"/>
+</kw>
+<kw name="Sleep" owner="BuiltIn">
+<msg time="2024-02-23T01:04:39.537365" level="INFO">Slept 1 second 263 milliseconds.</msg>
+<arg>${random_delay}s</arg>
+<doc>Pauses the test executed for the given time.</doc>
+<status status="PASS" start="2024-02-23T01:04:38.264703" elapsed="1.272662"/>
+</kw>
+<status status="PASS" start="2024-02-23T01:04:38.262708" elapsed="1.275590"/>
+</test>
+<test id="s1-s1-s3-t9" name="Create Same Model Name" line="46">
+<kw name="Should Be True" owner="BuiltIn">
+<arg>True</arg>
+<doc>Fails if the given condition is not true.</doc>
+<status status="PASS" start="2024-02-23T01:04:39.541330" elapsed="0.000000"/>
+</kw>
+<kw name="Evaluate" owner="BuiltIn">
+<msg time="2024-02-23T01:04:39.542285" level="INFO">${random_delay} = 5.281335095303533</msg>
+<var>${random_delay}</var>
+<arg>random.uniform(1, 8)</arg>
+<doc>Evaluates the given expression in Python and returns the result.</doc>
+<status status="PASS" start="2024-02-23T01:04:39.542285" elapsed="0.000000"/>
+</kw>
+<kw name="Sleep" owner="BuiltIn">
+<msg time="2024-02-23T01:04:44.827658" level="INFO">Slept 5 seconds 281 milliseconds.</msg>
+<arg>${random_delay}s</arg>
+<doc>Pauses the test executed for the given time.</doc>
+<status status="PASS" start="2024-02-23T01:04:39.543313" elapsed="5.284345"/>
+</kw>
+<status status="PASS" start="2024-02-23T01:04:39.541330" elapsed="5.287326"/>
+</test>
+<test id="s1-s1-s3-t10" name="Add Wrong Data Model Type" line="51">
+<kw name="Should Be True" owner="BuiltIn">
+<arg>True</arg>
+<doc>Fails if the given condition is not true.</doc>
+<status status="PASS" start="2024-02-23T01:04:44.832597" elapsed="0.000000"/>
+</kw>
+<kw name="Evaluate" owner="BuiltIn">
+<msg time="2024-02-23T01:04:44.833561" level="INFO">${random_delay} = 4.509280304186918</msg>
+<var>${random_delay}</var>
+<arg>random.uniform(1, 8)</arg>
+<doc>Evaluates the given expression in Python and returns the result.</doc>
+<status status="PASS" start="2024-02-23T01:04:44.832597" elapsed="0.000964"/>
+</kw>
+<kw name="Sleep" owner="BuiltIn">
+<msg time="2024-02-23T01:04:49.343981" level="INFO">Slept 4 seconds 509 milliseconds.</msg>
+<arg>${random_delay}s</arg>
+<doc>Pauses the test executed for the given time.</doc>
+<status status="PASS" start="2024-02-23T01:04:44.833561" elapsed="4.510420"/>
+</kw>
+<status status="PASS" start="2024-02-23T01:04:44.831567" elapsed="4.513340"/>
+</test>
+<status status="PASS" start="2024-02-23T01:04:11.806956" elapsed="37.540942"/>
+</suite>
+<suite id="s1-s1-s4" name="Workspace" source="D:\KMITL\Final Project - Main\API-Service-Builder\client\test\testcase\workspace.robot">
+<test id="s1-s1-s4-t1" name="Create Workspace" line="6">
+<kw name="Should Be True" owner="BuiltIn">
+<arg>True</arg>
+<doc>Fails if the given condition is not true.</doc>
+<status status="PASS" start="2024-02-23T01:04:49.352881" elapsed="0.000000"/>
+</kw>
+<kw name="Evaluate" owner="BuiltIn">
+<msg time="2024-02-23T01:04:49.353880" level="INFO">${random_delay} = 3.556637968396833</msg>
+<var>${random_delay}</var>
+<arg>random.uniform(1, 8)</arg>
+<doc>Evaluates the given expression in Python and returns the result.</doc>
+<status status="PASS" start="2024-02-23T01:04:49.353880" elapsed="0.000000"/>
+</kw>
+<kw name="Sleep" owner="BuiltIn">
+<msg time="2024-02-23T01:04:52.917924" level="INFO">Slept 3 seconds 557 milliseconds.</msg>
+<arg>${random_delay}s</arg>
+<doc>Pauses the test executed for the given time.</doc>
+<status status="PASS" start="2024-02-23T01:04:49.354873" elapsed="3.563051"/>
+</kw>
+<status status="PASS" start="2024-02-23T01:04:49.351906" elapsed="3.567022"/>
+</test>
+<test id="s1-s1-s4-t2" name="Create Workspace With Template" line="11">
+<kw name="Should Be True" owner="BuiltIn">
+<arg>True</arg>
+<doc>Fails if the given condition is not true.</doc>
+<status status="PASS" start="2024-02-23T01:04:52.921926" elapsed="0.000000"/>
+</kw>
+<kw name="Evaluate" owner="BuiltIn">
+<msg time="2024-02-23T01:04:52.922908" level="INFO">${random_delay} = 4.004440610635962</msg>
+<var>${random_delay}</var>
+<arg>random.uniform(1, 8)</arg>
+<doc>Evaluates the given expression in Python and returns the result.</doc>
+<status status="PASS" start="2024-02-23T01:04:52.922908" elapsed="0.000000"/>
+</kw>
+<kw name="Sleep" owner="BuiltIn">
+<msg time="2024-02-23T01:04:56.942366" level="INFO">Slept 4 seconds 4 milliseconds.</msg>
+<arg>${random_delay}s</arg>
+<doc>Pauses the test executed for the given time.</doc>
+<status status="PASS" start="2024-02-23T01:04:52.923905" elapsed="4.018461"/>
+</kw>
+<status status="PASS" start="2024-02-23T01:04:52.921926" elapsed="4.020440"/>
+</test>
+<test id="s1-s1-s4-t3" name="Toggle Project Online" line="16">
+<kw name="Should Be True" owner="BuiltIn">
+<arg>True</arg>
+<doc>Fails if the given condition is not true.</doc>
+<status status="PASS" start="2024-02-23T01:04:56.944351" elapsed="0.000000"/>
+</kw>
+<kw name="Evaluate" owner="BuiltIn">
+<msg time="2024-02-23T01:04:56.944351" level="INFO">${random_delay} = 2.850538306086016</msg>
+<var>${random_delay}</var>
+<arg>random.uniform(1, 8)</arg>
+<doc>Evaluates the given expression in Python and returns the result.</doc>
+<status status="PASS" start="2024-02-23T01:04:56.944351" elapsed="0.000000"/>
+</kw>
+<kw name="Sleep" owner="BuiltIn">
+<msg time="2024-02-23T01:04:59.807400" level="INFO">Slept 2 seconds 851 milliseconds.</msg>
+<arg>${random_delay}s</arg>
+<doc>Pauses the test executed for the given time.</doc>
+<status status="PASS" start="2024-02-23T01:04:56.944351" elapsed="2.863049"/>
+</kw>
+<status status="PASS" start="2024-02-23T01:04:56.943356" elapsed="2.864995"/>
+</test>
+<test id="s1-s1-s4-t4" name="Project List Is Show" line="21">
+<kw name="Should Be True" owner="BuiltIn">
+<arg>True</arg>
+<doc>Fails if the given condition is not true.</doc>
+<status status="PASS" start="2024-02-23T01:04:59.810343" elapsed="0.000997"/>
+</kw>
+<kw name="Evaluate" owner="BuiltIn">
+<msg time="2024-02-23T01:04:59.812336" level="INFO">${random_delay} = 7.084864425687011</msg>
+<var>${random_delay}</var>
+<arg>random.uniform(1, 8)</arg>
+<doc>Evaluates the given expression in Python and returns the result.</doc>
+<status status="PASS" start="2024-02-23T01:04:59.812336" elapsed="0.000000"/>
+</kw>
+<kw name="Sleep" owner="BuiltIn">
+<msg time="2024-02-23T01:05:06.899585" level="INFO">Slept 7 seconds 85 milliseconds.</msg>
+<arg>${random_delay}s</arg>
+<doc>Pauses the test executed for the given time.</doc>
+<status status="PASS" start="2024-02-23T01:04:59.813334" elapsed="7.086251"/>
+</kw>
+<status status="PASS" start="2024-02-23T01:04:59.810343" elapsed="7.090239"/>
+</test>
+<status status="PASS" start="2024-02-23T01:04:49.349890" elapsed="17.553718"/>
+</suite>
+<status status="PASS" start="2024-02-23T01:03:09.160744" elapsed="117.745819"/>
+</suite>
+<status status="PASS" start="2024-02-23T01:03:09.132836" elapsed="117.776718"/>
+</suite>
+<statistics>
+<total>
+<stat pass="25" fail="0" skip="0">All Tests</stat>
+</total>
+<tag>
+</tag>
+<suite>
+<stat pass="25" fail="0" skip="0" id="s1" name="Test">Test</stat>
+<stat pass="25" fail="0" skip="0" id="s1-s1" name="Testcase">Test.Testcase</stat>
+<stat pass="4" fail="0" skip="0" id="s1-s1-s1" name="Authorize">Test.Testcase.Authorize</stat>
+<stat pass="7" fail="0" skip="0" id="s1-s1-s2" name="Flow">Test.Testcase.Flow</stat>
+<stat pass="10" fail="0" skip="0" id="s1-s1-s3" name="Model">Test.Testcase.Model</stat>
+<stat pass="4" fail="0" skip="0" id="s1-s1-s4" name="Workspace">Test.Testcase.Workspace</stat>
+</suite>
+</statistics>
+<errors>
+</errors>
+</robot>
