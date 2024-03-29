@@ -54,7 +54,7 @@ function Workspace() {
 						Create Project
 					</div>
 					<hr className="mb-3 mt-5 border-gray-600" />
-					<div className="group px-10 pl-7">
+					{/* <div className="group px-10 pl-7">
 						<ol>
 							<div className="text-lg">Template</div>
 							<ul className="ps-5 mt-2 space-y-1 list-disc list-inside leading-loose">
@@ -68,7 +68,7 @@ function Workspace() {
 								))}
 							</ul>
 						</ol>
-					</div>
+					</div> */}
 				</div>
 				<div className="right flex-grow flex items-center justify-center bg-white">
 					<form
@@ -114,7 +114,7 @@ function Workspace() {
 									""
 								)}
 							</div>
-							<div className="group w-full mt-2">
+							{/* <div className="group w-full mt-2">
 								<label
 									htmlFor="template"
 									className="block mb-1 text-md font-medium text-gray-900"
@@ -136,7 +136,7 @@ function Workspace() {
 										</option>
 									))}
 								</select>
-							</div>
+							</div> */}
 							<button
 								className="bg-primary-900 text-white hover:bg-primary-800 rounded-sm py-2 text-lg shadow-md px-8 w-fit mt-8 max-w-lg"
 								type="submit"
